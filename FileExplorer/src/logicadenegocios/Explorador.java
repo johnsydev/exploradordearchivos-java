@@ -15,6 +15,7 @@ import java.util.ArrayList;
  */
 public class Explorador {
   private static final Explorador instance = new Explorador();
+  private String ruta = "./";
   
   private Explorador() {
     
@@ -25,7 +26,7 @@ public class Explorador {
   }
   
   public String[] getListaArchivos() {
-    File directorio = new File("./");
+    File directorio = new File(ruta);
     String[] lista = directorio.list();
     for(String name : lista) {
       System.out.println(name);
@@ -33,4 +34,8 @@ public class Explorador {
     System.out.println(directorio.getName());
     return lista;
   }
+  
+  public void entrarDirectorio(String src) {
+    ruta += src + "/";
+  } 
 }
