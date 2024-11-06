@@ -53,11 +53,17 @@ public class ExploradorForm extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
      */
 
-    tablaExplorador = new JTable(10, 1);
+    tablaExplorador = new JTable(30, 1);
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
     tablaExplorador.setValueAt("Nombre", 0, 0);
     add(tablaExplorador);
+    
+    JScrollPane tableScrollPane = new JScrollPane(tablaExplorador);
+    add(tableScrollPane);
+    //tablaExplorador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    
+    
 
     
     setVisible(true);
@@ -68,7 +74,7 @@ public class ExploradorForm extends JFrame {
   }
   
   public void limpiarTabla() {
-    for (int i = 1; i<10; i++) {
+    for (int i = 1; i<30; i++) {
       tablaExplorador.setValueAt("", i, 0);
     }
   }
