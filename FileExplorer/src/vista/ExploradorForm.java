@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.table.DefaultTableModel;
 
 public class ExploradorForm extends JFrame {
 
@@ -54,12 +55,20 @@ public class ExploradorForm extends JFrame {
 
         add(buttonPanel, BorderLayout.CENTER);
      */
+    
+    DefaultTableModel model = new DefaultTableModel(30, 1) {
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        return false;
+      }
+    };
 
-    tablaExplorador = new JTable(30, 1);
+    tablaExplorador = new JTable(model);
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
     tablaExplorador.setValueAt("Nombre", 0, 0);
     add(tablaExplorador);
+    
     
     JPanel panel = new JPanel();
     botonVolver = new JButton("Volver");
