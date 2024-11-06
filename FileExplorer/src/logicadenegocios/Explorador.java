@@ -15,7 +15,8 @@ import java.util.ArrayList;
  */
 public class Explorador {
   private static final Explorador instance = new Explorador();
-  private String ruta = "./";
+  //private String ruta = "C:\\";
+  private String ruta = ".\\";
   
   private Explorador() {
     
@@ -28,14 +29,24 @@ public class Explorador {
   public String[] getListaArchivos() {
     File directorio = new File(ruta);
     String[] lista = directorio.list();
-    for(String name : lista) {
-      System.out.println(name);
-    }
-    System.out.println(directorio.getName());
     return lista;
   }
   
   public void entrarDirectorio(String src) {
-    ruta += src + "/";
+    ruta += src + "\\";
   } 
+  
+  public void salirDirectorio() {
+    String[] rutaArray = ruta.split("\\\\");
+    String nuevaRuta = "";
+    int cont = 1;
+    for(String varRuta : rutaArray) {
+      if (cont != rutaArray.length) {
+        nuevaRuta += varRuta + "\\";
+      }
+      cont++;
+    }
+    System.out.println(ruta);
+    ruta = nuevaRuta;
+  }
 }

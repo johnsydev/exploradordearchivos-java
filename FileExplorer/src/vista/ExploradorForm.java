@@ -14,8 +14,9 @@ import java.awt.event.MouseEvent;
 
 public class ExploradorForm extends JFrame {
 
-  private final JTextField display;
+  //private final JTextField display;
   private final JTable tablaExplorador;
+  private final JButton botonVolver;
 
   public ExploradorForm() {
     // Configuración de la ventana principal
@@ -24,10 +25,11 @@ public class ExploradorForm extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
 
+    /*
     display = new JTextField();
     display.setEditable(false);
     display.setFont(new Font("Arial", Font.PLAIN, 24));
-    /*
+    
         // Panel de display
         display = new JTextField();
         display.setEditable(false);
@@ -59,8 +61,13 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.setValueAt("Nombre", 0, 0);
     add(tablaExplorador);
     
+    JPanel panel = new JPanel();
+    botonVolver = new JButton("Volver");
+    panel.add(botonVolver);
+    add(panel, BorderLayout.NORTH);
+    
     JScrollPane tableScrollPane = new JScrollPane(tablaExplorador);
-    add(tableScrollPane);
+    add(tableScrollPane, BorderLayout.CENTER);
     //tablaExplorador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     
     
@@ -71,6 +78,10 @@ public class ExploradorForm extends JFrame {
     
   public JTable getTabla() {
     return tablaExplorador;
+  }
+  
+  public JButton getVolver() {
+    return botonVolver;
   }
   
   public void limpiarTabla() {
@@ -87,7 +98,8 @@ public class ExploradorForm extends JFrame {
       indice++;
     }
   }
-
+  
+  /*
   // Método para obtener el display
   public JTextField getDisplay() {
     return display;
@@ -115,4 +127,5 @@ public class ExploradorForm extends JFrame {
   public void mensajeEmergente(String mensaje, String titulo) {
     JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.INFORMATION_MESSAGE);
   }
+*/
 }

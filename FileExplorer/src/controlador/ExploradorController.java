@@ -6,6 +6,7 @@ package controlador;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JButton;
 import javax.swing.JTable;
 import logicadenegocios.Explorador;
 import vista.ExploradorForm;
@@ -27,6 +28,7 @@ public class ExploradorController {
   
   public void agregarListeners() {
     JTable tablaExplorador = vista.getTabla();
+    //tablaExplorador.add
     tablaExplorador.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
@@ -39,6 +41,15 @@ public class ExploradorController {
             modelo.entrarDirectorio(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
             actualizar();
         }
+      }
+    });
+    
+    JButton botonVolver = vista.getVolver();
+    botonVolver.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        modelo.salirDirectorio();
+        actualizar();
       }
     });
   }
