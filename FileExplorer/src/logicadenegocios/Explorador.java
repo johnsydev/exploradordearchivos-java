@@ -1,28 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package logicadenegocios;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
+import java.nio.file.StandardCopyOption;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author johnsy
- */
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
-  //private String ruta = "C:\\";
   private String ruta = ".\\";
+  private File archivoCopiado; // Variable temporal para almacenar el archivo copiado
 
   private Explorador() {
-
   }
 
   public static Explorador getInstance() {
@@ -31,18 +21,14 @@ public class Explorador {
 
   public String[] getListaArchivos() {
     File directorio = new File(ruta);
-    String[] lista = directorio.list();
-    return lista;
+    return directorio.list();
   }
 
   public void entrarDirectorio(String src) {
-
     if (new File(ruta + src).isFile()) {
       try {
-        //definiendo la ruta en la propiedad file
         Runtime.getRuntime().exec("cmd /c start \"\" \"" + ruta + src);
         return;
-
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -76,12 +62,71 @@ public class Explorador {
       }
       cont++;
     }
-    System.out.println(ruta);
     ruta = nuevaRuta;
   }
 
   public void eliminarArchivo(String nombre) {
     File archivo = new File(ruta + nombre);
     archivo.delete();
+  }
+
+  // Método para copiar un archivo
+  public void copiarArchivo(String nombreArchivo) {
+    File archivo = new File(ruta + nombreArchivo);
+    if (archivo.exists()) {
+      archivoCopiado = archivo;
+      JOptionPane.showMessageDialog(null, "Archivo copiado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    } else {
+      JOptionPane.showMessageDialog(null, "El archivo no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+  }
+
+  // Método para pegar un archivo copiado en el directorio actual
+  public void pegarArchivo() {
+    if (archivoCopiado == null) {
+      JOptionPane.showMessageDialog(null, "No hay ningún archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
+      return;
+    }
+
+    File archivoPegado = new File(ruta + archivoCopiado.getName());
+
+    // Si ya existe un archivo con el mismo nombre en el directorio actual
+    if (archivoPegado.exists()) {
+      // Proponer un nuevo nombre o confirmar reemplazo
+      int opcion = JOptionPane.showConfirmDialog(null, 
+              "Ya existe un archivo con el mismo nombre. ¿Deseas reemplazarlo?", 
+              "Archivo existente", JOptionPane.YES_NO_OPTION);
+
+      if (opcion == JOptionPane.NO_OPTION) {
+        archivoPegado = new File(ruta + obtenerNombreDisponible(archivoPegado));
+      }
+    }
+
+    try {
+      Files.copy(archivoCopiado.toPath(), archivoPegado.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      JOptionPane.showMessageDialog(null, "Archivo pegado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+    } catch (IOException e) {
+      JOptionPane.showMessageDialog(null, "Error al pegar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+      e.printStackTrace();
+    }
+  }
+
+  // Método auxiliar para obtener un nombre de archivo disponible (archivo(1).txt, archivo(2).txt, etc.)
+  private String obtenerNombreDisponible(File archivo) {
+    String nombreOriginal = archivo.getName();
+    String nombreSinExtension = nombreOriginal.contains(".") 
+            ? nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) 
+            : nombreOriginal;
+    String extension = nombreOriginal.contains(".") 
+            ? nombreOriginal.substring(nombreOriginal.lastIndexOf(".")) 
+            : "";
+
+    int contador = 1;
+    File archivoNuevo = archivo;
+    while (archivoNuevo.exists()) {
+      archivoNuevo = new File(ruta + nombreSinExtension + "(" + contador + ")" + extension);
+      contador++;
+    }
+    return archivoNuevo.getName();
   }
 }
