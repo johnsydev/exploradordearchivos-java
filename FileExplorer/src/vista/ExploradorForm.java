@@ -18,6 +18,11 @@ public class ExploradorForm extends JFrame {
   //private final JTextField display;
   private final JTable tablaExplorador;
   private final JButton botonVolver;
+  private final JPopupMenu menuOpciones;
+  private final JMenuItem opcionEliminarPopup;
+  private final JMenuItem opcionRenombrarPopup;
+  private final DefaultTableModel model;
+  
 
   public ExploradorForm() {
     // Configuración de la ventana principal
@@ -56,7 +61,7 @@ public class ExploradorForm extends JFrame {
         add(buttonPanel, BorderLayout.CENTER);
      */
     
-    DefaultTableModel model = new DefaultTableModel(30, 1) {
+    model = new DefaultTableModel(30, 1) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return false;
@@ -69,7 +74,6 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.setValueAt("Nombre", 0, 0);
     add(tablaExplorador);
     
-    
     JPanel panel = new JPanel();
     botonVolver = new JButton("Volver");
     panel.add(botonVolver);
@@ -79,8 +83,14 @@ public class ExploradorForm extends JFrame {
     add(tableScrollPane, BorderLayout.CENTER);
     //tablaExplorador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     
-    
+    menuOpciones = new JPopupMenu();
+    opcionEliminarPopup = new JMenuItem("Eliminar");
+    opcionRenombrarPopup = new JMenuItem("Cambiar nombre");
 
+    // Agregar las opciones al menú emergente
+    menuOpciones.add(opcionEliminarPopup);
+    menuOpciones.add(opcionRenombrarPopup);
+      
     
     setVisible(true);
   }
@@ -89,8 +99,24 @@ public class ExploradorForm extends JFrame {
     return tablaExplorador;
   }
   
+  public DefaultTableModel getTablaModel() {
+    return model;
+  }
+  
   public JButton getVolver() {
     return botonVolver;
+  }
+  
+  public JPopupMenu getMenuOpcionesArchivo() {
+    return menuOpciones;
+  }
+  
+  public JMenuItem getOpcionEliminarPopup() {
+    return opcionEliminarPopup;
+  }
+  
+  public JMenuItem getOpcionRenombrarPopup() {
+    return opcionRenombrarPopup;
   }
   
   public void limpiarTabla() {

@@ -61,4 +61,9 @@ public class Explorador {
     System.out.println(ruta);
     ruta = nuevaRuta;
   }
+  
+  public void eliminarArchivo(String nombre) {
+    File archivo = new File(ruta + nombre);
+    archivo.delete();
+  }
 }
