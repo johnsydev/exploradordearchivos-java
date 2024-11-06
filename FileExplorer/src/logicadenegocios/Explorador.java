@@ -5,6 +5,7 @@
 package logicadenegocios;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -33,6 +34,17 @@ public class Explorador {
   }
   
   public void entrarDirectorio(String src) {
+    
+    if (new File(ruta + src).isFile()) {
+      try{ 
+        //definiendo la ruta en la propiedad file
+        Runtime.getRuntime().exec("cmd /c start \"\" \""+ruta+src);
+        return;
+
+        } catch(IOException e){
+           e.printStackTrace();
+        }
+      }
     ruta += src + "\\";
   } 
   
