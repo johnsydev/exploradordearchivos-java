@@ -15,14 +15,14 @@ import javax.swing.table.DefaultTableModel;
 
 public class ExploradorForm extends JFrame {
 
-  //private final JTextField display;
   private final JTable tablaExplorador;
   private final JButton botonVolver;
   private final JPopupMenu menuOpciones;
   private final JMenuItem opcionEliminarPopup;
   private final JMenuItem opcionRenombrarPopup;
   private final DefaultTableModel model;
-  
+
+  private int filaSeleccionada = -1;
 
   public ExploradorForm() {
     // Configuración de la ventana principal
@@ -31,40 +31,12 @@ public class ExploradorForm extends JFrame {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
 
-    /*
-    display = new JTextField();
-    display.setEditable(false);
-    display.setFont(new Font("Arial", Font.PLAIN, 24));
-    
-        // Panel de display
-        display = new JTextField();
-        display.setEditable(false);
-        display.setFont(new Font("Arial", Font.PLAIN, 24));
-        add(display, BorderLayout.NORTH);
-
-        // Panel de botones
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(6, 4, 5, 5));
-        
-        // Crear botones y agregarlos al panel
-        String[] botones = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-                            "+", "-", "*", "/", "^", "Neg", "(", ")", "Borrar", 
-                            "CE", "%", "Calcular", "Cambiar Base", "Salir"};
-        
-        for (String texto : botones) {
-            JButton boton = new JButton(texto);
-            boton.setFont(new Font("Arial", Font.PLAIN, 18));
-            boton.setActionCommand(texto); // Establece el comando de acción
-            buttonPanel.add(boton);
-        }
-
-        add(buttonPanel, BorderLayout.CENTER);
-     */
-    
+    // Inicializar el modelo sin hacer editable ninguna celda por defecto
     model = new DefaultTableModel(30, 1) {
       @Override
       public boolean isCellEditable(int row, int column) {
-        return false;
+        // Permitir la edición solo de la fila seleccionada
+        return row == filaSeleccionada;
       }
     };
 
@@ -73,16 +45,15 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.setRowHeight(40);
     tablaExplorador.setValueAt("Nombre", 0, 0);
     add(tablaExplorador);
-    
+
     JPanel panel = new JPanel();
     botonVolver = new JButton("Volver");
     panel.add(botonVolver);
     add(panel, BorderLayout.NORTH);
-    
+
     JScrollPane tableScrollPane = new JScrollPane(tablaExplorador);
     add(tableScrollPane, BorderLayout.CENTER);
-    //tablaExplorador.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-    
+
     menuOpciones = new JPopupMenu();
     opcionEliminarPopup = new JMenuItem("Eliminar");
     opcionRenombrarPopup = new JMenuItem("Cambiar nombre");
@@ -90,41 +61,67 @@ public class ExploradorForm extends JFrame {
     // Agregar las opciones al menú emergente
     menuOpciones.add(opcionEliminarPopup);
     menuOpciones.add(opcionRenombrarPopup);
-      
-    
+
+    // Listener para deshabilitar la edición al hacer clic fuera de la celda seleccionada
+    tablaExplorador.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mousePressed(MouseEvent e) {
+        int fila = tablaExplorador.rowAtPoint(e.getPoint());
+        if (fila != filaSeleccionada) {
+          deshabilitarEdicion(); // Cancela la edición si se hace clic fuera de la celda seleccionada
+        }
+      }
+    });
+
+    // Listener para detectar cuando se finaliza o cancela la edición en la celda
+    tablaExplorador.getDefaultEditor(String.class).addCellEditorListener(new javax.swing.event.CellEditorListener() {
+      @Override
+      public void editingStopped(javax.swing.event.ChangeEvent e) {
+        deshabilitarEdicion();
+      }
+
+      @Override
+      public void editingCanceled(javax.swing.event.ChangeEvent e) {
+        deshabilitarEdicion();
+      }
+    });
+
     setVisible(true);
   }
-    
+
+  // Métodos de acceso a componentes de la vista
   public JTable getTabla() {
     return tablaExplorador;
   }
-  
+
   public DefaultTableModel getTablaModel() {
     return model;
   }
-  
+
   public JButton getVolver() {
     return botonVolver;
   }
-  
+
   public JPopupMenu getMenuOpcionesArchivo() {
     return menuOpciones;
   }
-  
+
   public JMenuItem getOpcionEliminarPopup() {
     return opcionEliminarPopup;
   }
-  
+
   public JMenuItem getOpcionRenombrarPopup() {
     return opcionRenombrarPopup;
   }
-  
+
+  // Método para limpiar la tabla
   public void limpiarTabla() {
-    for (int i = 1; i<30; i++) {
+    for (int i = 1; i < 30; i++) {
       tablaExplorador.setValueAt("", i, 0);
     }
   }
-  
+
+  // Método para actualizar la tabla con nuevos nombres
   public void actualizarTabla(String[] nombres) {
     limpiarTabla();
     int indice = 1;
@@ -133,34 +130,22 @@ public class ExploradorForm extends JFrame {
       indice++;
     }
   }
-  
-  /*
-  // Método para obtener el display
-  public JTextField getDisplay() {
-    return display;
+
+  // Método para habilitar la edición de una fila específica
+  public void habilitarEdicion(int fila) {
+    filaSeleccionada = fila;
+    tablaExplorador.editCellAt(fila, 0);
+    Component editor = tablaExplorador.getEditorComponent();
+    if (editor != null) {
+      editor.requestFocus(); // Da foco al editor de la celda
+    }
   }
 
-  // Método para obtener los botones del panel
-  public Component[] getBotones() {
-    JPanel buttonPanel = (JPanel) getContentPane().getComponent(1);
-    return buttonPanel.getComponents();
+  // Método para deshabilitar la edición
+  public void deshabilitarEdicion() {
+    if (tablaExplorador.isEditing()) {
+      tablaExplorador.getCellEditor().stopCellEditing();
+    }
+    filaSeleccionada = -1;
   }
-
-  // Métodos para manipular el display
-  public void actualizarDisplay(String texto) {
-    display.setText(texto);
-  }
-
-  public void salir() {
-    System.exit(0); // Cierra la aplicación
-  }
-
-  public String getDisplayText() {
-    return display.getText();
-  }
-
-  public void mensajeEmergente(String mensaje, String titulo) {
-    JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.INFORMATION_MESSAGE);
-  }
-*/
 }
