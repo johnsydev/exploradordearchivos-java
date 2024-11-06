@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
@@ -14,6 +15,7 @@ public class ExploradorController {
   private Explorador modelo;
   private ExploradorForm vista;
   private long lastClickTime = 0;
+  private String archivoCopiado;
 
   public ExploradorController(Explorador pModelo, ExploradorForm pVista) {
     modelo = pModelo;
@@ -105,6 +107,24 @@ public class ExploradorController {
             vista.deshabilitarEdicion();
           }
         });
+      }
+    });
+    
+    vista.getOpcionCopiarPopup().addActionListener(e -> {
+      int filaSeleccionada = tablaExplorador.getSelectedRow();
+      if (filaSeleccionada >= 0) {
+        archivoCopiado = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
+        modelo.copiarArchivo(archivoCopiado);
+      }
+    });
+
+    // Acción de 'Pegar archivo' desde el menú contextual
+    vista.getOpcionPegarPopup().addActionListener(e -> {
+      if (archivoCopiado != null) {
+        modelo.pegarArchivo();
+        actualizar();
+      } else {
+        JOptionPane.showMessageDialog(null, "No hay archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
       }
     });
   }
