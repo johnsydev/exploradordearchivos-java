@@ -7,6 +7,7 @@ package aplicacion;
 import controlador.ExploradorController;
 import logicadenegocios.Explorador;
 import vista.ExploradorForm;
+import vista.PropiedadesArchivoForm;
 
 /**
  *
@@ -23,6 +24,7 @@ public class FileExplorer {
     ExploradorForm vista = new ExploradorForm();
     ExploradorController controlador = new ExploradorController(modelo, vista);
     Explorador.getInstance().getListaArchivos();
+    PropiedadesArchivoForm prop = new PropiedadesArchivoForm();
   }
   
 }
