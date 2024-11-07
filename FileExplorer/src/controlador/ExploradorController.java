@@ -73,6 +73,18 @@ public class ExploradorController {
         actualizar();
       }
     });
+    
+    JButton botonCrearDirectorio = vista.getBotonCrearDirectrio();
+    botonCrearDirectorio.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        String input = JOptionPane.showInputDialog(null, "Ingresa nombre carpeta: ", "Nueva carpeta", JOptionPane.PLAIN_MESSAGE);
+        if (!input.equals("")) {
+          modelo.crearDirectorio(input);
+        }
+        actualizar();
+      }
+    });
 
     // Acción de 'Eliminar archivo' desde el menú contextual
     vista.getOpcionEliminarPopup().addActionListener(e -> {

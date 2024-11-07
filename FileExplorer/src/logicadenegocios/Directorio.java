@@ -10,25 +10,21 @@ import java.io.File;
  *
  * @author johns
  */
-public class Archivo {
+public class Directorio {
   private File file;
   private String nombre;
   private String ruta;
   
-  public Archivo(String pRuta) {
+  public Directorio(String pRuta) {
     file = new File(pRuta);
     ruta = pRuta;
   }
   
-  public String getExtension() {
-    int indiceExt = nombre.lastIndexOf(".");
-    if (indiceExt >= 0) {
-        return nombre.substring(indiceExt + 1);
-    }
-    return "";
+  public String[] list() {
+    return file.list();
   }
   
-  public File getFile() {
+  public File getDir() {
     return file;
   }
 }

@@ -64,6 +64,14 @@ public class Explorador {
     }
     ruta = nuevaRuta;
   }
+  
+  public boolean crearDirectorio(String pNombre) {
+    File carpeta = new File(ruta + pNombre);
+    if (!carpeta.exists()) {
+      return carpeta.mkdirs();
+    }
+    return false;
+  }
 
   public void eliminarArchivoInterfaz(String nombre) {
     eliminarArchivo(ruta + nombre);

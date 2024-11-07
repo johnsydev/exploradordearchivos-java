@@ -13,6 +13,7 @@ public class ExploradorForm extends JFrame {
 
   private final JTable tablaExplorador;
   private final JButton botonVolver;
+  private final JButton botonCrearDirectorio;
   private final JPopupMenu menuOpciones;
   private final JMenuItem opcionEliminarPopup;
   private final JMenuItem opcionRenombrarPopup;
@@ -48,7 +49,9 @@ public class ExploradorForm extends JFrame {
 
     JPanel panel = new JPanel();
     botonVolver = new JButton("Volver");
+    botonCrearDirectorio = new JButton("Crear directorio");
     panel.add(botonVolver);
+    panel.add(botonCrearDirectorio);
     add(panel, BorderLayout.NORTH);
 
     menuOpciones = new JPopupMenu();
@@ -78,6 +81,10 @@ public class ExploradorForm extends JFrame {
 
   public JButton getVolver() {
     return botonVolver;
+  }
+  
+  public JButton getBotonCrearDirectrio() {
+    return botonCrearDirectorio;
   }
 
   public JPopupMenu getMenuOpcionesArchivo() {
