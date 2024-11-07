@@ -63,59 +63,8 @@ public class ExploradorForm extends JFrame {
     menuOpciones.add(opcionCopiarPopup);
     menuOpciones.add(opcionPegarPopup);
     menuOpciones.add(opcionCortarPopup);
-
-    // Listener para deshabilitar la edición al hacer clic fuera de la celda seleccionada
-    tablaExplorador.addMouseListener(new MouseAdapter() {
-      @Override
-      public void mousePressed(MouseEvent e) {
-        int fila = tablaExplorador.rowAtPoint(e.getPoint());
-        if (fila != filaSeleccionada) {
-          deshabilitarEdicion(); // Cancela la edición si se hace clic fuera de la celda seleccionada
-        }
-      }
-    });
-
-    // Listener para detectar cuando se finaliza o cancela la edición en la celda
-    tablaExplorador.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
-      @Override
-      public void editingStopped(ChangeEvent e) {
-        String nuevoNombre = (String) tablaExplorador.getValueAt(filaSeleccionada, 0);
-        File archivo = new File(nuevoNombre); // Verifica si el archivo ya existe
-
-        if (archivo.exists()) {
-          JOptionPane.showMessageDialog(ExploradorForm.this,
-                  "El archivo ya existe o el nombre no es válido.",
-                  "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-          // Lógica para renombrar el archivo
-          renombrarArchivo(nuevoNombre);
-        }
-        deshabilitarEdicion();
-      }
-
-      @Override
-      public void editingCanceled(ChangeEvent e) {
-        deshabilitarEdicion();
-      }
-    });
-
+    
     setVisible(true);
-  }
-
-  private void renombrarArchivo(String nuevoNombre) {
-    // Lógica para renombrar el archivo aquí
-    // Este es solo un ejemplo de cómo manejar la lógica de renombrar el archivo
-    File archivo = new File((String) tablaExplorador.getValueAt(filaSeleccionada, 0));
-    File archivoRenombrado = new File(nuevoNombre);
-
-    if (archivo.renameTo(archivoRenombrado)) {
-      JOptionPane.showMessageDialog(this, "El archivo ha sido renombrado con éxito.");
-      // Actualizar la tabla con el nuevo nombre
-      tablaExplorador.setValueAt(nuevoNombre, filaSeleccionada, 0);
-    } else {
-      JOptionPane.showMessageDialog(this, "No se pudo renombrar el archivo.",
-              "Error", JOptionPane.ERROR_MESSAGE);
-    }
   }
 
   // Métodos de acceso a componentes de la vista
@@ -152,6 +101,10 @@ public class ExploradorForm extends JFrame {
 
   public JMenuItem getOpcionCopiarPopup() {
     return opcionCopiarPopup;
+  }
+  
+  public JMenuItem getOpcionCortarPopup() {
+    return opcionCortarPopup;
   }
 
   public JMenuItem getOpcionPegarPopup() {

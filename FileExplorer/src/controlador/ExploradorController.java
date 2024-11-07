@@ -16,7 +16,8 @@ public class ExploradorController {
   private ExploradorForm vista;
   private long lastClickTime = 0;
   private String archivoCopiado;
-
+  private boolean esCortado;
+  
   public ExploradorController(Explorador pModelo, ExploradorForm pVista) {
     modelo = pModelo;
     vista = pVista;
@@ -77,11 +78,12 @@ public class ExploradorController {
     vista.getOpcionEliminarPopup().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
-        modelo.eliminarArchivo(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
+        modelo.eliminarArchivoInterfaz(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
         actualizar();
       }
     });
-
+    
+    
     vista.getOpcionRenombrarPopup().addActionListener(e -> {
       int filaSeleccionada = vista.getTabla().getSelectedRow();
       if (filaSeleccionada >= 0) {
@@ -92,13 +94,21 @@ public class ExploradorController {
         vista.getTabla().getCellEditor().addCellEditorListener(new CellEditorListener() {
           @Override
           public void editingStopped(ChangeEvent e) {
-            String nuevoNombre = vista.getTabla().getValueAt(filaSeleccionada, 0).toString();
-            String viejoNombre = modelo.getListaArchivos()[filaSeleccionada];
-
+            vista.getTabla().getCellEditor().removeCellEditorListener(this);
+            
+            String viejoNombre = modelo.getListaArchivos()[filaSeleccionada-1];
+            String nuevoNombre = vista.getTabla().getCellEditor().getCellEditorValue().toString();
+            
+            System.out.println(viejoNombre);
+            System.out.println(nuevoNombre);
             // Llama al modelo para renombrar el archivo
+            
             modelo.renombrarArchivo(viejoNombre, nuevoNombre);
-            vista.actualizarTabla(modelo.getListaArchivos()); // Actualiza la vista con los nuevos nombres
+            //vista.getTabla().getCellEditor().stopCellEditing();
+            
             vista.deshabilitarEdicion(); // Deshabilita la edición una vez terminada
+            vista.actualizarTabla(modelo.getListaArchivos()); // Actualiza la vista con los nuevos nombres
+            
           }
 
           @Override
@@ -110,9 +120,20 @@ public class ExploradorController {
       }
     });
     
+    
     vista.getOpcionCopiarPopup().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
+        esCortado = false;
+        archivoCopiado = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
+        modelo.copiarArchivo(archivoCopiado);
+      }
+    });
+    
+    vista.getOpcionCortarPopup().addActionListener(e -> {
+      int filaSeleccionada = tablaExplorador.getSelectedRow();
+      if (filaSeleccionada >= 0) {
+        esCortado = true;
         archivoCopiado = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
         modelo.copiarArchivo(archivoCopiado);
       }
@@ -121,7 +142,8 @@ public class ExploradorController {
     // Acción de 'Pegar archivo' desde el menú contextual
     vista.getOpcionPegarPopup().addActionListener(e -> {
       if (archivoCopiado != null) {
-        modelo.pegarArchivo();
+        modelo.pegarArchivo(esCortado);
+        esCortado = false;
         actualizar();
       } else {
         JOptionPane.showMessageDialog(null, "No hay archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);

@@ -65,8 +65,12 @@ public class Explorador {
     ruta = nuevaRuta;
   }
 
-  public void eliminarArchivo(String nombre) {
-    File archivo = new File(ruta + nombre);
+  public void eliminarArchivoInterfaz(String nombre) {
+    eliminarArchivo(ruta + nombre);
+  }
+  
+  public void eliminarArchivo(String pRuta) {
+    File archivo = new File(pRuta);
     archivo.delete();
   }
 
@@ -80,9 +84,9 @@ public class Explorador {
       JOptionPane.showMessageDialog(null, "El archivo no existe.", "Error", JOptionPane.ERROR_MESSAGE);
     }
   }
-
+  
   // Método para pegar un archivo copiado en el directorio actual
-  public void pegarArchivo() {
+  public void pegarArchivo(boolean esCortado) {
     if (archivoCopiado == null) {
       JOptionPane.showMessageDialog(null, "No hay ningún archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
       return;
@@ -103,7 +107,11 @@ public class Explorador {
     }
 
     try {
+      System.out.println("ARCHIVO CORTADO " + archivoCopiado.getCanonicalPath());
       Files.copy(archivoCopiado.toPath(), archivoPegado.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      if (esCortado) {
+        eliminarArchivo(archivoCopiado.getCanonicalPath());
+      }
       JOptionPane.showMessageDialog(null, "Archivo pegado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     } catch (IOException e) {
       JOptionPane.showMessageDialog(null, "Error al pegar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
