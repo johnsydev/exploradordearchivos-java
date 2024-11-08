@@ -8,6 +8,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class ExploradorForm extends JFrame {
 
@@ -33,7 +34,7 @@ public class ExploradorForm extends JFrame {
     setLayout(new BorderLayout());
 
     // Inicializar el modelo, solo se puede editar la fila seleccionada
-    model = new DefaultTableModel(30, 1) {
+    model = new DefaultTableModel(new Object[]{"Nombre", "Fecha", "Tipo", "Tamaño"}, 30) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return row == filaSeleccionada;
@@ -44,7 +45,28 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
     tablaExplorador.setValueAt("Nombre", 0, 0);
+    tablaExplorador.getTableHeader().setReorderingAllowed(false);
+    tablaExplorador.getColumnModel().getColumn(0).setPreferredWidth(1800);
+    tablaExplorador.getColumnModel().getColumn(1).setPreferredWidth(150);
+    
+    tablaExplorador.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+        // Cambiar el fondo si la celda está seleccionada
+        if (isSelected) {
+          c.setBackground(new Color(244, 243, 253)); // Cambiar el fondo si está seleccionado
+        } else {
+          c.setBackground(new Color(255, 255, 255)); // Fondo blanco por defecto
+        }
+
+        // Establecer el borde de la celda
+        ((JComponent) c).setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 1));
+
+        return c;
+      }
+    });
     JScrollPane tableScrollPane = new JScrollPane(tablaExplorador);
     add(tableScrollPane, BorderLayout.CENTER);
 
@@ -62,7 +84,6 @@ public class ExploradorForm extends JFrame {
     opcionPegarPopup = new JMenuItem("Pegar");
     opcionCortarPopup = new JMenuItem("Cortar");
     opcionPropiedades = new JMenuItem("Propiedades");
-    
 
     menuOpciones.add(opcionEliminarPopup);
     menuOpciones.add(opcionRenombrarPopup);
@@ -70,7 +91,7 @@ public class ExploradorForm extends JFrame {
     menuOpciones.add(opcionPegarPopup);
     menuOpciones.add(opcionCortarPopup);
     menuOpciones.add(opcionPropiedades);
-    
+
     setVisible(true);
   }
 
@@ -86,7 +107,7 @@ public class ExploradorForm extends JFrame {
   public JButton getVolver() {
     return botonVolver;
   }
-  
+
   public JButton getBotonCrearDirectrio() {
     return botonCrearDirectorio;
   }
@@ -113,7 +134,7 @@ public class ExploradorForm extends JFrame {
   public JMenuItem getOpcionCopiarPopup() {
     return opcionCopiarPopup;
   }
-  
+
   public JMenuItem getOpcionCortarPopup() {
     return opcionCortarPopup;
   }
@@ -121,7 +142,7 @@ public class ExploradorForm extends JFrame {
   public JMenuItem getOpcionPegarPopup() {
     return opcionPegarPopup;
   }
-  
+
   public JMenuItem getOpcionPropiedades() {
     return opcionPropiedades;
   }
