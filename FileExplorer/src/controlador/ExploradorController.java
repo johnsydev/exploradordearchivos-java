@@ -8,8 +8,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import logicadenegocios.Directorio;
 import logicadenegocios.Explorador;
 import vista.ExploradorForm;
+import vista.PropiedadesArchivoForm;
 
 public class ExploradorController {
   private Explorador modelo;
@@ -160,6 +162,10 @@ public class ExploradorController {
       } else {
         JOptionPane.showMessageDialog(null, "No hay archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
       }
+    });
+    
+    vista.getOpcionPropiedades().addActionListener(e -> {
+      PropiedadesArchivoForm propiedades = new PropiedadesArchivoForm();
     });
   }
 

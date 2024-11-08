@@ -11,6 +11,7 @@ public class Explorador {
   private static final Explorador instance = new Explorador();
   private String ruta = ".\\";
   private File archivoCopiado; // Variable temporal para almacenar el archivo copiado
+  private Directorio directorioActual;
 
   private Explorador() {
   }
@@ -34,6 +35,7 @@ public class Explorador {
       }
     }
     ruta += src + "\\";
+    directorioActual = new Directorio(ruta);
   }
 
   public void renombrarArchivo(String oldName, String newName) {
@@ -63,6 +65,7 @@ public class Explorador {
       cont++;
     }
     ruta = nuevaRuta;
+    directorioActual = new Directorio(ruta);
   }
   
   public boolean crearDirectorio(String pNombre) {

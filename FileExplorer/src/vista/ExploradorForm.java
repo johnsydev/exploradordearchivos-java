@@ -20,6 +20,7 @@ public class ExploradorForm extends JFrame {
   private final JMenuItem opcionCopiarPopup;
   private final JMenuItem opcionPegarPopup;
   private final JMenuItem opcionCortarPopup;
+  private final JMenuItem opcionPropiedades;
   private final DefaultTableModel model;
 
   private int filaSeleccionada = -1;
@@ -60,12 +61,15 @@ public class ExploradorForm extends JFrame {
     opcionCopiarPopup = new JMenuItem("Copiar");
     opcionPegarPopup = new JMenuItem("Pegar");
     opcionCortarPopup = new JMenuItem("Cortar");
+    opcionPropiedades = new JMenuItem("Propiedades");
+    
 
     menuOpciones.add(opcionEliminarPopup);
     menuOpciones.add(opcionRenombrarPopup);
     menuOpciones.add(opcionCopiarPopup);
     menuOpciones.add(opcionPegarPopup);
     menuOpciones.add(opcionCortarPopup);
+    menuOpciones.add(opcionPropiedades);
     
     setVisible(true);
   }
@@ -115,8 +119,11 @@ public class ExploradorForm extends JFrame {
   }
 
   public JMenuItem getOpcionPegarPopup() {
-
     return opcionPegarPopup;
+  }
+  
+  public JMenuItem getOpcionPropiedades() {
+    return opcionPropiedades;
   }
 
   // Método para actualizar la tabla con nuevos nombres
