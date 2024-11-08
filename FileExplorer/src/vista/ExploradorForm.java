@@ -71,8 +71,11 @@ public class ExploradorForm extends JFrame {
     add(tableScrollPane, BorderLayout.CENTER);
 
     JPanel panel = new JPanel();
+    panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
     botonVolver = new JButton("Volver");
     botonCrearDirectorio = new JButton("Crear directorio");
+    botonVolver.setFocusable(false);
+    botonCrearDirectorio.setFocusable(false);
     panel.add(botonVolver);
     panel.add(botonCrearDirectorio);
     add(panel, BorderLayout.NORTH);
