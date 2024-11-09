@@ -8,6 +8,7 @@ import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.table.DefaultTableCellRenderer;
 
 public class ExploradorForm extends JFrame {
@@ -48,7 +49,6 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 12)); // Cambia la fuente y el tamaño
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
-    tablaExplorador.setValueAt("Nombre", 0, 0);
     tablaExplorador.getTableHeader().setReorderingAllowed(false);
     tablaExplorador.getColumnModel().getColumn(0).setPreferredWidth(1800);
     tablaExplorador.getColumnModel().getColumn(1).setPreferredWidth(150);
@@ -142,7 +142,7 @@ public class ExploradorForm extends JFrame {
 
   // Método para limpiar la tabla
   public void limpiarTabla() {
-    for (int i = 1; i < 30; i++) {
+    for (int i = 0; i < 30; i++) {
       tablaExplorador.setValueAt("", i, 0);
     }
   }
@@ -164,9 +164,9 @@ public class ExploradorForm extends JFrame {
   }
 
   // Método para actualizar la tabla con nuevos nombres
-  public void actualizarTabla(String[] nombres) {
+  public void actualizarTabla(ArrayList<String> nombres) {
     limpiarTabla();
-    int indice = 1;
+    int indice = 0;
     for (String nombre : nombres) {
       tablaExplorador.setValueAt(nombre, indice, 0);
       indice++;

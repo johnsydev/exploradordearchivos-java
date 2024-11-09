@@ -11,40 +11,46 @@ import java.util.ArrayList;
  *
  * @author johns
  */
-public class Directorio {
+public class Directorio extends Elemento {
 
-  private File file;
-  private String nombre;
-  private String ruta;
   private ArrayList<Archivo> listaArchivos;
   private ArrayList<Directorio> listaDirectorios;
+  private ArrayList<Elemento> listaElementos;
 
   public Directorio(String pRuta) {
-    file = new File(pRuta);
-    ruta = pRuta;
+    super(pRuta);
     listaArchivos = new ArrayList<Archivo>();
     listaDirectorios = new ArrayList<Directorio>();
-    
+    listaElementos = new ArrayList<Elemento>();
     cargarDatos();
   }
 
   private void cargarDatos() {
     for (File file : file.listFiles()) {
       String rutaArchivo = ruta + "\\" + file.getName();
-      if (file.isFile()) {
+      
+      Elemento elemento = new Elemento(rutaArchivo);
+      
+      if (elemento.esArchivo()) {
         listaArchivos.add(new Archivo(rutaArchivo));
       } else {
         listaDirectorios.add(new Directorio(rutaArchivo));
       }
+
+      listaElementos.add(elemento);
     }
   }
   
-  private ArrayList<Archivo> getArchivos() {
+  public ArrayList<Archivo> getArchivos() {
     return listaArchivos;
   }
   
-  private ArrayList<Directorio> getDirectorios() {
+  public ArrayList<Directorio> getDirectorios() {
     return listaDirectorios;
+  }
+  
+  public ArrayList<Elemento> get() {
+    return listaElementos;
   }
 
   public String[] list() {
@@ -53,5 +59,24 @@ public class Directorio {
 
   public File getDir() {
     return file;
+  }
+  
+  public boolean eliminar() {
+    try {
+      for(Directorio dir : listaDirectorios) {
+        dir.eliminar();
+      }
+      for(Archivo arch : listaArchivos) {
+        arch.eliminar();
+      }
+      file.delete();
+    } catch(Exception e) {
+      return false;
+    }
+    return true;
+  }
+  
+  public ArrayList<Elemento> getElementos() {
+    return listaElementos;
   }
 }

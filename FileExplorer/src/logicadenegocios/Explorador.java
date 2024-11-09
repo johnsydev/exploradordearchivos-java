@@ -4,14 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
   private String ruta = ".\\";
-  private File archivoCopiado; // Variable temporal para almacenar el archivo copiado
-  private Directorio directorioActual;
+  private Archivo archivoCopiado; // Variable temporal para almacenar el archivo copiado
+  private Directorio directorioActual = new Directorio(ruta);
 
   private Explorador() {
   }
@@ -19,10 +20,30 @@ public class Explorador {
   public static Explorador getInstance() {
     return instance;
   }
-
-  public String[] getListaArchivos() {
-    File directorio = new File(ruta);
-    return directorio.list();
+  
+  public Elemento getElemento(String pNombre) {
+    for (Elemento elem : directorioActual.get()) {
+      if (elem.getNombre().equals(pNombre)) {
+        return elem;
+      }
+    }
+    return null;
+  }
+  
+  public void actualizar() {
+    directorioActual = new Directorio(ruta);
+  }
+  
+  public ArrayList<Elemento> getListaArchivos() {
+    return directorioActual.get();
+  }
+  
+  public ArrayList<String> getListaNombres() {
+    ArrayList<String> nombres = new ArrayList<String>();
+    for (Elemento elem : directorioActual.get()) {
+      nombres.add(elem.getNombre());
+    }
+    return nombres;
   }
 
   public void entrarDirectorio(String src) {
@@ -81,18 +102,26 @@ public class Explorador {
   }
   
   public void eliminarArchivo(String pRuta) {
-    File archivo = new File(pRuta);
-    archivo.delete();
+    Elemento elem = new Elemento(pRuta);
+    if (elem.esArchivo()) {
+      Archivo a = new Archivo(pRuta);
+      a.eliminar();
+    } else {
+      Directorio d = new Directorio(pRuta);
+      d.eliminar();
+    }
   }
 
   // Método para copiar un archivo
   public void copiarArchivo(String nombreArchivo) {
-    File archivo = new File(ruta + nombreArchivo);
-    if (archivo.exists()) {
-      archivoCopiado = archivo;
-      JOptionPane.showMessageDialog(null, "Archivo copiado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-      JOptionPane.showMessageDialog(null, "El archivo no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+    Elemento elem = new Elemento(ruta + nombreArchivo);
+    if (elem.existe()) {
+      if (elem.esArchivo()) {
+        archivoCopiado = new Archivo(ruta + nombreArchivo);
+        JOptionPane.showMessageDialog(null, "Archivo copiado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+      } else {
+        JOptionPane.showMessageDialog(null, "El archivo no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+      }
     }
   }
   
@@ -103,25 +132,25 @@ public class Explorador {
       return;
     }
 
-    File archivoPegado = new File(ruta + archivoCopiado.getName());
+    Archivo archivoPegado = new Archivo(ruta + archivoCopiado.getNombre());
 
     // Si ya existe un archivo con el mismo nombre en el directorio actual
-    if (archivoPegado.exists()) {
+    if (archivoPegado.existe()) {
       // Proponer un nuevo nombre o confirmar reemplazo
       int opcion = JOptionPane.showConfirmDialog(null, 
               "Ya existe un archivo con el mismo nombre. ¿Deseas reemplazarlo?", 
               "Archivo existente", JOptionPane.YES_NO_OPTION);
 
       if (opcion == JOptionPane.NO_OPTION) {
-        archivoPegado = new File(ruta + obtenerNombreDisponible(archivoPegado));
+        archivoPegado = new Archivo(ruta + obtenerNombreDisponible(archivoPegado));
       }
     }
 
     try {
-      System.out.println("ARCHIVO CORTADO " + archivoCopiado.getCanonicalPath());
-      Files.copy(archivoCopiado.toPath(), archivoPegado.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      System.out.println("ARCHIVO CORTADO " + archivoCopiado.getFile().getCanonicalPath());
+      Files.copy(archivoCopiado.getFile().toPath(), archivoPegado.getFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
       if (esCortado) {
-        eliminarArchivo(archivoCopiado.getCanonicalPath());
+        eliminarArchivo(archivoCopiado.getFile().getCanonicalPath());
       }
       JOptionPane.showMessageDialog(null, "Archivo pegado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
     } catch (IOException e) {
@@ -131,8 +160,8 @@ public class Explorador {
   }
 
   // Método auxiliar para obtener un nombre de archivo disponible (archivo(1).txt, archivo(2).txt, etc.)
-  private String obtenerNombreDisponible(File archivo) {
-    String nombreOriginal = archivo.getName();
+  private String obtenerNombreDisponible(Archivo archivo) {
+    String nombreOriginal = archivo.getNombre();
     String nombreSinExtension = nombreOriginal.contains(".") 
             ? nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) 
             : nombreOriginal;
@@ -141,11 +170,11 @@ public class Explorador {
             : "";
 
     int contador = 1;
-    File archivoNuevo = archivo;
-    while (archivoNuevo.exists()) {
-      archivoNuevo = new File(ruta + nombreSinExtension + "(" + contador + ")" + extension);
+    Archivo archivoNuevo = archivo;
+    while (archivoNuevo.existe()) {
+      archivoNuevo = new Archivo(ruta + nombreSinExtension + "(" + contador + ")" + extension);
       contador++;
     }
-    return archivoNuevo.getName();
+    return archivoNuevo.getNombre();
   }
 }

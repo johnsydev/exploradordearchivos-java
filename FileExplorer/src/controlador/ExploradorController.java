@@ -25,6 +25,7 @@ public class ExploradorController {
     vista = pVista;
     agregarListeners();
     actualizar();
+    
   }
 
   public void agregarListeners() {
@@ -110,7 +111,7 @@ public class ExploradorController {
           public void editingStopped(ChangeEvent e) {
             vista.getTabla().getCellEditor().removeCellEditorListener(this);
             
-            String viejoNombre = modelo.getListaArchivos()[filaSeleccionada-1];
+            String viejoNombre = modelo.getListaArchivos().get(filaSeleccionada-1).getNombre();
             String nuevoNombre = vista.getTabla().getCellEditor().getCellEditorValue().toString();
             
             System.out.println(viejoNombre);
@@ -121,7 +122,7 @@ public class ExploradorController {
             //vista.getTabla().getCellEditor().stopCellEditing();
             
             vista.deshabilitarEdicion(); // Deshabilita la edición una vez terminada
-            vista.actualizarTabla(modelo.getListaArchivos()); // Actualiza la vista con los nuevos nombres
+            vista.actualizarTabla(modelo.getListaNombres()); // Actualiza la vista con los nuevos nombres
             
           }
 
@@ -170,6 +171,7 @@ public class ExploradorController {
   }
 
   public void actualizar() {
-    vista.actualizarTabla(modelo.getListaArchivos());
+    modelo.actualizar();
+    vista.actualizarTabla(modelo.getListaNombres());
   }
 }

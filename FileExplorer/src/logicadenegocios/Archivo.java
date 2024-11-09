@@ -4,20 +4,15 @@
  */
 package logicadenegocios;
 
-import java.io.File;
-
 /**
  *
  * @author johns
  */
-public class Archivo {
-  private File file;
-  private String nombre;
-  private String ruta;
+public class Archivo extends Elemento {
+
   
   public Archivo(String pRuta) {
-    file = new File(pRuta);
-    ruta = pRuta;
+    super(pRuta);
   }
   
   public String getExtension() {
@@ -28,7 +23,7 @@ public class Archivo {
     return "";
   }
   
-  public File getFile() {
-    return file;
+  public boolean eliminar() {
+    return file.delete();
   }
 }
