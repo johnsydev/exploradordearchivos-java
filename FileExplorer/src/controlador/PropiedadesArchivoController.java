@@ -18,11 +18,14 @@ public class PropiedadesArchivoController {
   public PropiedadesArchivoController(Archivo pArchivo) {
     modelo = pArchivo;
     vista = new PropiedadesArchivoForm();
+    actualizar();
   }
   
   public void actualizar() {
-    vista.setNombre("modelo.getNombre()");
-    
+    vista.setNombre(modelo.getNombre());
+    vista.setExtension(modelo.getExtension());
+    vista.setUbicacion(modelo.getRutaCompleta());
+    vista.setTamano(modelo.getTamanoTexto());
   }
   
 }

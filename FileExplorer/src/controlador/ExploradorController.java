@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import logicadenegocios.Archivo;
 import logicadenegocios.Directorio;
+import logicadenegocios.Elemento;
 import logicadenegocios.Explorador;
 import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
@@ -166,7 +168,13 @@ public class ExploradorController {
     });
     
     vista.getOpcionPropiedades().addActionListener(e -> {
-      PropiedadesArchivoForm propiedades = new PropiedadesArchivoForm();
+      int filaSeleccionada = tablaExplorador.getSelectedRow();
+      if (filaSeleccionada >= 0) {
+        String nombreArch = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
+        Elemento elem = modelo.getElemento(nombreArch);
+        Archivo archivo = new Archivo(elem.getRuta());
+        PropiedadesArchivoController propiedades = new PropiedadesArchivoController(archivo);
+      }
     });
   }
 

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +25,7 @@ public class ExploradorForm extends JFrame {
   private final JMenuItem opcionCortarPopup;
   private final JMenuItem opcionPropiedades;
   private final DefaultTableModel model;
+  private int hoverRow = -1;
 
   private int filaSeleccionada = -1;
 
@@ -52,25 +54,67 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.getTableHeader().setReorderingAllowed(false);
     tablaExplorador.getColumnModel().getColumn(0).setPreferredWidth(1800);
     tablaExplorador.getColumnModel().getColumn(1).setPreferredWidth(150);
+    
+    // Variable de clase para guardar la fila de "hover"
+
+// Variable de clase para guardar la fila de "hover"
 
     tablaExplorador.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        // Cambiar el fondo si la celda está seleccionada
-        if (isSelected) {
-          c.setBackground(new Color(230, 227, 255)); // Cambiar el fondo si está seleccionado
-        } else {
-          c.setBackground(new Color(244, 243, 253)); // Fondo blanco por defecto
+            // Cambiar el fondo si la celda está seleccionada
+            if (isSelected) {
+                c.setBackground(new Color(230, 227, 255)); // Fondo seleccionado
+            } else if (row == hoverRow) {
+                c.setBackground(new Color(220, 220, 255)); // Fondo "hover"
+            } else {
+                c.setBackground(new Color(244, 243, 253)); // Fondo por defecto
+            }
+
+            // Establecer el borde de la celda
+            ((JComponent) c).setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 1));
+
+            return c;
         }
-
-        // Establecer el borde de la celda
-        ((JComponent) c).setBorder(BorderFactory.createLineBorder(new Color(255, 255, 255), 1));
-
-        return c;
-      }
     });
+
+    // Listener para actualizar la fila de "hover" y redibujar solo las filas afectadas
+    tablaExplorador.addMouseMotionListener(new MouseMotionAdapter() {
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            int row = tablaExplorador.rowAtPoint(e.getPoint());
+            if (row != hoverRow) {
+                int oldHoverRow = hoverRow;
+                hoverRow = row;
+
+                // Solo redibuja las filas que cambiaron
+                if (oldHoverRow != -1) {
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 0, true));
+                }
+                if (hoverRow != -1) {
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(hoverRow, 0, true));
+                }
+            }
+        }
+    });
+
+    // Limpiar el "hover" cuando el mouse sale de la tabla
+    tablaExplorador.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (hoverRow != -1) {
+                int oldHoverRow = hoverRow;
+                hoverRow = -1;
+                tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 0, true));
+            }
+        }
+    });
+
+    //tablaExplorador.addMouseWheelListener(e -> clearHover()); // Limpiar cuando se usa la rueda de desplazamiento
+
+    
     tablaExplorador.setShowGrid(true);
     tablaExplorador.setGridColor(new Color(230, 227, 255));
     JScrollPane tableScrollPane = new JScrollPane(tablaExplorador);
@@ -190,4 +234,13 @@ public class ExploradorForm extends JFrame {
     }
     filaSeleccionada = -1;
   }
+  
+  private void clearHover() {
+    if (hoverRow != -1) {
+        int oldHoverRow = hoverRow;
+        hoverRow = -1;
+        tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 0, true));
+    }
+  }
+
 }

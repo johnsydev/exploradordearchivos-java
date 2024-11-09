@@ -37,4 +37,44 @@ public class Elemento {
   public boolean existe() {
     return file.exists();
   }
+  
+  public String getRuta() {
+    return ruta;
+  }
+  
+  public String getRutaCompleta() {
+    try {
+      return file.getCanonicalPath();
+    } catch(Exception e) {
+      return ruta;
+    }
+  }
+  
+  public long getTamano() {
+    return file.length();
+  }
+  
+  public String getTamanoTexto() {
+    long tamano = getTamano();
+    String unidad = "B";
+    for(int i = 1; i<5; i++) {
+      if(tamano/1000 > 0) {
+        tamano = tamano/1000;
+        switch(unidad) {
+          case "B":
+            unidad = "KB";
+            break;
+          case "KB":
+            unidad = "MB";
+            break;
+           case "MB":
+            unidad = "GB";
+            break;
+        }
+      } else {
+        break;
+      }
+    }
+    return tamano + " " + unidad;
+  }
 }
