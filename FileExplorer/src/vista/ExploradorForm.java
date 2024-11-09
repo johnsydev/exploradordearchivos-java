@@ -71,6 +71,8 @@ public class ExploradorForm extends JFrame {
         return c;
       }
     });
+    tablaExplorador.setShowGrid(true);
+    tablaExplorador.setGridColor(new Color(230, 227, 255));
     JScrollPane tableScrollPane = new JScrollPane(tablaExplorador);
     add(tableScrollPane, BorderLayout.CENTER);
 
