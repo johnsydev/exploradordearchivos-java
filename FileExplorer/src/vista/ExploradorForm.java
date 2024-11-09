@@ -32,6 +32,7 @@ public class ExploradorForm extends JFrame {
     setSize(1500, 900);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new BorderLayout());
+    getContentPane().setBackground(new Color(173, 216, 230));
 
     // Inicializar el modelo, solo se puede editar la fila seleccionada
     model = new DefaultTableModel(new Object[]{"Nombre", "Fecha", "Tipo", "Tamaño"}, 30) {
@@ -42,13 +43,16 @@ public class ExploradorForm extends JFrame {
     };
 
     tablaExplorador = new JTable(model);
+    tablaExplorador.getTableHeader().setBackground(new Color(143, 143, 143)); // Cambia el fondo del encabezado
+    tablaExplorador.getTableHeader().setForeground(Color.WHITE); // Cambia el color del texto del encabezado
+    tablaExplorador.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 12)); // Cambia la fuente y el tamaño
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
     tablaExplorador.setValueAt("Nombre", 0, 0);
     tablaExplorador.getTableHeader().setReorderingAllowed(false);
     tablaExplorador.getColumnModel().getColumn(0).setPreferredWidth(1800);
     tablaExplorador.getColumnModel().getColumn(1).setPreferredWidth(150);
-    
+
     tablaExplorador.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
       @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -56,9 +60,9 @@ public class ExploradorForm extends JFrame {
 
         // Cambiar el fondo si la celda está seleccionada
         if (isSelected) {
-          c.setBackground(new Color(244, 243, 253)); // Cambiar el fondo si está seleccionado
+          c.setBackground(new Color(230, 227, 255)); // Cambiar el fondo si está seleccionado
         } else {
-          c.setBackground(new Color(255, 255, 255)); // Fondo blanco por defecto
+          c.setBackground(new Color(244, 243, 253)); // Fondo blanco por defecto
         }
 
         // Establecer el borde de la celda
@@ -76,8 +80,15 @@ public class ExploradorForm extends JFrame {
     botonCrearDirectorio = new JButton("Crear directorio");
     botonVolver.setFocusable(false);
     botonCrearDirectorio.setFocusable(false);
+
+    botonVolver.setBackground(new Color(237, 103, 110)); // Fondo
+    botonVolver.setForeground(new Color(255, 255, 255)); // Texto
+    botonCrearDirectorio.setBackground(new Color(117, 131, 184)); // Fondo
+    botonCrearDirectorio.setForeground(new Color(255, 255, 255)); // Texto
+
     panel.add(botonVolver);
     panel.add(botonCrearDirectorio);
+    panel.setBackground(new Color(223, 243, 228)); // Color de ARRIBA
     add(panel, BorderLayout.NORTH);
 
     menuOpciones = new JPopupMenu();
