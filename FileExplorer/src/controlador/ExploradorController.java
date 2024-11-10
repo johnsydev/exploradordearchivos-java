@@ -1,6 +1,8 @@
 package controlador;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
@@ -12,6 +14,8 @@ import logicadenegocios.Archivo;
 import logicadenegocios.Directorio;
 import logicadenegocios.Elemento;
 import logicadenegocios.Explorador;
+import logicadenegocios.UnidadLogica;
+import java.io.File;
 import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
 
@@ -176,6 +180,27 @@ public class ExploradorController {
         PropiedadesArchivoController propiedades = new PropiedadesArchivoController(archivo);
       }
     });
+   
+   vista.getOpcionPropiedadesUnidad().addMouseListener(new MouseAdapter() {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        try {
+            // Obtener la primera unidad de disco (normalmente C:)
+            File[] unidades = File.listRoots();
+            if (unidades != null && unidades.length > 0) {
+                UnidadLogica unidadLogica = new UnidadLogica(unidades[0].getPath());
+                PropiedadesUnidadLogicaController propiedades = 
+                        new PropiedadesUnidadLogicaController(unidadLogica);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "No se pudo obtener las propiedades de la unidad",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    }
+});
   }
 
   public void actualizar() {

@@ -24,6 +24,7 @@ public class ExploradorForm extends JFrame {
   private final JMenuItem opcionPegarPopup;
   private final JMenuItem opcionCortarPopup;
   private final JMenuItem opcionPropiedades;
+  private final JMenuItem opcionPropiedadesUnidad;
   private final DefaultTableModel model;
   private int hoverRow = -1;
 
@@ -144,6 +145,7 @@ public class ExploradorForm extends JFrame {
     opcionPegarPopup = new JMenuItem("Pegar");
     opcionCortarPopup = new JMenuItem("Cortar");
     opcionPropiedades = new JMenuItem("Propiedades");
+    opcionPropiedadesUnidad = new JMenuItem("Propiedades de la unidad");
 
     menuOpciones.add(opcionEliminarPopup);
     menuOpciones.add(opcionRenombrarPopup);
@@ -151,6 +153,7 @@ public class ExploradorForm extends JFrame {
     menuOpciones.add(opcionPegarPopup);
     menuOpciones.add(opcionCortarPopup);
     menuOpciones.add(opcionPropiedades);
+    menuOpciones.add(opcionPropiedadesUnidad); 
 
     setVisible(true);
   }
@@ -205,6 +208,10 @@ public class ExploradorForm extends JFrame {
 
   public JMenuItem getOpcionPropiedades() {
     return opcionPropiedades;
+  }
+  
+  public JMenuItem getOpcionPropiedadesUnidad() {  
+    return opcionPropiedadesUnidad;
   }
 
   // Método para actualizar la tabla con nuevos nombres

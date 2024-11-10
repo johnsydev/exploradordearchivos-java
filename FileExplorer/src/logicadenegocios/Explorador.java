@@ -177,4 +177,8 @@ public class Explorador {
     }
     return archivoNuevo.getNombre();
   }
+
+    public Object getRuta() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
