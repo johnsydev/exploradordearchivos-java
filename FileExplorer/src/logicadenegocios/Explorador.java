@@ -20,7 +20,7 @@ public class Explorador {
   public static Explorador getInstance() {
     return instance;
   }
-  
+
   public Elemento getElemento(String pNombre) {
     for (Elemento elem : directorioActual.get()) {
       if (elem.getNombre().equals(pNombre)) {
@@ -29,15 +29,15 @@ public class Explorador {
     }
     return null;
   }
-  
+
   public void actualizar() {
     directorioActual = new Directorio(ruta);
   }
-  
+
   public ArrayList<Elemento> getListaArchivos() {
     return directorioActual.get();
   }
-  
+
   public ArrayList<String> getListaNombres() {
     ArrayList<String> nombres = new ArrayList<String>();
     for (Elemento elem : directorioActual.get()) {
@@ -64,14 +64,7 @@ public class Explorador {
     File archivoNuevo = new File(ruta + newName);
 
     if (archivoViejo.exists() && !archivoNuevo.exists()) {
-      boolean renombrado = archivoViejo.renameTo(archivoNuevo);
-      if (renombrado) {
-        JOptionPane.showMessageDialog(null, "Archivo renombrado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-      } else {
-        JOptionPane.showMessageDialog(null, "Error al renombrar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
-      }
-    } else {
-      JOptionPane.showMessageDialog(null, "El archivo no existe o ya existe un archivo con el nuevo nombre.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+      archivoViejo.renameTo(archivoNuevo);
     }
   }
 
@@ -88,7 +81,7 @@ public class Explorador {
     ruta = nuevaRuta;
     directorioActual = new Directorio(ruta);
   }
-  
+
   public boolean crearDirectorio(String pNombre) {
     File carpeta = new File(ruta + pNombre);
     if (!carpeta.exists()) {
@@ -100,7 +93,7 @@ public class Explorador {
   public void eliminarArchivoInterfaz(String nombre) {
     eliminarArchivo(ruta + nombre);
   }
-  
+
   public void eliminarArchivo(String pRuta) {
     Elemento elem = new Elemento(pRuta);
     if (elem.esArchivo()) {
@@ -112,23 +105,16 @@ public class Explorador {
     }
   }
 
-  // Método para copiar un archivo
   public void copiarArchivo(String nombreArchivo) {
     Elemento elem = new Elemento(ruta + nombreArchivo);
-    if (elem.existe()) {
-      if (elem.esArchivo()) {
-        archivoCopiado = new Archivo(ruta + nombreArchivo);
-        JOptionPane.showMessageDialog(null, "Archivo copiado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-      } else {
-        JOptionPane.showMessageDialog(null, "El archivo no existe.", "Error", JOptionPane.ERROR_MESSAGE);
-      }
+    if (elem.existe() && elem.esArchivo()) {
+      archivoCopiado = new Archivo(ruta + nombreArchivo);
     }
   }
-  
+
   // Método para pegar un archivo copiado en el directorio actual
   public void pegarArchivo(boolean esCortado) {
     if (archivoCopiado == null) {
-      JOptionPane.showMessageDialog(null, "No hay ningún archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
       return;
     }
 
@@ -136,14 +122,9 @@ public class Explorador {
 
     // Si ya existe un archivo con el mismo nombre en el directorio actual
     if (archivoPegado.existe()) {
-      // Proponer un nuevo nombre o confirmar reemplazo
-      int opcion = JOptionPane.showConfirmDialog(null, 
-              "Ya existe un archivo con el mismo nombre. ¿Deseas reemplazarlo?", 
-              "Archivo existente", JOptionPane.YES_NO_OPTION);
-
-      if (opcion == JOptionPane.NO_OPTION) {
-        archivoPegado = new Archivo(ruta + obtenerNombreDisponible(archivoPegado));
-      }
+      // Aquí puedes manejar el conflicto de nombres de otra forma, por ejemplo, solo renombrando
+      System.out.println("Ya existe un archivo con el mismo nombre. Se propondrá un nuevo nombre.");
+      archivoPegado = new Archivo(ruta + obtenerNombreDisponible(archivoPegado));
     }
 
     try {
@@ -152,9 +133,9 @@ public class Explorador {
       if (esCortado) {
         eliminarArchivo(archivoCopiado.getFile().getCanonicalPath());
       }
-      JOptionPane.showMessageDialog(null, "Archivo pegado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+      System.out.println("Archivo pegado correctamente.");
     } catch (IOException e) {
-      JOptionPane.showMessageDialog(null, "Error al pegar el archivo.", "Error", JOptionPane.ERROR_MESSAGE);
+      System.err.println("Error al pegar el archivo.");
       e.printStackTrace();
     }
   }
@@ -162,11 +143,11 @@ public class Explorador {
   // Método auxiliar para obtener un nombre de archivo disponible (archivo(1).txt, archivo(2).txt, etc.)
   private String obtenerNombreDisponible(Archivo archivo) {
     String nombreOriginal = archivo.getNombre();
-    String nombreSinExtension = nombreOriginal.contains(".") 
-            ? nombreOriginal.substring(0, nombreOriginal.lastIndexOf(".")) 
+    String nombreSinExtension = nombreOriginal.contains(".")
+            ? nombreOriginal.substring(0, nombreOriginal.lastIndexOf("."))
             : nombreOriginal;
-    String extension = nombreOriginal.contains(".") 
-            ? nombreOriginal.substring(nombreOriginal.lastIndexOf(".")) 
+    String extension = nombreOriginal.contains(".")
+            ? nombreOriginal.substring(nombreOriginal.lastIndexOf("."))
             : "";
 
     int contador = 1;
@@ -178,7 +159,7 @@ public class Explorador {
     return archivoNuevo.getNombre();
   }
 
-    public Object getRuta() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+  public Object getRuta() {
+    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  }
 }
