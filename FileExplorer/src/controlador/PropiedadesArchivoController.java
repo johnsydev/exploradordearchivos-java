@@ -26,6 +26,9 @@ public class PropiedadesArchivoController {
     vista.setExtension(modelo.getExtension());
     vista.setUbicacion(modelo.getRutaCompleta());
     vista.setTamano(modelo.getTamanoTexto());
+    vista.setFechaCreacion(modelo.getFechaCreacion());
+    vista.setUltimaModificacion(modelo.getUltimaModificacion());
+    vista.setUltimoAcceso(modelo.getUltimoAcceso());
   }
   
 }
