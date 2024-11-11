@@ -5,15 +5,18 @@
 package vista;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class PropiedadesArchivoForm extends JFrame {
@@ -23,15 +26,17 @@ public class PropiedadesArchivoForm extends JFrame {
   JTextField ubicacion;
   JTextField tamano;
   JTextField fechaCreacion;
+  JTextField fechaModificacion;
+  JTextField ultimoAcceso;
 
-  public final double TAMANO_COLUMNA_1 = 0.3;
+  public final double TAMANO_COLUMNA_1 = 0.2;
   public final double TAMANO_COLUMNA_2 = 1.2;
   private final JTextField tipo;
 
   public PropiedadesArchivoForm() {
     // Configuración de la ventana principal
     setTitle("Propiedades");
-    setSize(350, 600);
+    setSize(370, 540);
     setLayout(new BorderLayout());
     setResizable(false);
 
@@ -50,24 +55,58 @@ public class PropiedadesArchivoForm extends JFrame {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.fill = GridBagConstraints.HORIZONTAL;
 
-    // Fila 0: "Nombre"
+    Border sangria = BorderFactory.createEmptyBorder(0, 10, 0, 0); // Aumenté la sangría a 6 para mayor separación
+
     gbc.gridx = 0;
     gbc.gridy = 0;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio antes de la fila 0
+
+// Fila 0: "Nombre"
+    gbc.gridx = 0;
+    gbc.gridy = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    panel.add(new JLabel("Nombre:"), gbc);
+    JLabel lblNombre = new JLabel("Nombre:");
+    lblNombre.setBorder(sangria);
+    panel.add(lblNombre, gbc);
 
     nombre = new JTextField("");
     nombre.setEditable(false);
     nombre.setFocusable(false);
+    nombre.setBackground(Color.WHITE);
+    nombre.setBorder(BorderFactory.createEmptyBorder());    
     gbc.gridx = 1;
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(nombre, gbc);
 
-    // Fila 1: "Tipo de Archivo"
+// Espacio
     gbc.gridx = 0;
-    gbc.gridy = 1;
+    gbc.gridy = 2;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio adicional después de la línea debajo de "Nombre"
+
+// Línea separadora entre "Nombre" y "Tipo de Archivo"
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    gbc.gridwidth = 2;
+    JLabel line1 = new JLabel();
+    line1.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY));
+    panel.add(line1, gbc);
+
+// Espacio
+    gbc.gridx = 0;
+    gbc.gridy = 4;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+// Fila 1: "Tipo de Archivo"
+    gbc.gridx = 0;
+    gbc.gridy = 5;
+    gbc.gridwidth = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    panel.add(new JLabel("Tipo de Archivo:"), gbc);
+    JLabel lblTipo = new JLabel("Tipo de Archivo:");
+    lblTipo.setBorder(sangria);
+    panel.add(lblTipo, gbc);
 
     tipo = new JTextField("");
     tipo.setEditable(false);
@@ -76,19 +115,20 @@ public class PropiedadesArchivoForm extends JFrame {
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(tipo, gbc);
 
-    // Espacio entre filas
+// Espacio 
     gbc.gridx = 0;
-    gbc.gridy = 2;
-    gbc.weightx = 0;
+    gbc.gridy = 6;
     gbc.gridwidth = 2;
-    gbc.weighty = 1;
-    panel.add(Box.createVerticalStrut(20), gbc);  // Espacio entre las filas
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
 
-    // Fila 2: "Extensión"
+// Fila 2: "Extensión"
     gbc.gridx = 0;
-    gbc.gridy = 3;
+    gbc.gridy = 7;
+    gbc.gridwidth = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    panel.add(new JLabel("Extensión:"), gbc);
+    JLabel lblExtension = new JLabel("Extensión:");
+    lblExtension.setBorder(sangria);
+    panel.add(lblExtension, gbc);
 
     extension = new JTextField("");
     extension.setEditable(false);
@@ -97,11 +137,20 @@ public class PropiedadesArchivoForm extends JFrame {
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(extension, gbc);
 
-    // Fila 3: "Ubicación"
+// Espacio 
     gbc.gridx = 0;
-    gbc.gridy = 4;
+    gbc.gridy = 8;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+// Fila 3: "Ubicación"
+    gbc.gridx = 0;
+    gbc.gridy = 9;
+    gbc.gridwidth = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    panel.add(new JLabel("Ubicación:"), gbc);
+    JLabel lblUbicacion = new JLabel("Ubicación:");
+    lblUbicacion.setBorder(sangria);
+    panel.add(lblUbicacion, gbc);
 
     ubicacion = new JTextField("");
     ubicacion.setEditable(false);
@@ -110,43 +159,123 @@ public class PropiedadesArchivoForm extends JFrame {
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(ubicacion, gbc);
 
-    // Fila 4: "Tamaño"
+// Espacio
     gbc.gridx = 0;
-    gbc.gridy = 6;
+    gbc.gridy = 10;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+// Fila 4: "Tamaño"
+    gbc.gridx = 0;
+    gbc.gridy = 11;
+    gbc.gridwidth = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    panel.add(new JLabel("Tamaño:"), gbc);
+    JLabel lblTamano = new JLabel("Tamaño:");
+    lblTamano.setBorder(sangria);
+    panel.add(lblTamano, gbc);
 
     tamano = new JTextField("");
     tamano.setEditable(false);
     tamano.setFocusable(false);
+    tamano.setBackground(Color.WHITE);
+    tamano.setBorder(BorderFactory.createEmptyBorder());    
     gbc.gridx = 1;
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(tamano, gbc);
 
-    // Espacio entre filas
+// Espacio 
     gbc.gridx = 0;
-    gbc.gridy = 7;
-    gbc.weightx = 0;
+    gbc.gridy = 12;
     gbc.gridwidth = 2;
-    gbc.weighty = 1;
-    panel.add(Box.createVerticalStrut(20), gbc);  // Espacio entre las filas
+    panel.add(new JLabel(" "), gbc); // Espacio antes de la línea
 
-    // Fila 5: "Fecha de Creación"
+// Línea separadora
     gbc.gridx = 0;
-    gbc.gridy = 8;
+    gbc.gridy = 13;
+    gbc.gridwidth = 2;
+    JLabel line2 = new JLabel();
+    line2.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.LIGHT_GRAY)); // Línea gris claro
+    panel.add(line2, gbc);
+
+// Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 14;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+// Fila 5: "Fecha de Creación"
+    gbc.gridx = 0;
+    gbc.gridy = 15;
+    gbc.gridwidth = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    panel.add(new JLabel("Fecha de Creación:"), gbc);
+    JLabel lblFechaCreacion = new JLabel("Creado:");
+    lblFechaCreacion.setBorder(sangria);
+    panel.add(lblFechaCreacion, gbc);
 
     fechaCreacion = new JTextField("");
     fechaCreacion.setEditable(false);
     fechaCreacion.setFocusable(false);
+    fechaCreacion.setBackground(Color.WHITE);
+    fechaCreacion.setBorder(BorderFactory.createEmptyBorder());
     gbc.gridx = 1;
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(fechaCreacion, gbc);
 
-    add(panel, BorderLayout.NORTH);
+// Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 16;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
 
+    add(panel, BorderLayout.NORTH);
     setVisible(true);
+    
+// Fila 6: "Fecha de Modificacion"
+    gbc.gridx = 0;
+    gbc.gridy = 17;
+    gbc.gridwidth = 1;
+    gbc.weightx = TAMANO_COLUMNA_1;
+    JLabel lblFechaModificacion = new JLabel("Modificado:");
+    lblFechaModificacion.setBorder(sangria);
+    panel.add(lblFechaModificacion, gbc);
+
+    fechaModificacion = new JTextField("");
+    fechaModificacion.setEditable(false);
+    fechaModificacion.setFocusable(false);
+    fechaModificacion.setFocusable(false);
+    fechaModificacion.setBackground(Color.WHITE);
+    fechaModificacion.setBorder(BorderFactory.createEmptyBorder());
+    gbc.gridx = 1;
+    gbc.weightx = TAMANO_COLUMNA_2;
+    panel.add(fechaModificacion, gbc);
+    
+    // Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 18;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+    add(panel, BorderLayout.NORTH);
+    setVisible(true);
+    
+  // Fila 7: "Ultimo Acceso"
+    gbc.gridx = 0;
+    gbc.gridy = 19;
+    gbc.gridwidth = 1;
+    gbc.weightx = TAMANO_COLUMNA_1;
+    JLabel lblUltimoAcceso = new JLabel("Ultimo Acceso:");
+    lblUltimoAcceso.setBorder(sangria);
+    panel.add(lblUltimoAcceso, gbc);
+
+    ultimoAcceso = new JTextField("");
+    ultimoAcceso.setEditable(false);
+    ultimoAcceso.setFocusable(false);
+    ultimoAcceso.setFocusable(false);
+    ultimoAcceso.setBackground(Color.WHITE);
+    ultimoAcceso.setBorder(BorderFactory.createEmptyBorder());
+    gbc.gridx = 1;
+    gbc.weightx = TAMANO_COLUMNA_2;
+    panel.add(ultimoAcceso, gbc);
   }
 
   public void setNombre(String pNombre) {
@@ -166,6 +295,14 @@ public class PropiedadesArchivoForm extends JFrame {
   }
 
   public void setFechaCreacion(String pFechaCreacion) {
-    tamano.setText(pFechaCreacion);
+    fechaCreacion.setText(pFechaCreacion);
+  }
+
+  public void setUltimaModificacion(String pFechaModificacion) {
+    fechaModificacion.setText(pFechaModificacion);
+  }
+
+  public void setUltimoAcceso(String pUltimoAcceso) {
+    ultimoAcceso.setText(pUltimoAcceso);
   }
 }
