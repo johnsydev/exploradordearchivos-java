@@ -268,14 +268,4 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
   public void setProgresoUsado(int porcentaje) {
     //barraEspacio.setValue(porcentaje);
   }
-  
-  
-  public static void main(String[] args) {
-    UnidadLogica unidadC = new UnidadLogica("C:\\");
-    System.out.println("Espacio Total: " + unidadC.getEspacioTotal());
-    System.out.println("Espacio Libre: " + unidadC.getEspacioLibre());
-    System.out.println("Espacio Usado: " + unidadC.getEspacioUsado());
-    System.out.println("Porcentaje Usado: " + unidadC.getPorcentajeUsado() + "%");
-}
-  
 }
