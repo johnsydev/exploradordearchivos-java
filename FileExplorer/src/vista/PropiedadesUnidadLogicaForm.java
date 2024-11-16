@@ -35,6 +35,8 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
 
   public final double TAMANO_COLUMNA_1 = 0.2;
   public final double TAMANO_COLUMNA_2 = 1.2;
+  int total = 500; // Ejemplo: 500 GB
+  int usado = 300; // Ejemplo: 300 GB
 
   public PropiedadesUnidadLogicaForm() {
     // Configuración de la ventana principal
@@ -242,6 +244,10 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     panel.add(espacioTotal, gbc);
 
     add(panel, BorderLayout.NORTH);
+
+    GraficoCircular grafico = new GraficoCircular(total, usado);
+    add(grafico, BorderLayout.CENTER);
+
     setVisible(true);
   }
 
@@ -271,5 +277,21 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
 
   public void setProgresoUsado(int porcentaje) {
     //barraEspacio.setValue(porcentaje);
+  }
+
+  public static void main(String[] args) {
+    // Crear instancia del formulario
+    PropiedadesUnidadLogicaForm formulario = new PropiedadesUnidadLogicaForm();
+
+    // Establecer valores de ejemplo
+    formulario.setNombre("Unidad C");
+    formulario.setTipo("Disco Local");
+    formulario.setSistemaDeArchivos("NTFS");
+    formulario.setEspacioTotal("500 GB");
+    formulario.setEspacioUsado("300 GB");
+    formulario.setEspacioLibre("200 GB");
+
+    // Mostrar el formulario
+    formulario.setVisible(true);
   }
 }
