@@ -32,11 +32,10 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
   private final JTextField espacioLibre;
   //private final JProgressBar barraEspacio;
   private final JTextField sistemaArchivos;
+  private GraficoCircular grafico;
 
   public final double TAMANO_COLUMNA_1 = 0.2;
   public final double TAMANO_COLUMNA_2 = 1.2;
-  int total = 500; // Ejemplo: 500 GB
-  int usado = 300; // Ejemplo: 300 GB
 
   public PropiedadesUnidadLogicaForm() {
     // Configuración de la ventana principal
@@ -244,8 +243,8 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     panel.add(espacioTotal, gbc);
 
     add(panel, BorderLayout.NORTH);
-
-    GraficoCircular grafico = new GraficoCircular(total, usado);
+    
+    grafico = new GraficoCircular(1, 1);
     add(grafico, BorderLayout.CENTER);
 
     setVisible(true);
@@ -275,8 +274,8 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     espacioLibre.setText(pEspacioLibre);
   }
 
-  public void setProgresoUsado(int porcentaje) {
-    //barraEspacio.setValue(porcentaje);
+  public void setProgresoUsado(long pTotal, long pUsado) {
+    grafico.setDatos(pTotal, pUsado);
   }
 
   public static void main(String[] args) {

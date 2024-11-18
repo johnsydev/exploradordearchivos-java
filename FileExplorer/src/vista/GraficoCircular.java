@@ -7,14 +7,20 @@ import javax.swing.JPanel;
 
 public class GraficoCircular extends JPanel {
 
-  private final double espacioTotal;
-  private final double espacioUsado;
+  private long espacioTotal;
+  private long espacioUsado;
 
-  public GraficoCircular(double espacioTotal, double espacioUsado) {
+  public GraficoCircular(long espacioTotal, long espacioUsado) {
     this.espacioTotal = espacioTotal;
     this.espacioUsado = espacioUsado;
 
     setBackground(Color.WHITE);
+  }
+  
+  public void setDatos(long espacioTotal, long espacioUsado) {
+    this.espacioTotal = espacioTotal;
+    this.espacioUsado = espacioUsado;
+    repaint();
   }
 
   @Override

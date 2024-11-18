@@ -14,6 +14,7 @@ public class UnidadLogica extends Elemento {
     
     public UnidadLogica(String pRuta) {
         super(pRuta);
+        //file = new File("C:");
     }
     
     public String getEspacioTotal() {
@@ -28,16 +29,17 @@ public class UnidadLogica extends Elemento {
         return getTamanoTexto(file.getTotalSpace() - file.getFreeSpace());
     }
     
-    public int getPorcentajeUsado() {
-        long total = file.getTotalSpace();
-        long libre = file.getFreeSpace();
-        long usado = total - libre;
-        return (int)((usado * 100.0) / total);
+    public long getNumUsado() {
+        return (file.getTotalSpace() - file.getFreeSpace());
+    }
+    
+    public long getNumTotal() {
+        return file.getTotalSpace();
     }
     
     private String getTamanoTexto(long tamano) {
         String unidad = "B";
-        double tamanoProcesado = tamano;
+        long tamanoProcesado = tamano;
         
         for(int i = 1; i < 5; i++) {
             if(tamanoProcesado/1000 > 0) {
@@ -52,11 +54,14 @@ public class UnidadLogica extends Elemento {
                     case "MB":
                         unidad = "GB";
                         break;
+                    case "GB":
+                        unidad = "TB";
+                        break;
                 }
             } else {
                 break;
             }
         }
-        return String.format("%.2f %s", tamanoProcesado, unidad);
+        return String.format("%s %s", tamanoProcesado, unidad);
     }
 }

@@ -27,6 +27,10 @@ public class PropiedadesUnidadLogicaController {
         vista.setEspacioTotal(modelo.getEspacioTotal());
         vista.setEspacioUsado(modelo.getEspacioUsado());
         vista.setEspacioLibre(modelo.getEspacioLibre());
-        vista.setProgresoUsado(modelo.getPorcentajeUsado());
+        vista.setProgresoUsado(modelo.getNumTotal(), modelo.getNumUsado());
+    }
+    
+    public static void main(String[] args) {
+      new PropiedadesUnidadLogicaController(new UnidadLogica("C:"));
     }
 }

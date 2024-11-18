@@ -176,8 +176,13 @@ public class ExploradorController {
       if (filaSeleccionada >= 0) {
         String nombreArch = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
         Elemento elem = modelo.getElemento(nombreArch);
-        Archivo archivo = new Archivo(elem.getRuta());
-        PropiedadesArchivoController propiedades = new PropiedadesArchivoController(archivo);
+        if (elem.esArchivo()) {
+          Archivo archivo = new Archivo(elem.getRuta());
+          PropiedadesArchivoController propiedades = new PropiedadesArchivoController(archivo);
+        } else {
+          Directorio directorio = new Directorio(elem.getRuta());
+          PropiedadesDirectorioController propiedades = new PropiedadesDirectorioController(directorio);
+        }
       }
     });
    

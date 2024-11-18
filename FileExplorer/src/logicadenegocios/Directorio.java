@@ -16,13 +16,23 @@ public class Directorio extends Elemento {
   private ArrayList<Archivo> listaArchivos;
   private ArrayList<Directorio> listaDirectorios;
   private ArrayList<Elemento> listaElementos;
-
+  
   public Directorio(String pRuta) {
     super(pRuta);
     listaArchivos = new ArrayList<Archivo>();
     listaDirectorios = new ArrayList<Directorio>();
     listaElementos = new ArrayList<Elemento>();
     cargarDatos();
+  }
+
+  public Directorio(String pRuta, boolean generarRamas) {
+    super(pRuta);
+    listaArchivos = new ArrayList<Archivo>();
+    listaDirectorios = new ArrayList<Directorio>();
+    listaElementos = new ArrayList<Elemento>();
+    if (generarRamas) {
+      cargarDatos();
+    }
   }
 
   private void cargarDatos() {
