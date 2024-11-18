@@ -23,7 +23,7 @@ public class FileExplorer {
     Explorador modelo = Explorador.getInstance();
     ExploradorForm vista = new ExploradorForm();
     ExploradorController controlador = new ExploradorController(modelo, vista);
-    Explorador.getInstance().getListaArchivos();
+    Explorador.getInstance().getListaElementos();
     //PropiedadesArchivoForm prop = new PropiedadesArchivoForm();
   }
   

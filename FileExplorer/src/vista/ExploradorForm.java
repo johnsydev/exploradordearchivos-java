@@ -10,7 +10,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableCellRenderer;
+import logicadenegocios.Elemento;
 
 public class ExploradorForm extends JFrame {
 
@@ -50,6 +52,7 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.getTableHeader().setBackground(new Color(143, 143, 143)); // Cambia el fondo del encabezado
     tablaExplorador.getTableHeader().setForeground(Color.WHITE); // Cambia el color del texto del encabezado
     tablaExplorador.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 12)); // Cambia la fuente y el tamaño
+    
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
     tablaExplorador.getTableHeader().setReorderingAllowed(false);
@@ -215,13 +218,61 @@ public class ExploradorForm extends JFrame {
   }
 
   // Método para actualizar la tabla con nuevos nombres
-  public void actualizarTabla(ArrayList<String> nombres) {
+  public void actualizarTabla(ArrayList<Elemento> elementos) {
     limpiarTabla();
     int indice = 0;
-    for (String nombre : nombres) {
-      tablaExplorador.setValueAt(nombre, indice, 0);
+    for (Elemento elemento : elementos) {
+      tablaExplorador.setValueAt(elemento.getNombre(), indice, 0);
       indice++;
     }
+    
+     // PARA IMAGENES
+    tablaExplorador.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+          JLabel label = new JLabel();
+          label.setOpaque(true);
+
+          // Determina el fondo basado en selección, "hover" o estado por defecto
+          if (isSelected) {
+              label.setBackground(new Color(230, 227, 255)); // Fondo seleccionado
+          } else if (row == hoverRow) {
+              label.setBackground(new Color(220, 220, 255)); // Fondo "hover"
+          } else {
+              label.setBackground(new Color(244, 243, 253)); // Fondo por defecto
+          }
+
+          // Configura texto e ícono
+          if (value instanceof String) {
+              String nombre = (String) value;
+              label.setText(nombre);
+              if (row < elementos.size()) {
+                
+                /*
+                String rutaIcono = (elementos.get(row).esArchivo()) ? 
+                    "./src/imagenes/archivo.png" : 
+                    "./src/imagenes/directorio.png";
+
+                ImageIcon iconoOriginal = new ImageIcon(rutaIcono);
+                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(
+                    table.getRowHeight(), // Altura de la fila
+                    table.getRowHeight(), // Mantenerlo cuadrado
+                    Image.SCALE_SMOOTH // Suavizado para mejor calidad
+                );
+                */
+                
+                FileSystemView fsv = FileSystemView.getFileSystemView();
+                Icon iconoSistema = fsv.getSystemIcon(elementos.get(row).getFile());
+                //label.setIcon(new ImageIcon(imagenEscalada));
+                label.setIcon(iconoSistema);
+              }
+          }
+
+          label.setFont(new Font("Arial", Font.PLAIN, 16));
+          label.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+          return label;
+      }
+    });
   }
 
   // Método para habilitar la edición de una fila específica

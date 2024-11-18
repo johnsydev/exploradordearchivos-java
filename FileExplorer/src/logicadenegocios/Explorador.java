@@ -34,7 +34,7 @@ public class Explorador {
     directorioActual = new Directorio(ruta);
   }
 
-  public ArrayList<Elemento> getListaArchivos() {
+  public ArrayList<Elemento> getListaElementos() {
     return directorioActual.get();
   }
 
