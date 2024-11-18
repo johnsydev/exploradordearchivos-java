@@ -29,7 +29,6 @@ public class ExploradorForm extends JFrame {
   private final JMenuItem opcionPropiedadesUnidad;
   private final DefaultTableModel model;
   private int hoverRow = -1;
-
   private int filaSeleccionada = -1;
 
   public ExploradorForm() {
@@ -126,29 +125,57 @@ public class ExploradorForm extends JFrame {
 
     JPanel panel = new JPanel();
     panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+    
     botonVolver = new JButton("Volver");
     botonCrearDirectorio = new JButton("Crear directorio");
     botonVolver.setFocusable(false);
+    
+    ImageIcon iconoCrearDirectorio = new ImageIcon("./src/imagenes/crear_directorio.png");
     botonCrearDirectorio.setFocusable(false);
-
-    botonVolver.setBackground(new Color(237, 103, 110)); // Fondo
-    botonVolver.setForeground(new Color(255, 255, 255)); // Texto
     botonCrearDirectorio.setBackground(new Color(117, 131, 184)); // Fondo
     botonCrearDirectorio.setForeground(new Color(255, 255, 255)); // Texto
+    botonCrearDirectorio.setIcon(iconoCrearDirectorio);
+    
+    ImageIcon iconoVolver = new ImageIcon("./src/imagenes/volver.png");
+    botonVolver.setBackground(new Color(237, 103, 110)); // Fondo
+    botonVolver.setForeground(new Color(255, 255, 255)); // Texto
+    botonVolver.setIcon(iconoVolver);
 
     panel.add(botonVolver);
     panel.add(botonCrearDirectorio);
     panel.setBackground(new Color(223, 243, 228)); // Color de ARRIBA
     add(panel, BorderLayout.NORTH);
+    
+    ImageIcon iconoEliminar = new ImageIcon("./src/imagenes/eliminar.png");
+    ImageIcon iconoRenombrar = new ImageIcon("./src/imagenes/renombrar.png");
+    ImageIcon iconoCopiar = new ImageIcon("./src/imagenes/copiar.png");
+    ImageIcon iconoPegar = new ImageIcon("./src/imagenes/pegar.png");
+    ImageIcon iconoCortar = new ImageIcon("./src/imagenes/cortar.png");
+    ImageIcon iconoPropiedades = new ImageIcon("./src/imagenes/propiedades.png");
+    ImageIcon iconoPropiedadesUnidad = new ImageIcon("./src/imagenes/propiedades_unidad.png");
+
 
     menuOpciones = new JPopupMenu();
     opcionEliminarPopup = new JMenuItem("Eliminar");
+    opcionEliminarPopup.setIcon(iconoEliminar);
+    
     opcionRenombrarPopup = new JMenuItem("Cambiar nombre");
+    opcionRenombrarPopup.setIcon(iconoRenombrar);
+    
     opcionCopiarPopup = new JMenuItem("Copiar");
+    opcionCopiarPopup.setIcon(iconoCopiar);
+    
     opcionPegarPopup = new JMenuItem("Pegar");
+    opcionPegarPopup.setIcon(iconoPegar);
+    
     opcionCortarPopup = new JMenuItem("Cortar");
+    opcionCortarPopup.setIcon(iconoCortar);
+    
     opcionPropiedades = new JMenuItem("Propiedades");
+    opcionPropiedades.setIcon(iconoPropiedades);
+    
     opcionPropiedadesUnidad = new JMenuItem("Propiedades de la unidad");
+    opcionPropiedadesUnidad.setIcon(iconoPropiedadesUnidad);
 
     menuOpciones.add(opcionEliminarPopup);
     menuOpciones.add(opcionRenombrarPopup);
@@ -192,7 +219,7 @@ public class ExploradorForm extends JFrame {
 
   // Método para limpiar la tabla
   public void limpiarTabla() {
-    for (int i = 0; i < 30; i++) {
+    for (int i = 0; i < model.getRowCount(); i++) {
       tablaExplorador.setValueAt("", i, 0);
     }
   }
@@ -219,6 +246,7 @@ public class ExploradorForm extends JFrame {
 
   // Método para actualizar la tabla con nuevos nombres
   public void actualizarTabla(ArrayList<Elemento> elementos) {
+    model.setRowCount(elementos.size());
     limpiarTabla();
     int indice = 0;
     for (Elemento elemento : elementos) {

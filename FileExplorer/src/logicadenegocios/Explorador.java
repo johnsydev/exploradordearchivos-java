@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
-  private String ruta = ".\\";
+  private String ruta = "C:\\";
   private Archivo archivoCopiado; // Variable temporal para almacenar el archivo copiado
   private Directorio directorioActual = new Directorio(ruta);
 

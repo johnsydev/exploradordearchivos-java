@@ -17,6 +17,8 @@ public class Directorio extends Elemento {
   private ArrayList<Directorio> listaDirectorios;
   private ArrayList<Elemento> listaElementos;
   
+  public enum ORDENAR_POR {NOMBRE, TAMANO};
+  
   public Directorio(String pRuta) {
     super(pRuta);
     listaArchivos = new ArrayList<Archivo>();
@@ -34,8 +36,16 @@ public class Directorio extends Elemento {
       cargarDatos();
     }
   }
+  
+  public void ordenar(ORDENAR_POR criterio) {
+    if (criterio.equals(ORDENAR_POR.NOMBRE)) {
+      listaElementos.clear();
+      cargarDatos();
+    }
+  }
 
   private void cargarDatos() {
+    ArrayList<Elemento> archivosTemporal = new ArrayList<Elemento>();
     for (File file : file.listFiles()) {
       String rutaArchivo = ruta + "\\" + file.getName();
       
@@ -43,12 +53,13 @@ public class Directorio extends Elemento {
       
       if (elemento.esArchivo()) {
         listaArchivos.add(new Archivo(rutaArchivo));
+        archivosTemporal.add(elemento);
       } else {
-        listaDirectorios.add(new Directorio(rutaArchivo));
+        listaDirectorios.add(new Directorio(rutaArchivo, false));
+        listaElementos.add(elemento);
       }
-
-      listaElementos.add(elemento);
     }
+    listaElementos.addAll(archivosTemporal);
   }
   
   public ArrayList<Archivo> getArchivos() {
