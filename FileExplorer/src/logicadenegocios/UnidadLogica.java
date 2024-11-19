@@ -5,62 +5,105 @@
 package logicadenegocios;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  *
  * @author Keyne
  */
 public class UnidadLogica extends Elemento {
-    
-    public UnidadLogica(String pRuta) {
-        super(pRuta);
-    }
-    
-    public String getEspacioTotal() {
-        return getTamanoTexto(file.getTotalSpace());
-    }
-    
-    public String getEspacioLibre() {
-        return getTamanoTexto(file.getFreeSpace());
-    }
-    
-    public String getEspacioUsado() {
-        return getTamanoTexto(file.getTotalSpace() - file.getFreeSpace());
-    }
-    
-    public long getNumUsado() {
-        return (file.getTotalSpace() - file.getFreeSpace());
-    }
-    
-    public long getNumTotal() {
-        return file.getTotalSpace();
-    }
-    
-    private String getTamanoTexto(long tamano) {
-        String unidad = "B";
-        long tamanoProcesado = tamano;
-        
-        for(int i = 1; i < 5; i++) {
-            if(tamanoProcesado/1000 > 0) {
-                tamanoProcesado = tamanoProcesado/1000;
-                switch(unidad) {
-                    case "B":
-                        unidad = "KB";
-                        break;
-                    case "KB":
-                        unidad = "MB";
-                        break;
-                    case "MB":
-                        unidad = "GB";
-                        break;
-                    case "GB":
-                        unidad = "TB";
-                        break;
-                }
-            } else {
-                break;
-            }
+
+  public UnidadLogica(String pRuta) {
+    super(pRuta);
+  }
+
+public String getNombre() {
+    try {
+        // Para Windows, la ruta inicial (como "C:\") puede ser el nombre
+        String absolutePath = file.getAbsolutePath();
+        if (absolutePath.length() > 2 && absolutePath.charAt(1) == ':') {
+            return absolutePath.substring(0, 2); // Devuelve "C:", "D:", etc.
+        } else {
+            return absolutePath; // Para otros sistemas, devolver la ruta base
         }
-        return String.format("%s %s", tamanoProcesado, unidad);
+    } catch (Exception e) {
+        return "Error al obtener el nombre";
     }
+}
+
+  public String getTipo() {
+    try {
+      java.nio.file.FileStore fileStore = java.nio.file.Files.getFileStore(file.toPath());
+
+      // Intentar identificar el tipo de unidad lógica
+      if (fileStore.type().equalsIgnoreCase("NTFS") || fileStore.type().equalsIgnoreCase("FAT32")) {
+        return "Disco Local";
+      } else if (fileStore.type().equalsIgnoreCase("exFAT") || fileStore.type().toLowerCase().contains("removable")) {
+        return "Unidad Extraíble";
+      } else if (fileStore.type().toLowerCase().contains("network")) {
+        return "Unidad de Red";
+      } else {
+        return "Tipo Desconocido";
+      }
+    } catch (IOException e) {
+      return "Error al determinar el tipo";
+    }
+  }
+
+  public String getSistemaArchivos() {
+    try {
+      java.nio.file.FileStore fileStore = java.nio.file.Files.getFileStore(file.toPath());
+      return fileStore.type(); // Ejemplo: NTFS, FAT32, etc.
+    } catch (IOException e) {
+      return "Desconocido";
+    }
+  }
+
+  public String getEspacioTotal() {
+    return getTamanoTexto(file.getTotalSpace());
+  }
+
+  public String getEspacioLibre() {
+    return getTamanoTexto(file.getFreeSpace());
+  }
+
+  public String getEspacioUsado() {
+    return getTamanoTexto(file.getTotalSpace() - file.getFreeSpace());
+  }
+
+  public long getNumUsado() {
+    return (file.getTotalSpace() - file.getFreeSpace());
+  }
+
+  public long getNumTotal() {
+    return file.getTotalSpace();
+  }
+
+  private String getTamanoTexto(long tamano) {
+    String unidad = "B";
+    long tamanoProcesado = tamano;
+
+    for (int i = 1; i < 5; i++) {
+      if (tamanoProcesado / 1000 > 0) {
+        tamanoProcesado = tamanoProcesado / 1000;
+        switch (unidad) {
+          case "B":
+            unidad = "KB";
+            break;
+          case "KB":
+            unidad = "MB";
+            break;
+          case "MB":
+            unidad = "GB";
+            break;
+          case "GB":
+            unidad = "TB";
+            break;
+        }
+      } else {
+        break;
+      }
+    }
+    return String.format("%s %s", tamanoProcesado, unidad);
+  }
 }
