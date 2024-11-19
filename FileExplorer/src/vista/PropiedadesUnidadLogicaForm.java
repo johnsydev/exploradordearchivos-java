@@ -34,8 +34,8 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
   private final JTextField sistemaArchivos;
   private GraficoCircular grafico;
 
-  public final double TAMANO_COLUMNA_1 = 0.2;
-  public final double TAMANO_COLUMNA_2 = 1.2;
+  public final double TAMANO_COLUMNA_1 = 0.4;
+  public final double TAMANO_COLUMNA_2 = 1.2  ;
 
   public PropiedadesUnidadLogicaForm() {
     // Configuración de la ventana principal
