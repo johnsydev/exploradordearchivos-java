@@ -60,8 +60,12 @@ public class ExploradorController {
           if (timeDifference <= 500) { // Si el tiempo entre clics es menor a 500 ms, es un doble clic
             // Ejecuta la acción para ingresar a la carpeta (entrar al directorio)
             System.out.println("Doble clic: " + tablaExplorador.getValueAt(filaSeleccionada, 0));
-            modelo.entrarDirectorio(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
-            actualizar();
+            boolean estado = modelo.entrarDirectorio(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
+            if(estado) {
+              actualizar();
+            } else {
+              vista.mostrarMensajeError("Error de acceso", "No es posible acceder a esta carpeta.");
+            }
           } else {
             // Es un solo clic, solo selecciona la fila
             System.out.println("Clic único: " + tablaExplorador.getValueAt(filaSeleccionada, 0));
@@ -99,8 +103,8 @@ public class ExploradorController {
     vista.getOpcionEliminarPopup().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
-        modelo.eliminarArchivoInterfaz(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
-        actualizar();
+        modelo.eliminarElementoInterfaz(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
+        actualizar();    
       }
     });
     

@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 import logicadenegocios.Elemento;
 
 public class ExploradorForm extends JFrame {
@@ -49,9 +50,11 @@ public class ExploradorForm extends JFrame {
     };
 
     tablaExplorador = new JTable(model);
-    tablaExplorador.getTableHeader().setBackground(new Color(143, 143, 143)); // Cambia el fondo del encabezado
-    tablaExplorador.getTableHeader().setForeground(Color.WHITE); // Cambia el color del texto del encabezado
-    tablaExplorador.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 12)); // Cambia la fuente y el tamaño
+    JTableHeader header = tablaExplorador.getTableHeader();
+    header.setBackground(new Color(143, 143, 143)); // Cambia el fondo del encabezado
+    header.setForeground(Color.WHITE); // Cambia el color del texto del encabezado
+    header.setFont(new Font("Arial", Font.PLAIN, 12)); // Cambia la fuente y el tamaño
+    header.setPreferredSize(new Dimension(header.getWidth(), 30));
     
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
@@ -97,9 +100,15 @@ public class ExploradorForm extends JFrame {
                 // Solo redibuja las filas que cambiaron
                 if (oldHoverRow != -1) {
                     tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 0, true));
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 1, true));
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 2, true));
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 3, true));
                 }
                 if (hoverRow != -1) {
                     tablaExplorador.repaint(tablaExplorador.getCellRect(hoverRow, 0, true));
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(hoverRow, 1, true));
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(hoverRow, 2, true));
+                    tablaExplorador.repaint(tablaExplorador.getCellRect(hoverRow, 3, true));
                 }
             }
         }
@@ -113,6 +122,9 @@ public class ExploradorForm extends JFrame {
                 int oldHoverRow = hoverRow;
                 hoverRow = -1;
                 tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 0, true));
+                tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 1, true));
+                tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 2, true));
+                tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 3, true));
             }
         }
     });
@@ -271,14 +283,7 @@ public class ExploradorForm extends JFrame {
   public void actualizarTabla(ArrayList<Elemento> elementos) {
     model.setRowCount(elementos.size());
     limpiarTabla();
-    int indice = 0;
-    for (Elemento elemento : elementos) {
-      tablaExplorador.setValueAt(elemento.getNombre(), indice, 0);
-      tablaExplorador.setValueAt(elemento.getFechaCreacion(), indice, 1);
-      tablaExplorador.setValueAt(elemento.getTipo(), indice, 2);
-      tablaExplorador.setValueAt(elemento.getTamanoSimpleTexto(), indice, 3);
-      indice++;
-    }
+    
     
      // PARA IMAGENES
     tablaExplorador.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer() {
@@ -327,6 +332,19 @@ public class ExploradorForm extends JFrame {
           return label;
       }
     });
+    tablaExplorador.clearSelection();
+    int indice = 0;
+    for (Elemento elemento : elementos) {
+      tablaExplorador.setValueAt(elemento.getNombre(), indice, 0);
+      tablaExplorador.setValueAt(elemento.getFechaCreacion(), indice, 1);
+      tablaExplorador.setValueAt(elemento.getTipo(), indice, 2);
+      if (elemento.esArchivo()) {
+        tablaExplorador.setValueAt(elemento.getTamanoSimpleTexto(), indice, 3);
+      } else {
+        tablaExplorador.setValueAt("", indice, 3);
+      }
+      indice++;
+    }
   }
 
   // Método para habilitar la edición de una fila específica
@@ -347,6 +365,10 @@ public class ExploradorForm extends JFrame {
     filaSeleccionada = -1;
   }
   
+  public void mostrarMensajeError(String titulo, String texto) {
+    JOptionPane.showMessageDialog(this, texto, titulo, JOptionPane.ERROR_MESSAGE);
+  }
+          
   private void clearHover() {
     if (hoverRow != -1) {
         int oldHoverRow = hoverRow;

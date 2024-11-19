@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
-  private String ruta = "C:\\";
+  private String ruta = ".\\";
   private Archivo archivoCopiado; // Variable temporal para almacenar el archivo copiado
   private Directorio directorioActual = new Directorio(ruta);
 
@@ -46,17 +46,24 @@ public class Explorador {
     return nombres;
   }
 
-  public void entrarDirectorio(String src) {
+  public boolean entrarDirectorio(String src) {
     if (new File(ruta + src).isFile()) {
       try {
         Runtime.getRuntime().exec("cmd /c start \"\" \"" + ruta + src);
-        return;
+        return true;
       } catch (IOException e) {
-        e.printStackTrace();
+        return false;
       }
     }
+    String rutaAntigua = ruta;
     ruta += src + "\\";
-    directorioActual = new Directorio(ruta);
+    try {
+      directorioActual = new Directorio(ruta);
+    } catch(Exception e) {
+      ruta = rutaAntigua;
+      return false;
+    }
+    return true;
   }
 
   public void renombrarArchivo(String oldName, String newName) {
@@ -90,11 +97,11 @@ public class Explorador {
     return false;
   }
 
-  public void eliminarArchivoInterfaz(String nombre) {
-    eliminarArchivo(ruta + nombre);
+  public void eliminarElementoInterfaz(String nombre) {
+    eliminarElemento(ruta + nombre);
   }
 
-  public void eliminarArchivo(String pRuta) {
+  public void eliminarElemento(String pRuta) {
     Elemento elem = new Elemento(pRuta);
     if (elem.esArchivo()) {
       Archivo a = new Archivo(pRuta);
@@ -131,7 +138,7 @@ public class Explorador {
       System.out.println("ARCHIVO CORTADO " + archivoCopiado.getFile().getCanonicalPath());
       Files.copy(archivoCopiado.getFile().toPath(), archivoPegado.getFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
       if (esCortado) {
-        eliminarArchivo(archivoCopiado.getFile().getCanonicalPath());
+        eliminarElemento(archivoCopiado.getFile().getCanonicalPath());
       }
       System.out.println("Archivo pegado correctamente.");
     } catch (IOException e) {
