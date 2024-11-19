@@ -58,7 +58,7 @@ public class Explorador {
     ruta += src + "\\";
     try {
       directorioActual = new Directorio(ruta);
-    } catch(Exception e) {
+    } catch (Exception e) {
       ruta = rutaAntigua;
       return false;
     }
@@ -89,6 +89,12 @@ public class Explorador {
   }
 
   public boolean crearDirectorio(String pNombre) {
+    if (pNombre.length() > 64) {
+      return false;
+    }
+    if (!pNombre.matches("[a-zA-Z0-9_-]+")) {
+      return false;
+    }
     File carpeta = new File(ruta + pNombre);
     if (!carpeta.exists()) {
       return carpeta.mkdirs();
