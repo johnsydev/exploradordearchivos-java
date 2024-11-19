@@ -116,6 +116,8 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     tipo = new JTextField("");
     tipo.setEditable(false);
     tipo.setFocusable(false);
+    tipo.setBackground(Color.WHITE);
+    tipo.setBorder(BorderFactory.createEmptyBorder());
     gbc.gridx = 1;
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(tipo, gbc);
@@ -131,13 +133,15 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     gbc.gridy = 7;
     gbc.gridwidth = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    JLabel lblExtension = new JLabel("Sistema de archivos:");
+    JLabel lblExtension = new JLabel("Sistema de archivos:  ");
     lblExtension.setBorder(sangria);
     panel.add(lblExtension, gbc);
 
     sistemaArchivos = new JTextField("");
     sistemaArchivos.setEditable(false);
     sistemaArchivos.setFocusable(false);
+    sistemaArchivos.setBackground(Color.WHITE);
+    sistemaArchivos.setBorder(BorderFactory.createEmptyBorder());
     gbc.gridx = 1;
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(sistemaArchivos, gbc);

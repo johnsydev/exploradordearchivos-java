@@ -16,6 +16,7 @@ import logicadenegocios.Elemento;
 import logicadenegocios.Explorador;
 import logicadenegocios.UnidadLogica;
 import java.io.File;
+import java.io.IOException;
 import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
 
@@ -25,9 +26,10 @@ public class ExploradorController {
   private ExploradorForm vista;
   private long lastClickTime = 0;
   private String archivoCopiado;
+  
   private boolean esCortado;
 
-  public ExploradorController(Explorador pModelo, ExploradorForm pVista) {
+  public ExploradorController(Explorador pModelo, ExploradorForm pVista) throws IOException {
     modelo = pModelo;
     vista = pVista;
     agregarListeners();
@@ -160,27 +162,42 @@ public class ExploradorController {
     vista.getOpcionCopiarPopup().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
-        esCortado = false;
-        archivoCopiado = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
-        modelo.copiarArchivo(archivoCopiado);
+        try {
+          esCortado = false;
+          String rutaElemento = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
+
+          Elemento elem = new Elemento(modelo.getRuta() + "\\" + rutaElemento);
+          if (elem.esArchivo()) {
+            archivoCopiado = rutaElemento;
+            modelo.copiarArchivo(rutaElemento);
+          } else {
+            archivoCopiado = rutaElemento;
+            modelo.copiarDirectorio(rutaElemento);
+          }
+        } catch(Exception exc) {}
       }
     });
 
     vista.getOpcionCortarPopup().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
-        esCortado = true;
-        archivoCopiado = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
-        modelo.copiarArchivo(archivoCopiado);
+        try {
+          esCortado = true;
+          archivoCopiado = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
+          modelo.copiarArchivo(archivoCopiado);
+        } catch(Exception exc) {}
       }
     });
 
     // Acción de 'Pegar archivo' desde el menú contextual
     vista.getOpcionPegarPopup().addActionListener(e -> {
       if (archivoCopiado != null) {
-        modelo.pegarArchivo(esCortado);
-        esCortado = false;
-        actualizar();
+        try {
+          modelo.pegar(esCortado);
+          esCortado = false;
+          actualizar();
+        } catch(Exception exc) {
+        }
       } else {
         JOptionPane.showMessageDialog(null, "No hay archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
       }

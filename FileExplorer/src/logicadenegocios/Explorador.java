@@ -9,8 +9,9 @@ import java.util.ArrayList;
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
-  private String ruta = "C:\\";
+  private String ruta = ".\\";
   private Archivo archivoCopiado; // Variable temporal para almacenar el archivo copiado
+  private Directorio directorioCopiado;
   private Directorio directorioActual = new Directorio(ruta);
 
   private Explorador() {
@@ -35,6 +36,10 @@ public class Explorador {
 
   public ArrayList<Elemento> getListaElementos() {
     return directorioActual.get();
+  }
+  
+  public String getRuta() {
+    return ruta;
   }
 
   public ArrayList<String> getListaNombres() {
@@ -87,6 +92,8 @@ public class Explorador {
     ruta = nuevaRuta;
     directorioActual = new Directorio(ruta);
   }
+  
+  
 
   public boolean crearDirectorio(String pNombre) {
     if (pNombre.length() > 64) {
@@ -121,34 +128,51 @@ public class Explorador {
     Elemento elem = new Elemento(ruta + nombreArchivo);
     if (elem.existe() && elem.esArchivo()) {
       archivoCopiado = new Archivo(ruta + nombreArchivo);
+      directorioCopiado = null;
+    }
+  }
+  
+  public void copiarDirectorio(String pNombreDirectorio) {
+    Elemento elem = new Elemento(ruta + pNombreDirectorio);
+    if (elem.existe() && !elem.esArchivo()) {
+      directorioCopiado = new Directorio(ruta + pNombreDirectorio, true, true);
+      archivoCopiado = null;
     }
   }
 
   // Método para pegar un archivo copiado en el directorio actual
-  public void pegarArchivo(boolean esCortado) {
-    if (archivoCopiado == null) {
-      return;
-    }
+  public void pegar(boolean esCortado) {
+    System.out.println("soy pegar estoy sirviendo" + archivoCopiado + directorioCopiado);
+    if (archivoCopiado != null && directorioCopiado == null) {
+      Archivo archivoPegado = new Archivo(ruta + archivoCopiado.getNombre());
 
-    Archivo archivoPegado = new Archivo(ruta + archivoCopiado.getNombre());
-
-    // Si ya existe un archivo con el mismo nombre en el directorio actual
-    if (archivoPegado.existe()) {
-      // Aquí puedes manejar el conflicto de nombres de otra forma, por ejemplo, solo renombrando
-      System.out.println("Ya existe un archivo con el mismo nombre. Se propondrá un nuevo nombre.");
-      archivoPegado = new Archivo(ruta + obtenerNombreDisponible(archivoPegado));
-    }
-
-    try {
-      System.out.println("ARCHIVO CORTADO " + archivoCopiado.getFile().getCanonicalPath());
-      Files.copy(archivoCopiado.getFile().toPath(), archivoPegado.getFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-      if (esCortado) {
-        eliminarElemento(archivoCopiado.getFile().getCanonicalPath());
+      // Si ya existe un archivo con el mismo nombre en el directorio actual
+      if (archivoPegado.existe()) {
+        // Aquí puedes manejar el conflicto de nombres de otra forma, por ejemplo, solo renombrando
+        System.out.println("Ya existe un archivo con el mismo nombre. Se propondrá un nuevo nombre.");
+        archivoPegado = new Archivo(ruta + obtenerNombreDisponible(archivoPegado));
       }
-      System.out.println("Archivo pegado correctamente.");
-    } catch (IOException e) {
-      System.err.println("Error al pegar el archivo.");
-      e.printStackTrace();
+
+      try {
+        System.out.println("ARCHIVO CORTADO " + archivoCopiado.getFile().getCanonicalPath());
+        Files.copy(archivoCopiado.getFile().toPath(), archivoPegado.getFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+        if (esCortado) {
+          eliminarElemento(archivoCopiado.getFile().getCanonicalPath());
+        }
+        System.out.println("Archivo pegado correctamente.");
+      } catch (IOException e) {
+        System.err.println("Error al pegar el archivo.");
+        e.printStackTrace();
+      }
+    } else if (archivoCopiado == null && directorioCopiado != null) {
+      System.out.println("entrando");
+      try {
+        directorioActual.pegar(directorioCopiado);
+      } catch(Exception exc) {
+        exc.printStackTrace();
+      }
+    } else {
+      //no hay nada copiado
     }
   }
 
@@ -169,9 +193,5 @@ public class Explorador {
       contador++;
     }
     return archivoNuevo.getNombre();
-  }
-
-  public Object getRuta() {
-    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
   }
 }

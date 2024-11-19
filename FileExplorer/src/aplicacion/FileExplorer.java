@@ -5,6 +5,7 @@
 package aplicacion;
 
 import controlador.ExploradorController;
+import java.io.IOException;
 import logicadenegocios.Explorador;
 import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
@@ -18,7 +19,7 @@ public class FileExplorer {
   /**
    * @param args the command line arguments
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     // TODO code application logic here
     Explorador modelo = Explorador.getInstance();
     ExploradorForm vista = new ExploradorForm();

@@ -5,6 +5,8 @@
 package logicadenegocios;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,8 @@ public class Directorio extends Elemento {
   private ArrayList<Archivo> listaArchivos;
   private ArrayList<Directorio> listaDirectorios;
   private ArrayList<Elemento> listaElementos;
+  
+  private String rutaPegandoInicial;
   
   public enum ORDENAR_POR {NOMBRE, TAMANO};
   
@@ -99,5 +103,25 @@ public class Directorio extends Elemento {
   
   public ArrayList<Elemento> getElementos() {
     return listaElementos;
+  }
+  
+  
+  public void pegar(Directorio pDirectorioOrigen) {
+    try {
+      rutaPegandoInicial = ruta + "\\" + pDirectorioOrigen.getNombre() + "\\";
+      String rutaPegando = rutaPegandoInicial;
+      Directorio dir = new Directorio(rutaPegandoInicial, false, false);
+      dir.getFile().mkdirs();
+      for (Directorio directorio : pDirectorioOrigen.getDirectorios()) {
+        //Directorio subDirectorio = new Directorio(ruta + "\\" + directorio.getNombre(), false, false);
+        Directorio subDirectorio = new Directorio(rutaPegandoInicial + "\\" + directorio.getNombre(), false, false);
+        subDirectorio.pegar(directorio);
+      }
+      for (Archivo archivo : pDirectorioOrigen.getArchivos()) {
+        archivo.pegar(rutaPegando);
+      }
+    } catch(Exception exc) {
+      exc.printStackTrace();
+    }
   }
 }
