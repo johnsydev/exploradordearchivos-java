@@ -167,7 +167,7 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     gbc.gridy = 11;
     gbc.gridwidth = 1;
     gbc.weightx = TAMANO_COLUMNA_1;
-    JLabel lblFechaCreacion = new JLabel("Estado Usado:");
+    JLabel lblFechaCreacion = new JLabel("Espacio Usado:");
     lblFechaCreacion.setBorder(sangria);
     panel.add(lblFechaCreacion, gbc);
 
@@ -274,23 +274,8 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     espacioLibre.setText(pEspacioLibre);
   }
 
-  public void setProgresoUsado(long pTotal, long pUsado) {
+  public void setProgresoUsado(double pTotal, double pUsado) {
     grafico.setDatos(pTotal, pUsado);
   }
-
-  public static void main(String[] args) {
-    // Crear instancia del formulario
-    PropiedadesUnidadLogicaForm formulario = new PropiedadesUnidadLogicaForm();
-
-    // Establecer valores de ejemplo
-    formulario.setNombre("Unidad C");
-    formulario.setTipo("Disco Local");
-    formulario.setSistemaDeArchivos("NTFS");
-    formulario.setEspacioTotal("500 GB");
-    formulario.setEspacioUsado("300 GB");
-    formulario.setEspacioLibre("200 GB");
-
-    // Mostrar el formulario
-    formulario.setVisible(true);
-  }
+  
 }
