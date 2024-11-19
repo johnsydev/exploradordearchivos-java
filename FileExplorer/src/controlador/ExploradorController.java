@@ -121,7 +121,7 @@ public class ExploradorController {
           public void editingStopped(ChangeEvent e) {
             vista.getTabla().getCellEditor().removeCellEditorListener(this);
             
-            String viejoNombre = modelo.getListaElementos().get(filaSeleccionada-1).getNombre();
+            String viejoNombre = modelo.getListaElementos().get(filaSeleccionada).getNombre();
             String nuevoNombre = vista.getTabla().getCellEditor().getCellEditorValue().toString();
             
             System.out.println(viejoNombre);
@@ -132,6 +132,7 @@ public class ExploradorController {
             //vista.getTabla().getCellEditor().stopCellEditing();
             
             vista.deshabilitarEdicion(); // Deshabilita la edición una vez terminada
+            modelo.actualizar();
             vista.actualizarTabla(modelo.getListaElementos()); // Actualiza la vista con los nuevos nombres
             
           }
@@ -190,11 +191,10 @@ public class ExploradorController {
       }
     });
    
-   vista.getOpcionPropiedadesUnidad().addMouseListener(new MouseAdapter() {
-    @Override
-    public void mouseClicked(MouseEvent e) {
+   vista.getOpcionPropiedadesUnidad().addActionListener(e -> {
+      
         try {
-            // Obtener la primera unidad de disco (normalmente C:)
+            // Obtener la primera unidad de disco (normalmente C:)r la primera unidad de disco (normalmente C:)
             File[] unidades = File.listRoots();
             if (unidades != null && unidades.length > 0) {
                 UnidadLogica unidadLogica = new UnidadLogica(unidades[0].getPath());
@@ -206,10 +206,10 @@ public class ExploradorController {
                     "No se pudo obtener las propiedades de la unidad",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
         }
-    }
-});
+    
+    });
+   
   }
 
   public void actualizar() {

@@ -24,27 +24,27 @@ public class Directorio extends Elemento {
     listaArchivos = new ArrayList<Archivo>();
     listaDirectorios = new ArrayList<Directorio>();
     listaElementos = new ArrayList<Elemento>();
-    cargarDatos();
+    cargarDatos(false);
   }
 
-  public Directorio(String pRuta, boolean generarRamas) {
+  public Directorio(String pRuta, boolean generarRamas, boolean generarTodas) {
     super(pRuta);
     listaArchivos = new ArrayList<Archivo>();
     listaDirectorios = new ArrayList<Directorio>();
     listaElementos = new ArrayList<Elemento>();
     if (generarRamas) {
-      cargarDatos();
+      cargarDatos(generarTodas);
     }
   }
   
   public void ordenar(ORDENAR_POR criterio) {
     if (criterio.equals(ORDENAR_POR.NOMBRE)) {
       listaElementos.clear();
-      cargarDatos();
+      cargarDatos(false);
     }
   }
 
-  private void cargarDatos() {
+  private void cargarDatos(boolean pGenerarTodo) {
     ArrayList<Elemento> archivosTemporal = new ArrayList<Elemento>();
     for (File file : file.listFiles()) {
       String rutaArchivo = ruta + "\\" + file.getName();
@@ -55,7 +55,7 @@ public class Directorio extends Elemento {
         listaArchivos.add(new Archivo(rutaArchivo));
         archivosTemporal.add(elemento);
       } else {
-        listaDirectorios.add(new Directorio(rutaArchivo, false));
+        listaDirectorios.add(new Directorio(rutaArchivo, pGenerarTodo, pGenerarTodo));
         listaElementos.add(elemento);
       }
     }

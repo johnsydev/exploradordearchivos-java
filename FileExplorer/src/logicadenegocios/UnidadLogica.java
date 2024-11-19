@@ -14,7 +14,6 @@ public class UnidadLogica extends Elemento {
     
     public UnidadLogica(String pRuta) {
         super(pRuta);
-        //file = new File("C:");
     }
     
     public String getEspacioTotal() {

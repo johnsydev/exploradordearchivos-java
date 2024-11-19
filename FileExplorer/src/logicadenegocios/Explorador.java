@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
-  private String ruta = ".\\";
+  private String ruta = "C:\\";
   private Archivo archivoCopiado; // Variable temporal para almacenar el archivo copiado
   private Directorio directorioActual = new Directorio(ruta);
 
@@ -107,8 +106,8 @@ public class Explorador {
       Archivo a = new Archivo(pRuta);
       a.eliminar();
     } else {
-      Directorio d = new Directorio(pRuta);
-      d.eliminar();
+      Directorio d = new Directorio(pRuta, true, true);
+      boolean estado = d.eliminar();
     }
   }
 

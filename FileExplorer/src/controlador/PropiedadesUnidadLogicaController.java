@@ -30,7 +30,4 @@ public class PropiedadesUnidadLogicaController {
         vista.setProgresoUsado(modelo.getNumTotal(), modelo.getNumUsado());
     }
     
-    public static void main(String[] args) {
-      new PropiedadesUnidadLogicaController(new UnidadLogica("C:"));
-    }
 }
