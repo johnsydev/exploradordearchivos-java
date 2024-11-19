@@ -17,19 +17,19 @@ public class UnidadLogica extends Elemento {
     super(pRuta);
   }
 
-public String getNombre() {
+  public String getNombre() {
     try {
-        // Para Windows, la ruta inicial (como "C:\") puede ser el nombre
-        String absolutePath = file.getAbsolutePath();
-        if (absolutePath.length() > 2 && absolutePath.charAt(1) == ':') {
-            return absolutePath.substring(0, 2); // Devuelve "C:", "D:", etc.
-        } else {
-            return absolutePath; // Para otros sistemas, devolver la ruta base
-        }
+      // Para Windows, la ruta inicial (como "C:\") puede ser el nombre
+      String absolutePath = file.getAbsolutePath();
+      if (absolutePath.length() > 2 && absolutePath.charAt(1) == ':') {
+        return absolutePath.substring(0, 2); // Devuelve "C:", "D:", etc.
+      } else {
+        return absolutePath; // Para otros sistemas, devolver la ruta base
+      }
     } catch (Exception e) {
-        return "Error al obtener el nombre";
+      return "Error al obtener el nombre";
     }
-}
+  }
 
   public String getTipo() {
     try {
@@ -81,11 +81,12 @@ public String getNombre() {
 
   private String getTamanoTexto(long tamano) {
     String unidad = "B";
+    long tamanoOriginal = tamano;
     long tamanoProcesado = tamano;
 
     for (int i = 1; i < 5; i++) {
-      if (tamanoProcesado / 1000 > 0) {
-        tamanoProcesado = tamanoProcesado / 1000;
+      if (tamanoProcesado / 1024 > 0) {
+        tamanoProcesado = tamanoProcesado / 1024;
         switch (unidad) {
           case "B":
             unidad = "KB";
@@ -104,6 +105,6 @@ public String getNombre() {
         break;
       }
     }
-    return String.format("%s %s", tamanoProcesado, unidad);
+    return String.format("%,d bytes        %.0f %s ", tamanoOriginal, (double) tamanoProcesado, unidad);
   }
 }
