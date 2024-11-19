@@ -19,6 +19,7 @@ public class ExploradorForm extends JFrame {
   private final JTable tablaExplorador;
   private final JButton botonVolver;
   private final JButton botonCrearDirectorio;
+  private final JComboBox comboboxOrdenamiento;
   private final JPopupMenu menuOpciones;
   private final JMenuItem opcionEliminarPopup;
   private final JMenuItem opcionRenombrarPopup;
@@ -40,7 +41,7 @@ public class ExploradorForm extends JFrame {
     getContentPane().setBackground(new Color(173, 216, 230));
 
     // Inicializar el modelo, solo se puede editar la fila seleccionada
-    model = new DefaultTableModel(new Object[]{"Nombre", "Fecha", "Tipo", "Tamaño"}, 30) {
+    model = new DefaultTableModel(new Object[]{"Nombre", "Fecha creación", "Tipo", "Tamaño"}, 30) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return row == filaSeleccionada;
@@ -55,8 +56,9 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.setFont(new Font("Arial", Font.PLAIN, 16));
     tablaExplorador.setRowHeight(40);
     tablaExplorador.getTableHeader().setReorderingAllowed(false);
-    tablaExplorador.getColumnModel().getColumn(0).setPreferredWidth(1800);
-    tablaExplorador.getColumnModel().getColumn(1).setPreferredWidth(150);
+    tablaExplorador.getColumnModel().getColumn(0).setPreferredWidth(1400);
+    tablaExplorador.getColumnModel().getColumn(1).setPreferredWidth(200);
+    tablaExplorador.getColumnModel().getColumn(2).setPreferredWidth(100);
     
     // Variable de clase para guardar la fila de "hover"
 
@@ -143,6 +145,27 @@ public class ExploradorForm extends JFrame {
 
     panel.add(botonVolver);
     panel.add(botonCrearDirectorio);
+    
+    comboboxOrdenamiento =new JComboBox<String>();
+    comboboxOrdenamiento.setBounds(10,10,80,20);
+    panel.add(comboboxOrdenamiento);
+    comboboxOrdenamiento.addItem("Nombre");
+    comboboxOrdenamiento.addItem("Tamaño");
+    comboboxOrdenamiento.addActionListener(e -> {
+            String seleccion = (String) comboboxOrdenamiento.getSelectedItem();
+            System.out.println("Seleccionado: " + seleccion);
+        });
+    comboboxOrdenamiento.setRenderer(new DefaultListCellRenderer() {
+        @Override
+        public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            // Mostrar "Ordenar por:" solo cuando no se está desplegando
+            String display = (index == -1) ? "Ordenar por: " + value : value.toString();
+            return super.getListCellRendererComponent(list, display, index, isSelected, cellHasFocus);
+        }
+    });
+    
+    panel.add(comboboxOrdenamiento);
+    
     panel.setBackground(new Color(223, 243, 228)); // Color de ARRIBA
     add(panel, BorderLayout.NORTH);
     
@@ -251,6 +274,9 @@ public class ExploradorForm extends JFrame {
     int indice = 0;
     for (Elemento elemento : elementos) {
       tablaExplorador.setValueAt(elemento.getNombre(), indice, 0);
+      tablaExplorador.setValueAt(elemento.getFechaCreacion(), indice, 1);
+      tablaExplorador.setValueAt(elemento.getTipo(), indice, 2);
+      tablaExplorador.setValueAt(elemento.getTamanoSimpleTexto(), indice, 3);
       indice++;
     }
     

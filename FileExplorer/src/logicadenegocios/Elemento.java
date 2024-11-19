@@ -59,7 +59,7 @@ public class Elemento {
     return file.length();
   }
 
-  public String getTamanoTexto() {
+  public String getTamanoSimpleTexto() {
     long tamano = getTamano();
     long tamano1 = getTamano();
     String unidad = "B";
@@ -81,7 +81,11 @@ public class Elemento {
         break;
       }
     }
-    return tamano + " " + unidad + " (" + tamano1 + " bytes)";
+    return tamano + " " + unidad;
+  }
+  
+  public String getTamanoTexto() {
+    return getTamanoSimpleTexto() + " (" + getTamano() + " bytes)";
   }
 
   public String getFechaCreacion() {
@@ -120,5 +124,17 @@ public class Elemento {
     } catch (Exception e) {
       return "Fecha no disponible";
     }
+  }
+  
+  public String getTipo() {
+    if (!esArchivo()) {
+      return "Carpeta";
+    } else {
+      int indiceExt = nombre.lastIndexOf(".");
+      if (indiceExt >= 0) {
+        return nombre.substring(indiceExt + 1).toUpperCase();
+      }
+    }
+    return "";
   }
 }
