@@ -20,18 +20,19 @@ import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
 
 public class ExploradorController {
+
   private Explorador modelo;
   private ExploradorForm vista;
   private long lastClickTime = 0;
   private String archivoCopiado;
   private boolean esCortado;
-  
+
   public ExploradorController(Explorador pModelo, ExploradorForm pVista) {
     modelo = pModelo;
     vista = pVista;
     agregarListeners();
     actualizar();
-    
+
   }
 
   public void agregarListeners() {
@@ -42,7 +43,7 @@ public class ExploradorController {
       @Override
       public void mouseClicked(MouseEvent e) {
         int filaSeleccionada = tablaExplorador.rowAtPoint(e.getPoint());
-        
+
         if (e.getButton() == MouseEvent.BUTTON3) { // Clic derecho (botón 3)
           int row = tablaExplorador.rowAtPoint(e.getPoint());
           if (row >= 0) {
@@ -56,12 +57,12 @@ public class ExploradorController {
         if (filaSeleccionada >= 0) {
           long currentTime = System.currentTimeMillis();
           long timeDifference = currentTime - lastClickTime;
-          
+
           if (timeDifference <= 500) { // Si el tiempo entre clics es menor a 500 ms, es un doble clic
             // Ejecuta la acción para ingresar a la carpeta (entrar al directorio)
             System.out.println("Doble clic: " + tablaExplorador.getValueAt(filaSeleccionada, 0));
             boolean estado = modelo.entrarDirectorio(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
-            if(estado) {
+            if (estado) {
               actualizar();
             } else {
               vista.mostrarMensajeError("Error de acceso", "No es posible acceder a esta carpeta.");
@@ -71,7 +72,7 @@ public class ExploradorController {
             System.out.println("Clic único: " + tablaExplorador.getValueAt(filaSeleccionada, 0));
             tablaExplorador.setRowSelectionInterval(filaSeleccionada, filaSeleccionada);
           }
-          
+
           lastClickTime = currentTime; // Actualiza el tiempo del último clic
         }
       }
@@ -86,16 +87,27 @@ public class ExploradorController {
         actualizar();
       }
     });
-    
+
     JButton botonCrearDirectorio = vista.getBotonCrearDirectrio();
     botonCrearDirectorio.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         String input = JOptionPane.showInputDialog(null, "Ingresa nombre carpeta: ", "Nueva carpeta", JOptionPane.PLAIN_MESSAGE);
-        if (!input.equals("")) {
+        if (input != null && !input.trim().equals("")) {
+          if (input.length() > 64) {
+            JOptionPane.showMessageDialog(null, "El nombre de la carpeta no puede tener más de 64 caracteres.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+
+          // Validación de caracteres especiales (solo letras, números, guiones y guiones bajos)
+          if (!input.matches("[a-zA-Z0-9_-]+")) {
+            JOptionPane.showMessageDialog(null, "El nombre de la carpeta contiene caracteres no permitidos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+
           modelo.crearDirectorio(input);
+          actualizar();
         }
-        actualizar();
       }
     });
 
@@ -104,11 +116,10 @@ public class ExploradorController {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
         modelo.eliminarElementoInterfaz(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
-        actualizar();    
+        actualizar();
       }
     });
-    
-    
+
     vista.getOpcionRenombrarPopup().addActionListener(e -> {
       int filaSeleccionada = vista.getTabla().getSelectedRow();
       if (filaSeleccionada >= 0) {
@@ -120,21 +131,21 @@ public class ExploradorController {
           @Override
           public void editingStopped(ChangeEvent e) {
             vista.getTabla().getCellEditor().removeCellEditorListener(this);
-            
+
             String viejoNombre = modelo.getListaElementos().get(filaSeleccionada).getNombre();
             String nuevoNombre = vista.getTabla().getCellEditor().getCellEditorValue().toString();
-            
+
             System.out.println(viejoNombre);
             System.out.println(nuevoNombre);
             // Llama al modelo para renombrar el archivo
-            
+
             modelo.renombrarArchivo(viejoNombre, nuevoNombre);
             //vista.getTabla().getCellEditor().stopCellEditing();
-            
+
             vista.deshabilitarEdicion(); // Deshabilita la edición una vez terminada
             modelo.actualizar();
             vista.actualizarTabla(modelo.getListaElementos()); // Actualiza la vista con los nuevos nombres
-            
+
           }
 
           @Override
@@ -145,8 +156,7 @@ public class ExploradorController {
         });
       }
     });
-    
-    
+
     vista.getOpcionCopiarPopup().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
@@ -155,7 +165,7 @@ public class ExploradorController {
         modelo.copiarArchivo(archivoCopiado);
       }
     });
-    
+
     vista.getOpcionCortarPopup().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
@@ -175,7 +185,7 @@ public class ExploradorController {
         JOptionPane.showMessageDialog(null, "No hay archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
       }
     });
-    
+
     vista.getOpcionPropiedades().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();
       if (filaSeleccionada >= 0) {
@@ -190,26 +200,26 @@ public class ExploradorController {
         }
       }
     });
-   
-   vista.getOpcionPropiedadesUnidad().addActionListener(e -> {
-      
-        try {
-            // Obtener la primera unidad de disco (normalmente C:)r la primera unidad de disco (normalmente C:)
-            File[] unidades = File.listRoots();
-            if (unidades != null && unidades.length > 0) {
-                UnidadLogica unidadLogica = new UnidadLogica(unidades[0].getPath());
-                PropiedadesUnidadLogicaController propiedades = 
-                        new PropiedadesUnidadLogicaController(unidadLogica);
-            }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null,
-                    "No se pudo obtener las propiedades de la unidad",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+
+    vista.getOpcionPropiedadesUnidad().addActionListener(e -> {
+
+      try {
+        // Obtener la primera unidad de disco (normalmente C:)r la primera unidad de disco (normalmente C:)
+        File[] unidades = File.listRoots();
+        if (unidades != null && unidades.length > 0) {
+          UnidadLogica unidadLogica = new UnidadLogica(unidades[0].getPath());
+          PropiedadesUnidadLogicaController propiedades
+                  = new PropiedadesUnidadLogicaController(unidadLogica);
         }
-    
+      } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null,
+                "No se pudo obtener las propiedades de la unidad",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+      }
+
     });
-   
+
   }
 
   public void actualizar() {
