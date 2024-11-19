@@ -24,10 +24,12 @@ public class PropiedadesUnidadLogicaController {
     
     public void actualizar() {
         vista.setNombre(modelo.getNombre());
+        vista.setTipo(modelo.getTipo());
+        vista.setSistemaDeArchivos(modelo.getSistemaArchivos());
+        vista.setProgresoUsado(modelo.getNumTotal(), modelo.getNumUsado());
         vista.setEspacioTotal(modelo.getEspacioTotal());
         vista.setEspacioUsado(modelo.getEspacioUsado());
         vista.setEspacioLibre(modelo.getEspacioLibre());
-        vista.setProgresoUsado(modelo.getNumTotal(), modelo.getNumUsado());
     }
     
 }
