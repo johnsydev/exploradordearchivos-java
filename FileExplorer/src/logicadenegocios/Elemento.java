@@ -5,6 +5,7 @@
 package logicadenegocios;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -83,7 +84,7 @@ public class Elemento {
     }
     return tamano + " " + unidad;
   }
-  
+
   public String getTamanoTexto() {
     return getTamanoSimpleTexto() + " (" + getTamano() + " bytes)";
   }
@@ -125,7 +126,7 @@ public class Elemento {
       return "Fecha no disponible";
     }
   }
-  
+
   public String getTipo() {
     if (!esArchivo()) {
       return "Carpeta";
@@ -137,4 +138,41 @@ public class Elemento {
     }
     return "";
   }
+
+  public boolean getEsArchivoOculto() {
+    return file.isHidden();
+  }
+
+  public boolean getEsSoloLectura() {
+    return !file.canWrite();
+  }
+
+  public void setEsArchivoOculto(boolean oculto) {
+    if (oculto) {
+      try {
+        String comando = "attrib +h " + file.getAbsolutePath();
+        Runtime.getRuntime().exec(comando);
+      } catch (IOException e) {
+      }
+    } else {
+      try {
+        
+        String comando = "attrib -h " + file.getAbsolutePath();
+        Runtime.getRuntime().exec(comando);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void setEsSoloLectura(boolean soloLectura) {
+    if (soloLectura) {
+      // Establecer el archivo como solo lectura
+      file.setWritable(false);  // Evita la escritura
+    } else {
+      // Permitir la escritura en el archivo
+      file.setWritable(true);
+    }
+  }
+
 }

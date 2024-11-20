@@ -20,11 +20,13 @@ public class Directorio extends Elemento {
   private ArrayList<Archivo> listaArchivos;
   private ArrayList<Directorio> listaDirectorios;
   private ArrayList<Elemento> listaElementos;
-  
+
   private String rutaPegandoInicial;
-  
-  public enum ORDENAR_POR {NOMBRE, TAMANO};
-  
+
+  public enum ORDENAR_POR {
+    NOMBRE, TAMANO
+  };
+
   public Directorio(String pRuta) {
     super(pRuta);
     listaArchivos = new ArrayList<Archivo>();
@@ -42,7 +44,7 @@ public class Directorio extends Elemento {
       cargarDatos(generarTodas);
     }
   }
-  
+
   public void ordenar(ORDENAR_POR criterio, boolean esAscedente) {
     if (criterio.equals(ORDENAR_POR.NOMBRE)) {
       listaElementos.clear();
@@ -72,9 +74,9 @@ public class Directorio extends Elemento {
     ArrayList<Elemento> archivosTemporal = new ArrayList<Elemento>();
     for (File file : file.listFiles()) {
       String rutaArchivo = ruta + "\\" + file.getName();
-      
+
       Elemento elemento = new Elemento(rutaArchivo);
-      
+
       if (elemento.esArchivo()) {
         listaArchivos.add(new Archivo(rutaArchivo));
         archivosTemporal.add(elemento);
@@ -85,15 +87,15 @@ public class Directorio extends Elemento {
     }
     listaElementos.addAll(archivosTemporal);
   }
-  
+
   public ArrayList<Archivo> getArchivos() {
     return listaArchivos;
   }
-  
+
   public ArrayList<Directorio> getDirectorios() {
     return listaDirectorios;
   }
-  
+
   public ArrayList<Elemento> get() {
     return listaElementos;
   }
@@ -105,26 +107,26 @@ public class Directorio extends Elemento {
   public File getDir() {
     return file;
   }
-  
+
   public boolean eliminar() {
     try {
-      for(Directorio dir : listaDirectorios) {
+      for (Directorio dir : listaDirectorios) {
         dir.eliminar();
       }
-      for(Archivo arch : listaArchivos) {
+      for (Archivo arch : listaArchivos) {
         arch.eliminar();
       }
       file.delete();
-    } catch(Exception e) {
+    } catch (Exception e) {
       return false;
     }
     return true;
   }
-  
+
   public ArrayList<Elemento> getElementos() {
     return listaElementos;
   }
-  
+
   private void pegarRecursivo(String pRuta, Directorio origen, String oldRuta) {
     Directorio dir = new Directorio(pRuta, false, false);
     dir.getFile().mkdirs();
@@ -139,23 +141,23 @@ public class Directorio extends Elemento {
       dir.pegarRecursivo(nuevaRuta, directorioOrigen, oldRuta + "\\" + directorioOrigen.getNombre() + "\\");
     }
   }
-  
+
   public void pegar(Directorio pDirectorioOrigen) {
     try {
       rutaPegandoInicial = ruta + "\\" + pDirectorioOrigen.getNombre() + "\\";
       Directorio dir = new Directorio(rutaPegandoInicial, false, false);
       dir.getFile().mkdirs();
-      dir.pegarRecursivo(rutaPegandoInicial, pDirectorioOrigen, pDirectorioOrigen.getRuta());  
-    } catch(Exception exc) {
+      dir.pegarRecursivo(rutaPegandoInicial, pDirectorioOrigen, pDirectorioOrigen.getRuta());
+    } catch (Exception exc) {
       exc.printStackTrace();
     }
   }
-  
+
   public int[] getCantidadElementos() {
     int[] cantidades = new int[2];
     int archivos = 0;
     int directoios = 0;
-    
+
     Directorio dir = new Directorio(ruta, true, true);
     archivos += dir.getArchivos().size();
     for (Directorio subdir : dir.getDirectorios()) {

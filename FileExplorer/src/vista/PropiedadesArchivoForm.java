@@ -8,9 +8,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,6 +30,12 @@ public class PropiedadesArchivoForm extends JFrame {
   private final JTextField fechaModificacion;
   private final JTextField ultimoAcceso;
   private final JTextField atributos;
+  private final JButton btnAceptar;
+  public JCheckBox cbSoloLectura;
+  public JCheckBox cbOculto;
+
+  private boolean oculto;
+  private boolean lectura;
 
   public final double TAMANO_COLUMNA_1 = 0.2;
   public final double TAMANO_COLUMNA_2 = 1.2;
@@ -306,6 +315,54 @@ public class PropiedadesArchivoForm extends JFrame {
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(atributos, gbc);
 
+    cbSoloLectura = new JCheckBox("Solo Lectura");
+    cbSoloLectura.setBackground(Color.WHITE); // Fondo blanco
+    cbSoloLectura.setBorder(BorderFactory.createEmptyBorder(10, 140, 10, 20)); // Espaciado interno
+    cbSoloLectura.setSelected(lectura);
+    System.out.println("lectura: " + lectura); // Verifica en la consola
+    gbc.gridx = 0; // Alineado debajo de "Atributos"
+    gbc.gridy = 24;
+    gbc.gridwidth = 2; // Opcional para ocupar todo el ancho de las columnas
+    gbc.weightx = 0;
+    panel.add(cbSoloLectura, gbc);
+
+// Checkbox "Oculto"
+    cbOculto = new JCheckBox("Oculto");
+    cbOculto.setBackground(Color.WHITE); // Fondo blanco
+    cbOculto.setBorder(BorderFactory.createEmptyBorder(10, 140, 10, 20)); // Espaciado interno
+    cbOculto.setSelected(oculto);
+    System.out.println("oculto: " + oculto); // Verifica en la consola
+    gbc.gridx = 0; // Alineado debajo del anterior checkbox
+    gbc.gridy = 25;
+    gbc.gridwidth = 2; // Opcional para ocupar todo el ancho de las columnas
+    gbc.weightx = 0;
+    panel.add(cbOculto, gbc);
+
+    // Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 26;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+    // Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+    //Boton Aceptar
+    btnAceptar = new JButton("Aceptar");
+
+// Posicionar el botón en el grid
+    gbc.gridy = 28; // Nueva fila después de los checkboxes
+    gbc.gridwidth = 0; // El botón ocupa todo el ancho
+    gbc.insets = new Insets(5, 130, 70, 5); // Opcional: Agregar márgenes
+    gbc.gridx = 1;
+    gbc.weightx = TAMANO_COLUMNA_2;
+    gbc.anchor = GridBagConstraints.CENTER;
+    panel.add(btnAceptar, gbc);
+
+// Mostrar el panel
     add(panel, BorderLayout.NORTH);
     setVisible(true);
   }
@@ -337,5 +394,27 @@ public class PropiedadesArchivoForm extends JFrame {
 
   public void setUltimoAcceso(String pUltimoAcceso) {
     ultimoAcceso.setText(pUltimoAcceso);
+  }
+
+  public boolean isSoloLectura() {
+    return lectura;
+  }
+
+  public boolean isOculto() {
+    return oculto;
+  }
+
+  public void setLectura(boolean lectura) {
+    this.lectura = lectura;
+    cbSoloLectura.setSelected(lectura);
+  }
+
+  public void setOculto(boolean oculto) {
+    this.oculto = oculto;
+    cbOculto.setSelected(oculto);
+  }
+
+  public JButton getBotonAceptar() {
+    return btnAceptar;
   }
 }
