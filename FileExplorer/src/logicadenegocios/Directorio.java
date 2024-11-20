@@ -120,7 +120,6 @@ public class Directorio extends Elemento {
     }
   }
   
-  
   public void pegar(Directorio pDirectorioOrigen) {
     try {
       rutaPegandoInicial = ruta + "\\" + pDirectorioOrigen.getNombre() + "\\";
@@ -130,5 +129,23 @@ public class Directorio extends Elemento {
     } catch(Exception exc) {
       exc.printStackTrace();
     }
+  }
+  
+  public int[] getCantidadElementos() {
+    int[] cantidades = new int[2];
+    int archivos = 0;
+    int directoios = 0;
+    
+    Directorio dir = new Directorio(ruta, true, true);
+    archivos += dir.getArchivos().size();
+    for (Directorio subdir : dir.getDirectorios()) {
+      directoios++;
+      int[] subelementos = subdir.getCantidadElementos();
+      archivos += subelementos[0];
+      directoios += subelementos[1];
+    }
+    cantidades[0] = archivos;
+    cantidades[1] = directoios;
+    return cantidades;
   }
 }

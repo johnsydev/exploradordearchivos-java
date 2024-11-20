@@ -33,10 +33,10 @@ public class PropiedadesDirectorioController {
     vista.setNombre(modelo.getNombre());
     vista.setUbicacion(modelo.getRutaCompleta());
     vista.setTamano(modelo.getTamanoTexto());
-    vista.setContenido(getNumeroDirectorios(), getNumeroArchivos());
+    int[] numElementos = modelo.getCantidadElementos();
+    vista.setContenido(numElementos[1], numElementos[0]);
     vista.setFechaCreacion(modelo.getFechaCreacion());
     vista.setUltimaModificacion(modelo.getUltimaModificacion());
     vista.setUltimoAcceso(modelo.getUltimoAcceso());
   }
-  
 }

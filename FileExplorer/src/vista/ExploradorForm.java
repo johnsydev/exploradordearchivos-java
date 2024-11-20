@@ -156,7 +156,11 @@ public class ExploradorForm extends JFrame {
     botonVolver.setForeground(new Color(255, 255, 255)); // Texto
     botonVolver.setIcon(iconoVolver);
     
+    ImageIcon iconoPegar = new ImageIcon("./src/imagenes/pegar.png");
     botonPegar = new JButton("Pegar");
+    botonPegar.setBackground(new Color(117, 158, 184)); // Fondo
+    botonPegar.setForeground(new Color(255, 255, 255)); // Texto
+    botonPegar.setIcon(iconoPegar);
 
     panel.add(botonVolver);
     panel.add(botonCrearDirectorio);
@@ -189,7 +193,6 @@ public class ExploradorForm extends JFrame {
     ImageIcon iconoEliminar = new ImageIcon("./src/imagenes/eliminar.png");
     ImageIcon iconoRenombrar = new ImageIcon("./src/imagenes/renombrar.png");
     ImageIcon iconoCopiar = new ImageIcon("./src/imagenes/copiar.png");
-    ImageIcon iconoPegar = new ImageIcon("./src/imagenes/pegar.png");
     ImageIcon iconoCortar = new ImageIcon("./src/imagenes/cortar.png");
     ImageIcon iconoPropiedades = new ImageIcon("./src/imagenes/propiedades.png");
     ImageIcon iconoPropiedadesUnidad = new ImageIcon("./src/imagenes/propiedades_unidad.png");
@@ -389,5 +392,4 @@ public class ExploradorForm extends JFrame {
         tablaExplorador.repaint(tablaExplorador.getCellRect(oldHoverRow, 0, true));
     }
   }
-
 }
