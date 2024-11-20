@@ -21,6 +21,7 @@ public class ExploradorForm extends JFrame {
   private final JButton botonVolver;
   private final JButton botonCrearDirectorio;
   private final JComboBox comboboxOrdenamiento;
+  private final JComboBox comboboxModoOrden;
   private final JButton botonPegar;
   private final JPopupMenu menuOpciones;
   private final JMenuItem opcionEliminarPopup;
@@ -170,10 +171,6 @@ public class ExploradorForm extends JFrame {
     panel.add(comboboxOrdenamiento);
     comboboxOrdenamiento.addItem("Nombre");
     comboboxOrdenamiento.addItem("Tamaño");
-    comboboxOrdenamiento.addActionListener(e -> {
-            String seleccion = (String) comboboxOrdenamiento.getSelectedItem();
-            System.out.println("Seleccionado: " + seleccion);
-        });
     comboboxOrdenamiento.setRenderer(new DefaultListCellRenderer() {
         @Override
         public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -183,7 +180,20 @@ public class ExploradorForm extends JFrame {
         }
     });
     
-    panel.add(comboboxOrdenamiento);
+    comboboxModoOrden =new JComboBox<String>();
+    comboboxModoOrden.setBounds(10,10,80,20);
+    panel.add(comboboxModoOrden);
+    comboboxModoOrden.addItem("Ascendente");
+    comboboxModoOrden.addItem("Descendente");
+    comboboxModoOrden.setRenderer(new DefaultListCellRenderer() {
+        @Override
+        public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            // Mostrar "Ordenar por:" solo cuando no se está desplegando
+            String display = (index == -1) ? "Modo: " + value : value.toString();
+            return super.getListCellRendererComponent(list, display, index, isSelected, cellHasFocus);
+        }
+    });
+    
     panel.add(botonPegar);
     botonPegar.setVisible(false);
     
@@ -247,6 +257,14 @@ public class ExploradorForm extends JFrame {
 
   public JButton getBotonCrearDirectrio() {
     return botonCrearDirectorio;
+  }
+  
+  public JComboBox getComboboxOrdenamiento() {
+    return comboboxOrdenamiento;
+  }
+  
+  public JComboBox getComboboxModoOrden() {
+    return comboboxModoOrden;
   }
   
   public JButton getBotonPegar() {

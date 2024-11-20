@@ -13,6 +13,8 @@ public class Explorador {
   private Archivo archivoCopiado; // Variable temporal para almacenar el archivo copiado
   private Directorio directorioCopiado;
   private Directorio directorioActual = new Directorio(ruta);
+  private Directorio.ORDENAR_POR criterioOrden = Directorio.ORDENAR_POR.NOMBRE;
+  private boolean ordenAscendente = true;
 
   private Explorador() {
   }
@@ -32,6 +34,29 @@ public class Explorador {
 
   public void actualizar() {
     directorioActual = new Directorio(ruta);
+    ordenar();
+  }
+  
+  public void setCriterioOrden(String pCriterio) {
+    switch(pCriterio) {
+      case "Nombre":
+        criterioOrden = Directorio.ORDENAR_POR.NOMBRE;
+        break;
+      case "Tamaño":
+        criterioOrden = Directorio.ORDENAR_POR.TAMANO;
+        break;
+    }
+  }
+  
+  public void setModoOrden(String pModo) {
+    ordenAscendente = false;
+    if (pModo.equals("Ascendente")) {
+      ordenAscendente = true;
+    }
+  }
+  
+  public void ordenar() {
+    directorioActual.ordenar(criterioOrden, ordenAscendente);
   }
 
   public ArrayList<Elemento> getListaElementos() {

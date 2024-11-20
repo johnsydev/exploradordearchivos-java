@@ -18,6 +18,7 @@ import logicadenegocios.UnidadLogica;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JComboBox;
 import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
 
@@ -125,7 +126,9 @@ public class ExploradorController {
             vista.actualizarTabla(listaElementos);
           }
         }
-        actualizar();
+        else {
+          actualizar();
+        }
       }
     });
 
@@ -151,6 +154,17 @@ public class ExploradorController {
         }
       }
     });
+    
+    JComboBox comboboxOrdenamiento = vista.getComboboxOrdenamiento();
+    JComboBox comboboxModoOrden = vista.getComboboxModoOrden();
+    
+    
+    comboboxOrdenamiento.addActionListener(e -> {
+      modelo.setCriterioOrden((String) comboboxOrdenamiento.getSelectedItem());
+      modelo.setModoOrden((String) comboboxModoOrden.getSelectedItem());
+      actualizar();
+    });
+    comboboxModoOrden.addActionListener(comboboxOrdenamiento.getActionListeners()[0]);
 
     // Acción de 'Eliminar archivo' desde el menú contextual
     vista.getOpcionEliminarPopup().addActionListener(e -> {
@@ -284,10 +298,7 @@ public class ExploradorController {
                   JOptionPane.ERROR_MESSAGE);
         }
       }
-
     });
-    
-
   }
 
   public void actualizar() {

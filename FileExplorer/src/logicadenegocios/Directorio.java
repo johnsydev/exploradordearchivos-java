@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  *
@@ -41,10 +43,28 @@ public class Directorio extends Elemento {
     }
   }
   
-  public void ordenar(ORDENAR_POR criterio) {
+  public void ordenar(ORDENAR_POR criterio, boolean esAscedente) {
     if (criterio.equals(ORDENAR_POR.NOMBRE)) {
       listaElementos.clear();
+      listaDirectorios.clear();
+      listaArchivos.clear();
       cargarDatos(false);
+      if (!esAscedente) {
+        Collections.reverse(listaElementos);
+      }
+    } else if (criterio.equals(ORDENAR_POR.TAMANO)) {
+      ArrayList<Elemento> listaNueva = new ArrayList<Elemento>();
+      if (esAscedente) {
+        listaDirectorios.sort(Comparator.comparingLong(Elemento::getTamano));
+        listaArchivos.sort(Comparator.comparingLong(Elemento::getTamano));
+      } else {
+        listaDirectorios.sort(Comparator.comparingLong(Elemento::getTamano).reversed());
+        listaArchivos.sort(Comparator.comparingLong(Elemento::getTamano).reversed());
+      }
+      listaNueva.addAll(listaDirectorios);
+      listaNueva.addAll(listaArchivos);
+      listaElementos.clear();
+      listaElementos.addAll(listaNueva);
     }
   }
 
