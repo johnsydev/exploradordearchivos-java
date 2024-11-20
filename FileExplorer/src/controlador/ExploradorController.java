@@ -165,7 +165,6 @@ public class ExploradorController {
         try {
           esCortado = false;
           String rutaElemento = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
-
           Elemento elem = new Elemento(modelo.getRuta() + "\\" + rutaElemento);
           if (elem.esArchivo()) {
             archivoCopiado = rutaElemento;
@@ -174,6 +173,7 @@ public class ExploradorController {
             archivoCopiado = rutaElemento;
             modelo.copiarDirectorio(rutaElemento);
           }
+          vista.setBotonPegar(true);
         } catch(Exception exc) {}
       }
     });
@@ -183,8 +183,16 @@ public class ExploradorController {
       if (filaSeleccionada >= 0) {
         try {
           esCortado = true;
-          archivoCopiado = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
-          modelo.copiarArchivo(archivoCopiado);
+          String rutaElemento = tablaExplorador.getValueAt(filaSeleccionada, 0).toString();
+          Elemento elem = new Elemento(modelo.getRuta() + "\\" + rutaElemento);    
+          if (elem.esArchivo()) {
+            archivoCopiado = rutaElemento;
+            modelo.copiarArchivo(rutaElemento);
+          } else {
+            archivoCopiado = rutaElemento;
+            modelo.copiarDirectorio(rutaElemento);
+          }
+          vista.setBotonPegar(true);
         } catch(Exception exc) {}
       }
     });
@@ -195,6 +203,8 @@ public class ExploradorController {
         try {
           modelo.pegar(esCortado);
           esCortado = false;
+          archivoCopiado = null;
+          vista.setBotonPegar(false);
           actualizar();
         } catch(Exception exc) {
         }
@@ -202,6 +212,8 @@ public class ExploradorController {
         JOptionPane.showMessageDialog(null, "No hay archivo copiado para pegar.", "Error", JOptionPane.ERROR_MESSAGE);
       }
     });
+    
+    vista.getBotonPegar().addActionListener(vista.getOpcionPegarPopup().getActionListeners()[0]);
 
     vista.getOpcionPropiedades().addActionListener(e -> {
       int filaSeleccionada = tablaExplorador.getSelectedRow();

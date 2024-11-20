@@ -21,6 +21,7 @@ public class ExploradorForm extends JFrame {
   private final JButton botonVolver;
   private final JButton botonCrearDirectorio;
   private final JComboBox comboboxOrdenamiento;
+  private final JButton botonPegar;
   private final JPopupMenu menuOpciones;
   private final JMenuItem opcionEliminarPopup;
   private final JMenuItem opcionRenombrarPopup;
@@ -154,6 +155,8 @@ public class ExploradorForm extends JFrame {
     botonVolver.setBackground(new Color(237, 103, 110)); // Fondo
     botonVolver.setForeground(new Color(255, 255, 255)); // Texto
     botonVolver.setIcon(iconoVolver);
+    
+    botonPegar = new JButton("Pegar");
 
     panel.add(botonVolver);
     panel.add(botonCrearDirectorio);
@@ -177,6 +180,8 @@ public class ExploradorForm extends JFrame {
     });
     
     panel.add(comboboxOrdenamiento);
+    panel.add(botonPegar);
+    botonPegar.setVisible(false);
     
     panel.setBackground(new Color(223, 243, 228)); // Color de ARRIBA
     add(panel, BorderLayout.NORTH);
@@ -239,7 +244,15 @@ public class ExploradorForm extends JFrame {
   public JButton getBotonCrearDirectrio() {
     return botonCrearDirectorio;
   }
-
+  
+  public JButton getBotonPegar() {
+    return botonPegar;
+  }
+  
+  public void setBotonPegar(boolean pEstado) {
+    botonPegar.setVisible(pEstado);
+  } 
+  
   public JPopupMenu getMenuOpcionesArchivo() {
     return menuOpciones;
   }

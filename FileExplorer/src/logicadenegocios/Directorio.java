@@ -105,21 +105,28 @@ public class Directorio extends Elemento {
     return listaElementos;
   }
   
+  private void pegarRecursivo(String pRuta, Directorio origen, String oldRuta) {
+    Directorio dir = new Directorio(pRuta, false, false);
+    dir.getFile().mkdirs();
+
+    for (Archivo archivo : origen.getArchivos()) {
+      archivo.pegar(pRuta);
+    }
+
+    Directorio dirOrigen = new Directorio(oldRuta, true, true);
+    for (Directorio directorioOrigen : dirOrigen.getDirectorios()) {
+      String nuevaRuta = pRuta + "\\" + directorioOrigen.getNombre() + "\\";
+      dir.pegarRecursivo(nuevaRuta, directorioOrigen, oldRuta + "\\" + directorioOrigen.getNombre() + "\\");
+    }
+  }
+  
   
   public void pegar(Directorio pDirectorioOrigen) {
     try {
       rutaPegandoInicial = ruta + "\\" + pDirectorioOrigen.getNombre() + "\\";
-      String rutaPegando = rutaPegandoInicial;
       Directorio dir = new Directorio(rutaPegandoInicial, false, false);
       dir.getFile().mkdirs();
-      for (Directorio directorio : pDirectorioOrigen.getDirectorios()) {
-        //Directorio subDirectorio = new Directorio(ruta + "\\" + directorio.getNombre(), false, false);
-        Directorio subDirectorio = new Directorio(rutaPegandoInicial + "\\" + directorio.getNombre(), false, false);
-        subDirectorio.pegar(directorio);
-      }
-      for (Archivo archivo : pDirectorioOrigen.getArchivos()) {
-        archivo.pegar(rutaPegando);
-      }
+      dir.pegarRecursivo(rutaPegandoInicial, pDirectorioOrigen, pDirectorioOrigen.getRuta());  
     } catch(Exception exc) {
       exc.printStackTrace();
     }

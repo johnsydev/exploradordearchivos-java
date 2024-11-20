@@ -142,7 +142,6 @@ public class Explorador {
 
   // Método para pegar un archivo copiado en el directorio actual
   public void pegar(boolean esCortado) {
-    System.out.println("soy pegar estoy sirviendo" + archivoCopiado + directorioCopiado);
     if (archivoCopiado != null && directorioCopiado == null) {
       Archivo archivoPegado = new Archivo(ruta + archivoCopiado.getNombre());
 
@@ -165,9 +164,11 @@ public class Explorador {
         e.printStackTrace();
       }
     } else if (archivoCopiado == null && directorioCopiado != null) {
-      System.out.println("entrando");
       try {
         directorioActual.pegar(directorioCopiado);
+        if (esCortado) {
+          directorioCopiado.eliminar();
+        }
       } catch(Exception exc) {
         exc.printStackTrace();
       }
