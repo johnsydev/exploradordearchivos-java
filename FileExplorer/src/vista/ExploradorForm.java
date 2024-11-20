@@ -219,6 +219,7 @@ public class ExploradorForm extends JFrame {
     
     opcionPropiedadesUnidad = new JMenuItem("Propiedades de la unidad");
     opcionPropiedadesUnidad.setIcon(iconoPropiedadesUnidad);
+    opcionPropiedadesUnidad.setVisible(false);
 
     menuOpciones.add(opcionEliminarPopup);
     menuOpciones.add(opcionRenombrarPopup);

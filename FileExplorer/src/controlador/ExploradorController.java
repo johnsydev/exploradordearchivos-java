@@ -17,6 +17,7 @@ import logicadenegocios.Explorador;
 import logicadenegocios.UnidadLogica;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
 
@@ -26,6 +27,7 @@ public class ExploradorController {
   private ExploradorForm vista;
   private long lastClickTime = 0;
   private String archivoCopiado;
+  private boolean estabaEnUnidad = false;
   
   private boolean esCortado;
 
@@ -65,6 +67,21 @@ public class ExploradorController {
             System.out.println("Doble clic: " + tablaExplorador.getValueAt(filaSeleccionada, 0));
             boolean estado = modelo.entrarDirectorio(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
             if (estado) {
+              if (estabaEnUnidad) {
+                vista.getVolver().setVisible(true);
+                vista.getBotonCrearDirectrio().setVisible(true);
+                vista.getOpcionEliminarPopup().setVisible(true);
+                vista.getOpcionRenombrarPopup().setVisible(true);
+                vista.getOpcionCopiarPopup().setVisible(true);
+                vista.getOpcionCortarPopup().setVisible(true);
+                vista.getOpcionPegarPopup().setVisible(true);
+                vista.getOpcionPropiedades().setVisible(true);
+                vista.getOpcionPropiedadesUnidad().setVisible(false);
+                if (archivoCopiado != null) {
+                  vista.setBotonPegar(true);
+                }
+                estabaEnUnidad = false;
+              }
               actualizar();
             } else {
               vista.mostrarMensajeError("Error de acceso", "No es posible acceder a esta carpeta.");
@@ -85,7 +102,29 @@ public class ExploradorController {
     botonVolver.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        modelo.salirDirectorio();
+        boolean estado = modelo.salirDirectorio();
+        if (!estado) {
+          ArrayList<UnidadLogica> unidades = UnidadLogica.getUnidades();
+          if (unidades != null && !unidades.isEmpty()) {
+            
+            ArrayList<Elemento> listaElementos = new ArrayList<Elemento>();
+            for (UnidadLogica unidad : unidades) {
+              listaElementos.add((Elemento) unidad);
+            }
+            estabaEnUnidad = true;
+            vista.getVolver().setVisible(false);
+            vista.getBotonPegar().setVisible(false);
+            vista.getBotonCrearDirectrio().setVisible(false);
+            vista.getOpcionEliminarPopup().setVisible(false);
+            vista.getOpcionRenombrarPopup().setVisible(false);
+            vista.getOpcionCopiarPopup().setVisible(false);
+            vista.getOpcionCortarPopup().setVisible(false);
+            vista.getOpcionPegarPopup().setVisible(false);
+            vista.getOpcionPropiedades().setVisible(false);
+            vista.getOpcionPropiedadesUnidad().setVisible(true);
+            vista.actualizarTabla(listaElementos);
+          }
+        }
         actualizar();
       }
     });
@@ -231,23 +270,23 @@ public class ExploradorController {
     });
 
     vista.getOpcionPropiedadesUnidad().addActionListener(e -> {
-
-      try {
-        // Obtener la primera unidad de disco (normalmente C:)r la primera unidad de disco (normalmente C:)
-        File[] unidades = File.listRoots();
-        if (unidades != null && unidades.length > 0) {
-          UnidadLogica unidadLogica = new UnidadLogica(unidades[0].getPath());
+      int filaSeleccionada = tablaExplorador.getSelectedRow();
+      if (filaSeleccionada >= 0) {
+        try {
+          UnidadLogica unidadLogica = new UnidadLogica(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
           PropiedadesUnidadLogicaController propiedades
                   = new PropiedadesUnidadLogicaController(unidadLogica);
+          
+        } catch (Exception ex) {
+          JOptionPane.showMessageDialog(null,
+                  "No se pudo obtener las propiedades de la unidad",
+                  "Error",
+                  JOptionPane.ERROR_MESSAGE);
         }
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null,
-                "No se pudo obtener las propiedades de la unidad",
-                "Error",
-                JOptionPane.ERROR_MESSAGE);
       }
 
     });
+    
 
   }
 

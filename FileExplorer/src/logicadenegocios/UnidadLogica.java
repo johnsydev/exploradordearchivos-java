@@ -6,6 +6,7 @@ package logicadenegocios;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,6 +16,14 @@ public class UnidadLogica extends Elemento {
 
   public UnidadLogica(String pRuta) {
     super(pRuta);
+  }
+  
+  public static ArrayList<UnidadLogica> getUnidades() {
+    ArrayList<UnidadLogica> unidades = new ArrayList<UnidadLogica>();
+    for (File unidad : File.listRoots()) {
+      unidades.add(new UnidadLogica(unidad.getPath()));
+    }
+    return unidades;
   }
 
   public String getNombre() {

@@ -79,7 +79,7 @@ public class Explorador {
     }
   }
 
-  public void salirDirectorio() {
+  public boolean salirDirectorio() {
     String[] rutaArray = ruta.split("\\\\");
     String nuevaRuta = "";
     int cont = 1;
@@ -90,7 +90,11 @@ public class Explorador {
       cont++;
     }
     ruta = nuevaRuta;
+    if (ruta.equals("")) {
+      return false;
+    }
     directorioActual = new Directorio(ruta);
+    return true;
   }
   
   
