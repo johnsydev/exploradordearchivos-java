@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,7 +31,11 @@ public class PropiedadesDirectorioForm extends JFrame {
   private final JTextField fechaModificacion;
   private final JTextField ultimoAcceso;
   private final JTextField atributos;
-
+  private final JButton btnAceptar;
+  public JCheckBox cbSoloLectura;
+  public JCheckBox cbOculto;
+  private boolean oculto;
+  private boolean lectura;
   public final double TAMANO_COLUMNA_1 = 0.2;
   public final double TAMANO_COLUMNA_2 = 1.2;
 
@@ -143,7 +150,7 @@ public class PropiedadesDirectorioForm extends JFrame {
     gbc.gridy = 12;
     gbc.gridwidth = 2;
     panel.add(new JLabel(" "), gbc); // Espacio antes de la línea
-    
+
 // Fila: "Contiene"
     gbc.gridx = 0;
     gbc.gridy = 13;
@@ -283,6 +290,59 @@ public class PropiedadesDirectorioForm extends JFrame {
     gbc.weightx = TAMANO_COLUMNA_2;
     panel.add(atributos, gbc);
 
+    cbSoloLectura = new JCheckBox("Solo Lectura(solo para archivos de la carpeta)");
+    cbSoloLectura.setBackground(Color.WHITE); // Fondo blanco
+    cbSoloLectura.setBorder(BorderFactory.createEmptyBorder(10, 93, 10, 20)); // Espaciado interno
+    cbSoloLectura.setForeground(Color.BLACK);
+    cbSoloLectura.setFont(new Font("Dialog", Font.PLAIN, 11));
+    cbSoloLectura.setSelected(lectura);
+    gbc.gridx = 0; // Alineado debajo de "Atributos"
+    gbc.gridy = 26;
+    gbc.gridwidth = 2; // Opcional para ocupar todo el ancho de las columnas
+    gbc.weightx = 0;
+    panel.add(cbSoloLectura, gbc);
+
+// Checkbox "Oculto"
+    cbOculto = new JCheckBox("Oculto");
+    cbOculto.setBackground(Color.WHITE); // Fondo blanco
+    cbOculto.setBorder(BorderFactory.createEmptyBorder(10, 93, 10, 20)); // Espaciado interno
+    cbOculto.setSelected(oculto);
+    gbc.gridx = 0; // Alineado debajo del anterior checkbox
+    gbc.gridy = 27;
+    gbc.gridwidth = 2; // Opcional para ocupar todo el ancho de las columnas
+    gbc.weightx = 0;
+    panel.add(cbOculto, gbc);
+
+    // Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 28;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+    // Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 29;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+    
+    // Espacio 
+    gbc.gridx = 0;
+    gbc.gridy = 30;
+    gbc.gridwidth = 2;
+    panel.add(new JLabel(" "), gbc); // Espacio entre filas
+
+    //Boton Aceptar
+    btnAceptar = new JButton("Aceptar");
+
+// Posicionar el botón en el grid
+    gbc.gridy = 31; // Nueva fila después de los checkboxes
+    gbc.gridwidth = 0; // El botón ocupa todo el ancho
+    gbc.insets = new Insets(5, 130, 70, 5); // Opcional: Agregar márgenes
+    gbc.gridx = 1;
+    gbc.weightx = TAMANO_COLUMNA_2;
+    gbc.anchor = GridBagConstraints.CENTER;
+    panel.add(btnAceptar, gbc);
+
     add(panel, BorderLayout.NORTH);
     setVisible(true);
   }
@@ -299,7 +359,7 @@ public class PropiedadesDirectorioForm extends JFrame {
   public void setTamano(String pTamano) {
     tamano.setText(pTamano);
   }
-  
+
   public void setContenido(int pDirectorios, int pArchivos) {
     String dirText = " directorios, ";
     if (pDirectorios == 1) {
@@ -308,8 +368,8 @@ public class PropiedadesDirectorioForm extends JFrame {
     String archText = " archivos.";
     if (pArchivos == 1) {
       archText = " archivo.";
-    } 
-    contenido.setText(pDirectorios + dirText+ pArchivos + archText);
+    }
+    contenido.setText(pDirectorios + dirText + pArchivos + archText);
   }
 
   public void setFechaCreacion(String pFechaCreacion) {
@@ -322,5 +382,28 @@ public class PropiedadesDirectorioForm extends JFrame {
 
   public void setUltimoAcceso(String pUltimoAcceso) {
     ultimoAcceso.setText(pUltimoAcceso);
+  }
+  
+  
+  public boolean isSoloLectura() {
+    return lectura;
+  }
+
+  public boolean isOculto() {
+    return oculto;
+  }
+
+  public void setLectura(boolean lectura) {
+    this.lectura = lectura;
+    cbSoloLectura.setSelected(lectura);
+  }
+
+  public void setOculto(boolean oculto) {
+    this.oculto = oculto;
+    cbOculto.setSelected(oculto);
+  }
+
+  public JButton getBotonAceptar() {
+    return btnAceptar;
   }
 }

@@ -45,19 +45,13 @@ public class PropiedadesArchivoController {
     btnAceptar.addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
-        // Obtener el estado de los checkboxes
+
         boolean lectura = vista.cbSoloLectura.isSelected();
         boolean oculto = vista.cbOculto.isSelected();
 
-        // Imprimir en consola para verificar los valores seleccionados
-        System.out.println("Estado Solo Lectura: " + lectura);
-        System.out.println("Estado Oculto: " + oculto);
+        modelo.setEsSoloLectura(lectura);
+        modelo.setEsArchivoOculto(oculto);
 
-        // Llamar a los métodos para cambiar las propiedades del archivo
-        modelo.setEsSoloLectura(lectura);  // Cambia el estado del archivo a solo lectura
-        modelo.setEsArchivoOculto(oculto); // Cambia el estado del archivo a oculto
-
-        // Opcional: puedes agregar un mensaje de éxito o actualizar la interfaz gráfica si es necesario
         JOptionPane.showMessageDialog(null, "Configuración actualizada correctamente.");
         actualizar(); // Actualiza la vista
       }

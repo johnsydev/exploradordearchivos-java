@@ -4,6 +4,10 @@
  */
 package controlador;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import logicadenegocios.Directorio;
 import vista.PropiedadesDirectorioForm;
 
@@ -12,23 +16,25 @@ import vista.PropiedadesDirectorioForm;
  * @author johns
  */
 public class PropiedadesDirectorioController {
+
   private Directorio modelo;
   private PropiedadesDirectorioForm vista;
-  
+
   public PropiedadesDirectorioController(Directorio pDirectorio) {
     modelo = pDirectorio;
     vista = new PropiedadesDirectorioForm();
+    agregarListeners();
     actualizar();
   }
-  
+
   private int getNumeroArchivos() {
     return modelo.getArchivos().size();
   }
-  
+
   private int getNumeroDirectorios() {
     return modelo.getDirectorios().size();
   }
-  
+
   public void actualizar() {
     vista.setNombre(modelo.getNombre());
     vista.setUbicacion(modelo.getRutaCompleta());
@@ -38,5 +44,24 @@ public class PropiedadesDirectorioController {
     vista.setFechaCreacion(modelo.getFechaCreacion());
     vista.setUltimaModificacion(modelo.getUltimaModificacion());
     vista.setUltimoAcceso(modelo.getUltimoAcceso());
+  }
+
+  public void agregarListeners() {
+    JButton btnAceptar = vista.getBotonAceptar();
+
+    btnAceptar.addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+
+        boolean lectura = vista.cbSoloLectura.isSelected();
+        boolean oculto = vista.cbOculto.isSelected();
+
+        modelo.setEsSoloLectura(lectura);
+        modelo.setEsArchivoOculto(oculto);
+
+        JOptionPane.showMessageDialog(null, "Configuración actualizada correctamente.");
+        actualizar(); // Actualiza la vista
+      }
+    });
   }
 }

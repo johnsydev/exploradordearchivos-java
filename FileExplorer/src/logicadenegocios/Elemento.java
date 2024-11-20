@@ -167,7 +167,6 @@ public class Elemento {
 
   public void setEsSoloLectura(boolean soloLectura) {
     if (soloLectura) {
-      // Establecer el archivo como solo lectura
       file.setWritable(false);  // Evita la escritura
     } else {
       // Permitir la escritura en el archivo
