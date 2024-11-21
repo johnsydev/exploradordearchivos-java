@@ -44,6 +44,8 @@ public class PropiedadesDirectorioController {
     vista.setFechaCreacion(modelo.getFechaCreacion());
     vista.setUltimaModificacion(modelo.getUltimaModificacion());
     vista.setUltimoAcceso(modelo.getUltimoAcceso());
+    vista.setLectura(modelo.getEsSoloLectura());
+    vista.setOculto(modelo.getEsArchivoOculto());
   }
 
   public void agregarListeners() {
