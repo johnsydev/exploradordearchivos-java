@@ -54,6 +54,8 @@ public class PropiedadesArchivoController {
 
         JOptionPane.showMessageDialog(null, "Configuración actualizada correctamente.");
         actualizar(); // Actualiza la vista
+        
+        vista.dispose();
       }
     });
   }

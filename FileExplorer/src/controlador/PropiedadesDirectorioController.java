@@ -58,11 +58,13 @@ public class PropiedadesDirectorioController {
         boolean lectura = vista.cbSoloLectura.isSelected();
         boolean oculto = vista.cbOculto.isSelected();
 
-        modelo.setEsSoloLectura(lectura);
+        modelo.setEsSoloLecturaD(lectura);
         modelo.setEsArchivoOculto(oculto);
 
         JOptionPane.showMessageDialog(null, "Configuración actualizada correctamente.");
         actualizar(); // Actualiza la vista
+        
+        vista.dispose();
       }
     });
   }
