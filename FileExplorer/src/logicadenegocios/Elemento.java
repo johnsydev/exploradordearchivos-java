@@ -156,7 +156,7 @@ public class Elemento {
       }
     } else {
       try {
-        
+
         String comando = "attrib -h " + file.getAbsolutePath();
         Runtime.getRuntime().exec(comando);
       } catch (Exception e) {
@@ -174,4 +174,14 @@ public class Elemento {
     }
   }
 
+  public void setEsSoloLecturaD(boolean soloLectura) {
+    if (soloLectura) {
+      file.setWritable(false); // Evita modificar su contenido
+      file.setReadable(true);  // Permite listar el contenido
+    } else {
+      // Permitir la escritura en el archivo
+      file.setWritable(true);
+      file.setReadable(true); // Habilita la lectura
+    }
+  }
 }
