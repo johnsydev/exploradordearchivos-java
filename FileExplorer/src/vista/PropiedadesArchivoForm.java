@@ -417,4 +417,8 @@ public class PropiedadesArchivoForm extends JFrame {
   public JButton getBotonAceptar() {
     return btnAceptar;
   }
+
+  public void setTipo(String pTipo) {
+    tipo.setText(pTipo);
+  }
 }

@@ -37,6 +37,7 @@ public class PropiedadesArchivoController {
     vista.setUltimoAcceso(modelo.getUltimoAcceso());
     vista.setLectura(modelo.getEsSoloLectura());
     vista.setOculto(modelo.getEsArchivoOculto());
+    vista.setTipo(modelo.getTipo());
   }
 
   public void agregarListeners() {

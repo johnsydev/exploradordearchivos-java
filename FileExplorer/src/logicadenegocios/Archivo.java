@@ -14,27 +14,39 @@ import java.nio.file.StandardCopyOption;
  */
 public class Archivo extends Elemento {
 
-  
   public Archivo(String pRuta) {
     super(pRuta);
   }
-  
+
   public String getExtension() {
     int indiceExt = nombre.lastIndexOf(".");
     if (indiceExt >= 0) {
-        return nombre.substring(indiceExt + 1);
+      return "." +nombre.substring(indiceExt + 1);
     }
     return "";
   }
-  
+
+  public String getTipo() {
+    if (!esArchivo()) {
+      return "Carpeta";
+    } else {
+      int indiceExt = nombre.lastIndexOf(".");
+      if (indiceExt >= 0) {
+        return "Archivo " + nombre.substring(indiceExt + 1).toUpperCase();
+      }
+    }
+    return "";
+  }
+
   public boolean eliminar() {
     return file.delete();
   }
-  
+
   public void pegar(String pRutaDestino) {
     try {
-    Archivo archivoPegado = new Archivo(pRutaDestino + this.getNombre());
-    Files.copy(this.getFile().toPath(), archivoPegado.getFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-    } catch(Exception exc) {}
+      Archivo archivoPegado = new Archivo(pRutaDestino + this.getNombre());
+      Files.copy(this.getFile().toPath(), archivoPegado.getFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+    } catch (Exception exc) {
+    }
   }
 }
