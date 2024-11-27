@@ -22,6 +22,16 @@ import javax.swing.JComboBox;
 import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
 
+
+/**
+ * Controlador principal del explorador de archivos.
+ *
+ * <p>Maneja la interacción entre la vista y el modelo del explorador,
+ * procesando eventos de usuario y actualizando la interfaz gráfica
+ * según corresponda.
+ *
+ * @author johns
+ */
 public class ExploradorController {
 
   private Explorador modelo;
@@ -31,7 +41,14 @@ public class ExploradorController {
   private boolean estabaEnUnidad = false;
   
   private boolean esCortado;
-
+  
+  /**
+  * Crea un nuevo controlador del explorador.
+  *
+  * @param pModelo modelo del explorador
+  * @param pVista vista del explorador
+  * @throws IOException si hay error al acceder al sistema de archivos
+  */
   public ExploradorController(Explorador pModelo, ExploradorForm pVista) throws IOException {
     modelo = pModelo;
     vista = pVista;

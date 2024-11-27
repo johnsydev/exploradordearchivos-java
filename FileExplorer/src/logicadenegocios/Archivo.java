@@ -9,11 +9,22 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 /**
+ * Representa un archivo en el sistema de archivos.
+ * Extiende la clase Elemento para heredar funcionalidades básicas de elementos del sistema de archivos,
+ * agregando operaciones específicas para el manejo de archivos como obtener su extensión,
+ * tipo, eliminar y copiar.
  *
  * @author johns
+ * @version 1.0
+ * @see logicadenegocios.Elemento
  */
 public class Archivo extends Elemento {
 
+  /**
+     * Constructor que inicializa un nuevo archivo con la ruta especificada.
+     *
+     * @param pRuta Ruta completa del archivo en el sistema
+     */
   public Archivo(String pRuta) {
     super(pRuta);
   }

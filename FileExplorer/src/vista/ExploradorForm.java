@@ -15,6 +15,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import logicadenegocios.Elemento;
 
+
+/**
+* Formulario principal del explorador de archivos que implementa la interfaz gráfica.
+* Proporciona una vista tabular para mostrar archivos y directorios, junto con
+* controles para navegación, ordenamiento y operaciones sobre archivos.
+*
+* @author johns
+* @version 1.0
+*/
 public class ExploradorForm extends JFrame {
 
   private final JTable tablaExplorador;
@@ -35,6 +44,15 @@ public class ExploradorForm extends JFrame {
   private int hoverRow = -1;
   private int filaSeleccionada = -1;
 
+   /**
+    * Constructor que inicializa y configura todos los componentes gráficos.
+    * Configura:
+    * - Ventana principal
+    * - Tabla de archivos con renderizado personalizado
+    * - Botones de acciones
+    * - ComboBoxes de ordenamiento
+    * - Menú contextual
+    */
   public ExploradorForm() {
     // Configuración de la ventana principal
     setTitle("Explorador de archivos");
@@ -309,7 +327,12 @@ public class ExploradorForm extends JFrame {
     return opcionPropiedadesUnidad;
   }
 
-  // Método para actualizar la tabla con nuevos nombres
+  /**
+    * Actualiza el contenido de la tabla con la lista de elementos proporcionada.
+    * Configura iconos de sistema, nombres, fechas, tipos y tamaños para cada elemento.
+    *
+    * @param elementos Lista de elementos a mostrar en la tabla
+    */
   public void actualizarTabla(ArrayList<Elemento> elementos) {
     model.setRowCount(elementos.size());
     limpiarTabla();
@@ -375,7 +398,11 @@ public class ExploradorForm extends JFrame {
     }
   }
 
-  // Método para habilitar la edición de una fila específica
+  /**
+    * Habilita la edición del nombre en la fila especificada.
+    *
+    * @param fila Índice de la fila a editar
+    */
   public void habilitarEdicion(int fila) {
     filaSeleccionada = fila;
     tablaExplorador.editCellAt(fila, 0);
@@ -385,7 +412,9 @@ public class ExploradorForm extends JFrame {
     }
   }
 
-  // Método para deshabilitar la edición
+  /**
+    * Deshabilita la edición actual si existe alguna.
+    */
   public void deshabilitarEdicion() {
     if (tablaExplorador.isEditing()) {
       tablaExplorador.getCellEditor().stopCellEditing();
@@ -393,6 +422,12 @@ public class ExploradorForm extends JFrame {
     filaSeleccionada = -1;
   }
 
+  /**
+    * Muestra un diálogo de error con el mensaje especificado.
+    *
+    * @param titulo Título de la ventana de error
+    * @param texto Mensaje de error a mostrar
+    */
   public void mostrarMensajeError(String titulo, String texto) {
     JOptionPane.showMessageDialog(this, texto, titulo, JOptionPane.ERROR_MESSAGE);
   }

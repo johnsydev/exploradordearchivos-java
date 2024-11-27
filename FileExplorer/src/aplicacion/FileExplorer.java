@@ -11,14 +11,22 @@ import vista.ExploradorForm;
 import vista.PropiedadesArchivoForm;
 
 /**
+ * Clase principal que inicia la aplicación del explorador de archivos.
+ *
+ * <p>Esta clase inicializa los componentes principales de la aplicación siguiendo
+ * el patrón MVC (Modelo-Vista-Controlador), creando las instancias necesarias del
+ * explorador, la interfaz gráfica y el controlador.
  *
  * @author johns
  */
 public class FileExplorer {
 
-  /**
-   * @param args the command line arguments
-   */
+   /**
+     * Punto de entrada principal de la aplicación.
+     *
+     * @param args argumentos de línea de comandos (no utilizados)
+     * @throws IOException si ocurre un error al acceder al sistema de archivos
+     */
   public static void main(String[] args) throws IOException {
     // TODO code application logic here
     Explorador modelo = Explorador.getInstance();

@@ -2,6 +2,22 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/controlador/ExploradorController.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/logicadenegocios/UnidadLogica.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/vista/PropiedadesDirectorioForm.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/vista/PropiedadesUnidadLogicaForm.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/logicadenegocios/Directorio.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/logicadenegocios/Archivo.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/controlador/PropiedadesUnidadLogicaController.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/controlador/PropiedadesDirectorioController.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/logicadenegocios/Elemento.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/controlador/PropiedadesArchivoController.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/vista/PropiedadesArchivoForm.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/aplicacion/FileExplorer.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/logicadenegocios/Explorador.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/vista/ExploradorForm.java</file>
+            <file>file:/C:/Users/Keyne/Downloads/Programacion%20Orienda%20a%20Objetos/Proyecto%20%23%204/exploradordearchivos-java-main/exploradordearchivos-java-main/FileExplorer/src/vista/GraficoCircular.java</file>
+        </group>
     </open-files>
 </project-private>

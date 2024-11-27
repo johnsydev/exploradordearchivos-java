@@ -13,15 +13,24 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- *
- * @author johns
- */
+* Clase base que representa un elemento del sistema de archivos (archivo o directorio).
+* Proporciona funcionalidad común para manejar atributos y operaciones básicas de archivos
+* y directorios como nombres, rutas, fechas, tamaños y permisos.
+*
+* @author johns
+* @version 1.0
+*/
 public class Elemento {
 
   protected File file;
   protected String nombre;
   protected String ruta;
 
+  /**
+    * Constructor que inicializa un elemento con la ruta especificada.
+    *
+    * @param pRuta Ruta completa del elemento en el sistema de archivos
+    */
   public Elemento(String pRuta) {
     file = new File(pRuta);
     nombre = file.getName();

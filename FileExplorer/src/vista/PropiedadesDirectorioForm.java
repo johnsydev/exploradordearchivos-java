@@ -18,9 +18,13 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 /**
- *
- * @author johns
- */
+* Formulario que muestra y permite editar las propiedades de un directorio.
+* Implementa una interfaz gráfica detallada con información como nombre, ubicación,
+* tamaño, contenido, fechas y atributos del directorio.
+*
+* @author johns
+* @version 1.0
+*/
 public class PropiedadesDirectorioForm extends JFrame {
 
   private final JTextField nombre;
@@ -39,6 +43,16 @@ public class PropiedadesDirectorioForm extends JFrame {
   public final double TAMANO_COLUMNA_1 = 0.2;
   public final double TAMANO_COLUMNA_2 = 1.2;
 
+  /**
+    * Constructor que inicializa y configura la ventana de propiedades.
+    * Crea una interfaz organizada con GridBagLayout que muestra:
+    * - Información básica (nombre)
+    * - Ubicación y tamaño
+    * - Contenido (cantidad de archivos y directorios)
+    * - Fechas (creación, modificación, último acceso)
+    * - Atributos modificables (solo lectura, oculto)
+    * La ventana aparece en la posición actual del cursor.
+    */
   public PropiedadesDirectorioForm() {
     // Configuración de la ventana principal
     setTitle("Propiedades");

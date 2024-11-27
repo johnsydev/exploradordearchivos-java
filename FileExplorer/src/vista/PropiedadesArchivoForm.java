@@ -20,6 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+/**
+* Formulario que muestra y permite editar las propiedades de un archivo.
+* Implementa una interfaz gráfica detallada con información como nombre, tipo,
+* ubicación, tamaño, fechas y atributos del archivo.
+*
+* @author johns
+* @version 1.0
+*/
 public class PropiedadesArchivoForm extends JFrame {
 
   private final JTextField nombre;
@@ -41,6 +49,15 @@ public class PropiedadesArchivoForm extends JFrame {
   public final double TAMANO_COLUMNA_2 = 1.2;
   private final JTextField tipo;
 
+  /**
+    * Constructor que inicializa y configura la ventana de propiedades.
+    * Crea una interfaz organizada con GridBagLayout que muestra:
+    * - Información básica (nombre, tipo, extensión)
+    * - Ubicación y tamaño
+    * - Fechas (creación, modificación, último acceso)
+    * - Atributos modificables (solo lectura, oculto)
+    * La ventana aparece en la posición actual del cursor.
+    */
   public PropiedadesArchivoForm() {
     // Configuración de la ventana principal
     setTitle("Propiedades");

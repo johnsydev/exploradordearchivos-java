@@ -6,6 +6,16 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
+/**
+* Gestiona la navegación, manipulación y visualización de archivos y directorios
+* en el sistema de archivos.
+*
+* @author  
+* @version 1.0
+* @see logicadenegocios.Archivo
+* @see logicadenegocios.Directorio
+* @see logicadenegocios.Elemento
+*/
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
@@ -19,6 +29,11 @@ public class Explorador {
   private Explorador() {
   }
 
+  /**
+    * Obtiene la instancia única del explorador.
+    *
+    * @return Instancia del explorador
+    */
   public static Explorador getInstance() {
     return instance;
   }
@@ -74,7 +89,14 @@ public class Explorador {
     }
     return nombres;
   }
-
+  /**
+    * Navega a un directorio o abre un archivo.
+    * Si es un archivo, lo abre con la aplicación predeterminada.
+    * Si es un directorio, actualiza la ruta actual.
+    *
+    * @param src Nombre del elemento a abrir/navegar
+    * @return true si la operación fue exitosa, false en caso contrario
+    */
   public boolean entrarDirectorio(String src) {
     if (new File(ruta + src).isFile()) {
       try {
@@ -124,6 +146,15 @@ public class Explorador {
   
   
 
+  /**
+    * Crea un nuevo directorio en la ruta actual.
+    * Valida que el nombre cumpla con las restricciones:
+    * - Máximo 64 caracteres
+    * - Solo letras, números, guiones y guiones bajos
+    *
+    * @param pNombre Nombre del nuevo directorio
+    * @return true si se creó exitosamente, false en caso contrario
+    */
   public boolean crearDirectorio(String pNombre) {
     if (pNombre.length() > 64) {
       return false;
@@ -169,7 +200,12 @@ public class Explorador {
     }
   }
 
-  // Método para pegar un archivo copiado en el directorio actual
+  /**
+    * Pega el elemento previamente copiado (archivo o directorio) en la ubicación actual.
+    * Si ya existe un elemento con el mismo nombre, genera un nombre alternativo.
+    *
+    * @param esCortado true si se debe eliminar el original después de pegar, false para mantenerlo
+    */
   public void pegar(boolean esCortado) {
     if (archivoCopiado != null && directorioCopiado == null) {
       Archivo archivoPegado = new Archivo(ruta + archivoCopiado.getNombre());
@@ -206,7 +242,13 @@ public class Explorador {
     }
   }
 
-  // Método auxiliar para obtener un nombre de archivo disponible (archivo(1).txt, archivo(2).txt, etc.)
+   /**
+    * Genera un nombre de archivo disponible cuando ya existe uno con el mismo nombre.
+    * Agrega un número entre paréntesis antes de la extensión (ej: archivo(1).txt).
+    *
+    * @param archivo Archivo base para generar el nuevo nombre
+    * @return Nombre disponible para el archivo
+    */
   private String obtenerNombreDisponible(Archivo archivo) {
     String nombreOriginal = archivo.getNombre();
     String nombreSinExtension = nombreOriginal.contains(".")

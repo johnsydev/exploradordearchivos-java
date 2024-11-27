@@ -12,14 +12,26 @@ import logicadenegocios.Directorio;
 import vista.PropiedadesDirectorioForm;
 
 /**
+ * Controlador que gestiona la interacción entre el modelo de Directorio y su vista de propiedades.
+ * Implementa el patrón MVC para manejar la visualización y modificación de las propiedades
+ * de un directorio en el sistema de archivos.
  *
  * @author johns
+ * @version 1.0
+ * @see logicadenegocios.Directorio
+ * @see vista.PropiedadesDirectorioForm
  */
 public class PropiedadesDirectorioController {
 
   private Directorio modelo;
   private PropiedadesDirectorioForm vista;
 
+  /**
+     * Constructor que inicializa el controlador con un directorio específico.
+     * Crea la vista asociada, configura los listeners y actualiza la información mostrada.
+     *
+     * @param pDirectorio El directorio cuyas propiedades se mostrarán y podrán modificarse
+     */
   public PropiedadesDirectorioController(Directorio pDirectorio) {
     modelo = pDirectorio;
     vista = new PropiedadesDirectorioForm();

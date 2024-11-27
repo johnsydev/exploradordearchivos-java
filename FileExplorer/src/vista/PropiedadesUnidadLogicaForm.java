@@ -20,9 +20,13 @@ import javax.swing.border.Border;
 import logicadenegocios.UnidadLogica;
 
 /**
- *
- * @author Keyne
- */
+* Formulario que muestra las propiedades de una unidad lógica del sistema.
+* Presenta información detallada sobre el espacio y características de la unidad
+* incluyendo una representación gráfica del espacio utilizado.
+*
+* @author Keyne
+* @version 1.0
+*/
 public class PropiedadesUnidadLogicaForm extends JFrame {
 
   private final JTextField nombre;
@@ -37,6 +41,14 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
   public final double TAMANO_COLUMNA_1 = 0.4;
   public final double TAMANO_COLUMNA_2 = 1.2  ;
 
+  /**
+    * Constructor que inicializa y configura la ventana de propiedades.
+    * Crea una interfaz organizada con GridBagLayout que muestra:
+    * - Información básica (nombre, tipo, sistema de archivos)
+    * - Información de espacio (usado, disponible, total)
+    * - Gráfico circular representando uso del espacio
+    * La ventana aparece en la posición actual del cursor.
+    */
   public PropiedadesUnidadLogicaForm() {
     // Configuración de la ventana principal
     setTitle("Propiedades");

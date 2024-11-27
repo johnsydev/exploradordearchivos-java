@@ -9,11 +9,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- *
- * @author Keyne
- */
+* Representa una unidad lógica del sistema (disco duro, unidad extraíble, etc.).
+* Extiende la clase Elemento para proporcionar funcionalidades específicas de unidades lógicas
+* como obtener espacio disponible, sistema de archivos y tipo de unidad.
+*
+* @author Keyne
+* @version 1.0
+* @see logicadenegocios.Elemento 
+*/
+
 public class UnidadLogica extends Elemento {
 
+  /**
+    * Constructor que inicializa una unidad lógica con la ruta especificada.
+    *
+    * @param pRuta Ruta de la unidad lógica (ej: "C:\")
+    */
   public UnidadLogica(String pRuta) {
     super(pRuta);
   }

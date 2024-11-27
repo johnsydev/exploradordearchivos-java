@@ -12,14 +12,26 @@ import logicadenegocios.Archivo;
 import vista.PropiedadesArchivoForm;
 
 /**
+ * Controlador que maneja la lógica entre el modelo de Archivo y la vista de PropiedadesArchivoForm.
+ * Esta clase implementa el patrón MVC para gestionar la visualización y modificación de las 
+ * propiedades de un archivo en el sistema.
  *
  * @author johns
+ * @version 1.0
+ * @see logicadenegocios.Archivo
+ * @see vista.PropiedadesArchivoForm
  */
 public class PropiedadesArchivoController {
 
   private Archivo modelo;
   private PropiedadesArchivoForm vista;
 
+  /**
+   * Constructor que inicializa el controlador con un archivo específico.
+   * Crea la vista asociada, configura los listeners y actualiza la información mostrada.
+   *
+   * @param pArchivo El archivo cuyas propiedades se mostrarán y podrán modificarse
+   */
   public PropiedadesArchivoController(Archivo pArchivo) {
     modelo = pArchivo;
     vista = new PropiedadesArchivoForm();
@@ -39,7 +51,18 @@ public class PropiedadesArchivoController {
     vista.setOculto(modelo.getEsArchivoOculto());
     vista.setTipo(modelo.getTipo());
   }
-
+  
+  /**
+  * Configura los listeners de eventos para los componentes de la vista.
+  * Específicamente, maneja el evento de clic del botón Aceptar para actualizar
+  * los atributos de solo lectura y oculto del archivo.
+  * 
+  * Cuando se hace clic en el botón Aceptar:
+  * - Actualiza los atributos del archivo según los valores de los checkboxes
+  * - Muestra un mensaje de confirmación
+  * - Actualiza la vista
+  * - Cierra la ventana de propiedades
+  */
   public void agregarListeners() {
     JButton btnAceptar = vista.getBotonAceptar();
 

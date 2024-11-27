@@ -12,9 +12,14 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- *
- * @author johns
- */
+* Representa un directorio en el sistema de archivos, gestionando su contenido y operaciones.
+* Extiende la clase Elemento para proporcionar funcionalidades específicas de directorios como
+* listar contenido, ordenar elementos, copiar recursivamente y gestionar la estructura jerárquica.
+*
+* @author johns
+* @version 1.0
+* @see logicadenegocios.Elemento
+*/
 public class Directorio extends Elemento {
 
   private ArrayList<Archivo> listaArchivos;
@@ -26,7 +31,12 @@ public class Directorio extends Elemento {
   public enum ORDENAR_POR {
     NOMBRE, TAMANO
   };
-
+  
+   /**
+    * Constructor básico que inicializa un directorio con la ruta especificada.
+    *
+    * @param pRuta Ruta completa del directorio
+    */
   public Directorio(String pRuta) {
     super(pRuta);
     listaArchivos = new ArrayList<Archivo>();
@@ -35,6 +45,13 @@ public class Directorio extends Elemento {
     cargarDatos(false);
   }
 
+  /**
+    * Constructor que permite especificar si se deben cargar los subdirectorios.
+    *
+    * @param pRuta Ruta completa del directorio
+    * @param generarRamas Si se deben cargar los subdirectorios
+    * @param generarTodas Si se debe cargar toda la estructura jerárquica
+    */
   public Directorio(String pRuta, boolean generarRamas, boolean generarTodas) {
     super(pRuta);
     listaArchivos = new ArrayList<Archivo>();
@@ -45,6 +62,12 @@ public class Directorio extends Elemento {
     }
   }
 
+  /**
+    * Ordena los elementos del directorio según el criterio especificado.
+    *
+    * @param criterio Criterio de ordenamiento (NOMBRE o TAMANO)
+    * @param esAscedente true para orden ascendente, false para descendente
+    */
   public void ordenar(ORDENAR_POR criterio, boolean esAscedente) {
     if (criterio.equals(ORDENAR_POR.NOMBRE)) {
       listaElementos.clear();
@@ -70,6 +93,11 @@ public class Directorio extends Elemento {
     }
   }
 
+  /**
+    * Carga los archivos y subdirectorios contenidos en este directorio.
+    *
+    * @param pGenerarTodo Si se debe generar toda la estructura jerárquica
+    */
   private void cargarDatos(boolean pGenerarTodo) {
     ArrayList<Elemento> archivosTemporal = new ArrayList<Elemento>();
     for (File file : file.listFiles()) {
@@ -127,6 +155,13 @@ public class Directorio extends Elemento {
     return listaElementos;
   }
 
+   /**
+    * Copia recursivamente un subdirectorio y su contenido.
+    *
+    * @param pRuta Ruta destino donde se copiará
+    * @param origen Directorio origen a copiar
+    * @param oldRuta Ruta original del directorio
+    */
   private void pegarRecursivo(String pRuta, Directorio origen, String oldRuta) {
     Directorio dir = new Directorio(pRuta, false, false);
     dir.getFile().mkdirs();

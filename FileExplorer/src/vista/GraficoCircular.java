@@ -6,11 +6,27 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+* Componente gráfico que muestra un gráfico circular tipo "donut" para visualizar
+* el espacio usado vs. total de una unidad de almacenamiento.
+* Extiende JPanel para proporcionar capacidades de dibujo personalizado.
+* 
+* @author 
+* @version 1.0
+* @see javax.swing.JPanel
+*/
 public class GraficoCircular extends JPanel {
 
   private double espacioTotal;
   private double espacioUsado;
 
+  /**
+    * Constructor que inicializa el gráfico con los valores de espacio inicial.
+    * Configura el fondo blanco del panel.
+    *
+    * @param espacioTotal Capacidad total de la unidad
+    * @param espacioUsado Espacio utilizado de la unidad
+    */
   public GraficoCircular(double espacioTotal, double espacioUsado) {
     this.espacioTotal = espacioTotal;
     this.espacioUsado = espacioUsado;
@@ -24,7 +40,18 @@ public class GraficoCircular extends JPanel {
     repaint();
   }
 
-  @Override
+  /**
+    * Dibuja el gráfico circular tipo "donut" con los datos actuales.
+    * El gráfico muestra:
+    * - Un arco azul para el espacio usado (Color(40, 184, 235))
+    * - Un arco gris para el espacio libre (Color(200, 200, 200))
+    * - Un círculo blanco central para crear el efecto "donut"
+    * 
+    * El gráfico comienza desde la izquierda (180 grados) y avanza en sentido horario.
+    *
+    * @param g Contexto gráfico proporcionado por el sistema
+    */
+   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
