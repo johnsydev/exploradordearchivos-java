@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Explorador {
 
   private static final Explorador instance = new Explorador();
-  private String ruta = ".\\";
+  private String ruta = "C:\\";
   private Archivo archivoCopiado; // Variable temporal para almacenar el archivo copiado
   private Directorio directorioCopiado;
   private Directorio directorioActual = new Directorio(ruta);
