@@ -37,6 +37,11 @@ public class Elemento {
     ruta = pRuta;
   }
 
+  /**
+    * Verifica si el elemento es un archivo.
+    *
+    * @return true si es archivo, false si es directorio
+    */
   public boolean esArchivo() {
     return file.isFile();
   }
@@ -57,6 +62,11 @@ public class Elemento {
     return ruta;
   }
 
+  /**
+    * Obtiene la ruta canónica completa del elemento.
+    *
+    * @return Ruta canónica completa, o ruta normal si no se puede obtener la canónica
+    */
   public String getRutaCompleta() {
     try {
       return file.getCanonicalPath();
@@ -69,6 +79,11 @@ public class Elemento {
     return file.length();
   }
 
+  /**
+    * Calcula y formatea el tamaño del elemento con la unidad apropiada (B, KB, MB, GB).
+    *
+    * @return Tamaño formateado con su unidad (ej: "15 MB")
+    */
   public String getTamanoSimpleTexto() {
     long tamano = getTamano();
     long tamano1 = getTamano();
@@ -94,10 +109,20 @@ public class Elemento {
     return tamano + " " + unidad;
   }
 
+  /**
+    * Obtiene el tamaño completo del elemento incluyendo bytes.
+    *
+    * @return Tamaño formateado con unidad y bytes (ej: "15 MB (15728640 bytes)")
+    */
   public String getTamanoTexto() {
     return getTamanoSimpleTexto() + " (" + getTamano() + " bytes)";
   }
 
+  /**
+    * Obtiene la fecha de creación del elemento.
+    *
+    * @return Fecha formateada como "dd/MM/yyyy HH:mm:ss" o "Fecha no disponible" si hay error
+    */
   public String getFechaCreacion() {
     try {
       Path path = file.toPath();
@@ -110,7 +135,11 @@ public class Elemento {
     }
   }
 
-  // Obtener la última modificación
+   /**
+    * Obtiene la fecha de última modificación del elemento.
+    *
+    * @return Fecha formateada como "dd/MM/yyyy HH:mm:ss" o "Fecha no disponible" si hay error
+    */
   public String getUltimaModificacion() {
     try {
       Path path = file.toPath();
@@ -123,7 +152,11 @@ public class Elemento {
     }
   }
 
-  // Obtener el último acceso
+  /**
+    * Obtiene la fecha del último acceso al elemento.
+    *
+    * @return Fecha formateada como "dd/MM/yyyy HH:mm:ss" o "Fecha no disponible" si hay error
+    */
   public String getUltimoAcceso() {
     try {
       Path path = file.toPath();
@@ -160,6 +193,11 @@ public class Elemento {
     return !file.canWrite();
   }
 
+   /**
+    * Establece el atributo oculto del elemento.
+    *
+    * @param oculto true para ocultar el elemento, false para hacerlo visible
+    */
   public void setEsArchivoOculto(boolean oculto) {
     if (oculto) {
       try {
@@ -178,6 +216,11 @@ public class Elemento {
     }
   }
 
+   /**
+    * Establece el atributo de solo lectura para archivos.
+    *
+    * @param soloLectura true para hacer el archivo de solo lectura, false para permitir escritura
+    */
   public void setEsSoloLectura(boolean soloLectura) {
     if (soloLectura) {
       file.setWritable(false);  // Evita la escritura
@@ -187,6 +230,12 @@ public class Elemento {
     }
   }
 
+  /**
+    * Establece el atributo de solo lectura para directorios.
+    * Permite listar el contenido pero evita modificaciones.
+    *
+    * @param soloLectura true para hacer el directorio de solo lectura, false para permitir modificaciones
+    */
   public void setEsSoloLecturaD(boolean soloLectura) {
     if (soloLectura) {
       file.setWritable(false); // Evita modificar su contenido

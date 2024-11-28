@@ -39,6 +39,11 @@ public class PropiedadesArchivoController {
     actualizar();
   }
 
+  /**
+     * Actualiza la vista con la información actual del modelo.
+     * Sincroniza todos los campos de la vista con los valores correspondientes del archivo,
+     * incluyendo nombre, extensión, ubicación, tamaño, fechas y atributos.
+     */
   public void actualizar() {
     vista.setNombre(modelo.getNombre());
     vista.setExtension(modelo.getExtension());

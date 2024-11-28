@@ -38,6 +38,12 @@ public class Explorador {
     return instance;
   }
 
+  /**
+    * Busca un elemento por nombre en el directorio actual.
+    *
+    * @param pNombre Nombre del elemento a buscar
+    * @return El elemento encontrado o null si no existe
+    */
   public Elemento getElemento(String pNombre) {
     for (Elemento elem : directorioActual.get()) {
       if (elem.getNombre().equals(pNombre)) {
@@ -47,11 +53,19 @@ public class Explorador {
     return null;
   }
 
+  /**
+    * Actualiza el directorio actual y reordena sus elementos.
+    */
   public void actualizar() {
     directorioActual = new Directorio(ruta);
     ordenar();
   }
   
+  /**
+    * Establece el criterio de ordenamiento.
+    *
+    * @param pCriterio "Nombre" o "Tamaño"
+    */
   public void setCriterioOrden(String pCriterio) {
     switch(pCriterio) {
       case "Nombre":
@@ -172,10 +186,26 @@ public class Explorador {
     return false;
   }
 
+  /**
+ * Elimina un elemento (archivo o directorio) desde la interfaz del explorador.
+ * Este método sirve como wrapper para eliminarElemento, agregando la ruta actual
+ * al nombre del elemento antes de eliminarlo.
+ *
+ * @param nombre Nombre del elemento a eliminar (sin la ruta)
+ * @see #eliminarElemento(String)
+ */
   public void eliminarElementoInterfaz(String nombre) {
     eliminarElemento(ruta + nombre);
   }
 
+  /**
+ * Elimina un elemento del sistema de archivos.
+ * Determina si el elemento es un archivo o directorio y aplica el método
+ * de eliminación apropiado. Para directorios, realiza una eliminación recursiva
+ * de todo su contenido.
+ *
+ * @param pRuta Ruta completa del elemento a eliminar
+ */
   public void eliminarElemento(String pRuta) {
     Elemento elem = new Elemento(pRuta);
     if (elem.esArchivo()) {
@@ -187,6 +217,11 @@ public class Explorador {
     }
   }
 
+  /**
+    * Copia un archivo para operaciones posteriores de pegado.
+    *
+    * @param nombreArchivo Nombre del archivo a copiar
+    */
   public void copiarArchivo(String nombreArchivo) {
     Elemento elem = new Elemento(ruta + nombreArchivo);
     if (elem.existe() && elem.esArchivo()) {

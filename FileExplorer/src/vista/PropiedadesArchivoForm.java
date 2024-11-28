@@ -387,6 +387,10 @@ public class PropiedadesArchivoForm extends JFrame {
     setTitle("Propiedades de " + pNombre);
   }
 
+  /**
+    * Establece la extensión del archivo.
+    * @param pExtension Extensión del archivo (ej: ".txt")
+    */
   public void setExtension(String pExtension) {
     extension.setText(pExtension);
   }
@@ -411,28 +415,52 @@ public class PropiedadesArchivoForm extends JFrame {
     ultimoAcceso.setText(pUltimoAcceso);
   }
 
+  /**
+    * Verifica si el archivo está marcado como solo lectura.
+    * @return true si el archivo es de solo lectura
+    */
   public boolean isSoloLectura() {
     return lectura;
   }
 
+  /**
+    * Verifica si el archivo está marcado como oculto.
+    * @return true si el archivo está oculto
+    */
   public boolean isOculto() {
     return oculto;
   }
 
+  /**
+    * Establece y actualiza el atributo de solo lectura.
+    * @param lectura nuevo estado de solo lectura
+    */
   public void setLectura(boolean lectura) {
     this.lectura = lectura;
     cbSoloLectura.setSelected(lectura);
   }
 
+   /**
+    * Establece y actualiza el atributo oculto.
+    * @param oculto nuevo estado de oculto
+    */
   public void setOculto(boolean oculto) {
     this.oculto = oculto;
     cbOculto.setSelected(oculto);
   }
 
+  /**
+    * Obtiene el botón de aceptar para agregar listeners.
+    * @return Botón de aceptar
+    */
   public JButton getBotonAceptar() {
     return btnAceptar;
   }
 
+  /**
+    * Establece el tipo de archivo.
+    * @param pTipo Tipo de archivo (ej: "Documento de texto")
+    */
   public void setTipo(String pTipo) {
     tipo.setText(pTipo);
   }

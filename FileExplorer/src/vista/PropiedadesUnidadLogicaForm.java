@@ -265,30 +265,60 @@ public class PropiedadesUnidadLogicaForm extends JFrame {
     setVisible(true);
   }
 
+  /**
+    * Establece el nombre identificador de la unidad.
+    * @param pNombre Letra o nombre de la unidad (ej: "C:")
+    */
   public void setNombre(String pNombre) {
     nombre.setText(pNombre);
   }
 
+   /**
+    * Establece el tipo de unidad.
+    * @param pTipo Tipo de unidad (ej: "Disco Local", "Unidad Extraíble")
+    */
   public void setTipo(String pTipo) {
     tipo.setText(pTipo);
   }
 
+  /**
+    * Establece el sistema de archivos de la unidad.
+    * @param pSistemaDeArchivos Sistema de archivos (ej: "NTFS", "FAT32")
+    */
   public void setSistemaDeArchivos(String pSistemaDeArchivos) {
     sistemaArchivos.setText(pSistemaDeArchivos);
   }
 
+  /**
+    * Establece el espacio total de la unidad.
+    * @param pEspacioTotal Espacio total formateado
+    */
   public void setEspacioTotal(String pEspacioTotal) {
     espacioTotal.setText(pEspacioTotal);
   }
 
+   /**
+    * Establece el espacio usado de la unidad.
+    * @param pEspacioUsado Espacio usado formateado
+    */
   public void setEspacioUsado(String pEspacioUsado) {
     espacioUsado.setText(pEspacioUsado);
   }
 
+   /**
+    * Establece el espacio libre de la unidad.
+    * @param pEspacioLibre Espacio libre formateado
+    */
   public void setEspacioLibre(String pEspacioLibre) {
     espacioLibre.setText(pEspacioLibre);
   }
 
+  /**
+    * Actualiza el gráfico circular con los valores de espacio.
+    * 
+    * @param pTotal Espacio total en bytes
+    * @param pUsado Espacio usado en bytes
+    */
   public void setProgresoUsado(double pTotal, double pUsado) {
     grafico.setDatos(pTotal, pUsado);
   }

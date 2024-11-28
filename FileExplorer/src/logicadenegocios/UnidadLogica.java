@@ -99,6 +99,13 @@ public class UnidadLogica extends Elemento {
     return file.getTotalSpace();
   }
 
+   /**
+    * Formatea un tamaño en bytes a una representación legible
+    * con la unidad apropiada (B, KB, MB, GB, TB).
+    *
+    * @param tamano Tamaño en bytes a formatear
+    * @return Cadena formateada con bytes y unidad convertida
+    */
   private String getTamanoTexto(long tamano) {
     String unidad = "B";
     long tamanoOriginal = tamano;

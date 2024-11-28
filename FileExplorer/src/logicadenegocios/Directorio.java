@@ -149,6 +149,11 @@ public class Directorio extends Elemento {
     return file;
   }
 
+  /**
+    * Elimina recursivamente el directorio y todo su contenido.
+    *
+    * @return true si la eliminación fue exitosa, false en caso contrario
+    */
   public boolean eliminar() {
     try {
       for (Directorio dir : listaDirectorios) {
@@ -191,6 +196,11 @@ public class Directorio extends Elemento {
     }
   }
 
+  /**
+    * Copia un directorio completo a la ubicación actual.
+    *
+    * @param pDirectorioOrigen Directorio que se copiará
+    */
   public boolean pegar(Directorio pDirectorioOrigen) {
     try {
       rutaPegandoInicial = ruta + "\\" + pDirectorioOrigen.getNombre() + "\\";
@@ -207,6 +217,11 @@ public class Directorio extends Elemento {
     return true;
   }
 
+   /**
+    * Calcula la cantidad total de archivos y subdirectorios contenidos.
+    *
+    * @return Array con [cantidad de archivos, cantidad de directorios]
+    */
   public int[] getCantidadElementos() {
     int[] cantidades = new int[2];
     int archivos = 0;

@@ -56,7 +56,39 @@ public class ExploradorController {
     actualizar();
 
   }
-
+  /**
+ * Configura todos los listeners para manejar eventos de la interfaz gráfica.
+ *
+ * <p>Este método establece los manejadores de eventos para:
+ * <ul>
+ *   <li>Eventos de clic y doble clic en la tabla de archivos
+ *   <li>Navegación entre directorios
+ *   <li>Operaciones de archivo (copiar, cortar, pegar)
+ *   <li>Creación de directorios
+ *   <li>Ordenamiento de elementos
+ *   <li>Menú contextual y sus opciones
+ * </ul>
+ *
+ * <p>Los eventos principales incluyen:
+ * <ul>
+ *   <li>Clic derecho: Muestra el menú contextual con opciones
+ *   <li>Doble clic: Entra a un directorio o abre un archivo
+ *   <li>Clic simple: Selecciona un elemento
+ * </ul>
+ *
+ * <p>Las operaciones soportadas a través de los listeners incluyen:
+ * <ul>
+ *   <li>Navegación entre directorios (entrar/salir)
+ *   <li>Creación de nuevos directorios
+ *   <li>Eliminación de archivos y directorios
+ *   <li>Renombrar elementos
+ *   <li>Copiar y pegar elementos
+ *   <li>Ver propiedades de elementos
+ * </ul>
+ *
+ * <p>Cada operación incluye validaciones y manejo de errores apropiados,
+ * mostrando mensajes al usuario cuando sea necesario.
+ */
   public void agregarListeners() {
     JTable tablaExplorador = vista.getTabla();
 

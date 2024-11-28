@@ -419,6 +419,9 @@ public class ExploradorForm extends JFrame {
     JOptionPane.showMessageDialog(this, texto, titulo, JOptionPane.ERROR_MESSAGE);
   }
 
+  /**
+    * Limpia el efecto hover de la tabla.
+    */
   private void clearHover() {
     if (hoverRow != -1) {
       int oldHoverRow = hoverRow;

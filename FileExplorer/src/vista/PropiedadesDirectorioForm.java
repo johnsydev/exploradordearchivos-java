@@ -361,19 +361,38 @@ public class PropiedadesDirectorioForm extends JFrame {
     setVisible(true);
   }
 
+  /**
+    * Establece el nombre del directorio y actualiza el título de la ventana.
+    * @param pNombre Nombre del directorio
+    */
   public void setNombre(String pNombre) {
     nombre.setText(pNombre);
     setTitle("Propiedades de " + pNombre);
   }
 
+  /**
+    * Establece la ubicación del directorio.
+    * @param pUbicacion Ruta completa del directorio
+    */
   public void setUbicacion(String pUbicacion) {
     ubicacion.setText(pUbicacion);
   }
 
+   /**
+    * Establece el tamaño total del directorio.
+    * @param pTamano Tamaño formateado del directorio
+    */
   public void setTamano(String pTamano) {
     tamano.setText(pTamano);
   }
 
+   /**
+    * Configura el texto que muestra el contenido del directorio.
+    * Ajusta el texto según sea singular o plural.
+    *
+    * @param pDirectorios Cantidad de subdirectorios
+    * @param pArchivos Cantidad de archivos
+    */
   public void setContenido(int pDirectorios, int pArchivos) {
     String dirText = " directorios, ";
     if (pDirectorios == 1) {
@@ -386,10 +405,15 @@ public class PropiedadesDirectorioForm extends JFrame {
     contenido.setText(pDirectorios + dirText + pArchivos + archText);
   }
 
+   /**
+    * Establece la fecha de creación del directorio.
+    * @param pFechaCreacion Fecha formateada de creación
+    */
   public void setFechaCreacion(String pFechaCreacion) {
     fechaCreacion.setText(pFechaCreacion);
   }
 
+  
   public void setUltimaModificacion(String pFechaModificacion) {
     fechaModificacion.setText(pFechaModificacion);
   }
@@ -398,15 +422,27 @@ public class PropiedadesDirectorioForm extends JFrame {
     ultimoAcceso.setText(pUltimoAcceso);
   }
   
-  
+  /**
+    * Verifica si el directorio está marcado como solo lectura.
+    * @return true si el directorio es de solo lectura
+    */
   public boolean isSoloLectura() {
     return lectura;
   }
 
+  /**
+    * Verifica si el directorio está marcado como oculto.
+    * @return true si el directorio está oculto
+    */
   public boolean isOculto() {
     return oculto;
   }
 
+   /**
+    * Establece y actualiza el atributo de solo lectura.
+    * Afecta al contenido del directorio.
+    * @param lectura nuevo estado de solo lectura
+    */
   public void setLectura(boolean lectura) {
     this.lectura = lectura;
     cbSoloLectura.setSelected(lectura);
@@ -417,6 +453,10 @@ public class PropiedadesDirectorioForm extends JFrame {
     cbOculto.setSelected(oculto);
   }
 
+   /**
+    * Obtiene el botón de aceptar para agregar listeners.
+    * @return Botón de aceptar
+    */
   public JButton getBotonAceptar() {
     return btnAceptar;
   }
