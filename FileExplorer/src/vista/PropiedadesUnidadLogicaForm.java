@@ -23,7 +23,7 @@ import javax.swing.border.Border;
 * Presenta información detallada sobre el espacio y características de la unidad
 * incluyendo una representación gráfica del espacio utilizado.
 *
-* @author Keyne
+* @author Johnsy, Julian y Keyner.
 * @version 1.0
 */
 public class PropiedadesUnidadLogicaForm extends JFrame {
