@@ -336,7 +336,6 @@ public class PropiedadesArchivoForm extends JFrame {
     cbSoloLectura.setBackground(Color.WHITE); // Fondo blanco
     cbSoloLectura.setBorder(BorderFactory.createEmptyBorder(10, 140, 10, 20)); // Espaciado interno
     cbSoloLectura.setSelected(lectura);
-    System.out.println("lectura: " + lectura); // Verifica en la consola
     gbc.gridx = 0; // Alineado debajo de "Atributos"
     gbc.gridy = 24;
     gbc.gridwidth = 2; // Opcional para ocupar todo el ancho de las columnas
@@ -348,7 +347,6 @@ public class PropiedadesArchivoForm extends JFrame {
     cbOculto.setBackground(Color.WHITE); // Fondo blanco
     cbOculto.setBorder(BorderFactory.createEmptyBorder(10, 140, 10, 20)); // Espaciado interno
     cbOculto.setSelected(oculto);
-    System.out.println("oculto: " + oculto); // Verifica en la consola
     gbc.gridx = 0; // Alineado debajo del anterior checkbox
     gbc.gridy = 25;
     gbc.gridwidth = 2; // Opcional para ocupar todo el ancho de las columnas

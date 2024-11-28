@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 //import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import logicadenegocios.UnidadLogica;
 
 /**
 * Formulario que muestra las propiedades de una unidad lógica del sistema.

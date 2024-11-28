@@ -29,7 +29,7 @@ public class Directorio extends Elemento {
   private String rutaPegandoInicial;
 
   public enum ORDENAR_POR {
-    NOMBRE, TAMANO
+    NOMBRE, TAMANO, TIPO
   };
   
    /**
@@ -85,6 +85,19 @@ public class Directorio extends Elemento {
       } else {
         listaDirectorios.sort(Comparator.comparingLong(Elemento::getTamano).reversed());
         listaArchivos.sort(Comparator.comparingLong(Elemento::getTamano).reversed());
+      }
+      listaNueva.addAll(listaDirectorios);
+      listaNueva.addAll(listaArchivos);
+      listaElementos.clear();
+      listaElementos.addAll(listaNueva);
+    } else if (criterio.equals(ORDENAR_POR.TIPO)) {
+      ArrayList<Elemento> listaNueva = new ArrayList<Elemento>();
+      if (esAscedente) {
+          listaDirectorios.sort(Comparator.comparing(Elemento::getTipoSimple));
+          listaArchivos.sort(Comparator.comparing(Elemento::getTipoSimple));
+      } else {
+          listaDirectorios.sort(Comparator.comparing(Elemento::getTipoSimple).reversed());
+          listaArchivos.sort(Comparator.comparing(Elemento::getTipoSimple).reversed());
       }
       listaNueva.addAll(listaDirectorios);
       listaNueva.addAll(listaArchivos);
@@ -163,6 +176,7 @@ public class Directorio extends Elemento {
     * @param oldRuta Ruta original del directorio
     */
   private void pegarRecursivo(String pRuta, Directorio origen, String oldRuta) {
+    
     Directorio dir = new Directorio(pRuta, false, false);
     dir.getFile().mkdirs();
 
@@ -177,15 +191,20 @@ public class Directorio extends Elemento {
     }
   }
 
-  public void pegar(Directorio pDirectorioOrigen) {
+  public boolean pegar(Directorio pDirectorioOrigen) {
     try {
       rutaPegandoInicial = ruta + "\\" + pDirectorioOrigen.getNombre() + "\\";
       Directorio dir = new Directorio(rutaPegandoInicial, false, false);
+      if (this.file.getCanonicalPath().equals(pDirectorioOrigen.getFile().getCanonicalPath())) {
+        return false;
+      }
       dir.getFile().mkdirs();
       dir.pegarRecursivo(rutaPegandoInicial, pDirectorioOrigen, pDirectorioOrigen.getRuta());
     } catch (Exception exc) {
       exc.printStackTrace();
+      return false;
     }
+    return true;
   }
 
   public int[] getCantidadElementos() {

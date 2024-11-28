@@ -37,18 +37,6 @@ public class Archivo extends Elemento {
     return "";
   }
 
-  public String getTipo() {
-    if (!esArchivo()) {
-      return "Carpeta";
-    } else {
-      int indiceExt = nombre.lastIndexOf(".");
-      if (indiceExt >= 0) {
-        return "Archivo " + nombre.substring(indiceExt + 1).toUpperCase();
-      }
-    }
-    return "";
-  }
-
   public boolean eliminar() {
     return file.delete();
   }

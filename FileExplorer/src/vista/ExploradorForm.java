@@ -62,7 +62,7 @@ public class ExploradorForm extends JFrame {
     getContentPane().setBackground(new Color(173, 216, 230));
 
     // Inicializar el modelo, solo se puede editar la fila seleccionada
-    model = new DefaultTableModel(new Object[]{"Nombre", "Fecha creación", "Tipo", "Tamaño"}, 30) {
+    model = new DefaultTableModel(new Object[]{"Nombre", "Fecha de creación", "Tipo", "Tamaño"}, 30) {
       @Override
       public boolean isCellEditable(int row, int column) {
         return row == filaSeleccionada;
@@ -81,7 +81,7 @@ public class ExploradorForm extends JFrame {
     tablaExplorador.getTableHeader().setReorderingAllowed(false);
     tablaExplorador.getColumnModel().getColumn(0).setPreferredWidth(1400);
     tablaExplorador.getColumnModel().getColumn(1).setPreferredWidth(200);
-    tablaExplorador.getColumnModel().getColumn(2).setPreferredWidth(100);
+    tablaExplorador.getColumnModel().getColumn(2).setPreferredWidth(150);
 
     // Variable de clase para guardar la fila de "hover"
 // Variable de clase para guardar la fila de "hover"
@@ -185,6 +185,7 @@ public class ExploradorForm extends JFrame {
     panel.add(comboboxOrdenamiento);
     comboboxOrdenamiento.addItem("Nombre");
     comboboxOrdenamiento.addItem("Tamaño");
+    comboboxOrdenamiento.addItem("Tipo");
     comboboxOrdenamiento.setRenderer(new DefaultListCellRenderer() {
       @Override
       public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -358,22 +359,8 @@ public class ExploradorForm extends JFrame {
           String nombre = (String) value;
           label.setText(nombre);
           if (row < elementos.size()) {
-
-            /*
-                String rutaIcono = (elementos.get(row).esArchivo()) ? 
-                    "./src/imagenes/archivo.png" : 
-                    "./src/imagenes/directorio.png";
-
-                ImageIcon iconoOriginal = new ImageIcon(rutaIcono);
-                Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(
-                    table.getRowHeight(), // Altura de la fila
-                    table.getRowHeight(), // Mantenerlo cuadrado
-                    Image.SCALE_SMOOTH // Suavizado para mejor calidad
-                );
-             */
             FileSystemView fsv = FileSystemView.getFileSystemView();
             Icon iconoSistema = fsv.getSystemIcon(elementos.get(row).getFile());
-            //label.setIcon(new ImageIcon(imagenEscalada));
             label.setIcon(iconoSistema);
           }
         }

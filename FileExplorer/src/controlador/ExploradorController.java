@@ -82,7 +82,6 @@ public class ExploradorController {
 
           if (timeDifference <= 500) { // Si el tiempo entre clics es menor a 500 ms, es un doble clic
             // Ejecuta la acción para ingresar a la carpeta (entrar al directorio)
-            System.out.println("Doble clic: " + tablaExplorador.getValueAt(filaSeleccionada, 0));
             boolean estado = modelo.entrarDirectorio(tablaExplorador.getValueAt(filaSeleccionada, 0).toString());
             if (estado) {
               if (estabaEnUnidad) {
@@ -106,7 +105,6 @@ public class ExploradorController {
             }
           } else {
             // Es un solo clic, solo selecciona la fila
-            System.out.println("Clic único: " + tablaExplorador.getValueAt(filaSeleccionada, 0));
             tablaExplorador.setRowSelectionInterval(filaSeleccionada, filaSeleccionada);
           }
 
@@ -207,8 +205,6 @@ public class ExploradorController {
             String viejoNombre = modelo.getListaElementos().get(filaSeleccionada).getNombre();
             String nuevoNombre = vista.getTabla().getCellEditor().getCellEditorValue().toString();
 
-            System.out.println(viejoNombre);
-            System.out.println(nuevoNombre);
             // Llama al modelo para renombrar el archivo
 
             modelo.renombrarArchivo(viejoNombre, nuevoNombre);
@@ -271,7 +267,10 @@ public class ExploradorController {
     vista.getOpcionPegarPopup().addActionListener(e -> {
       if (archivoCopiado != null) {
         try {
-          modelo.pegar(esCortado);
+          boolean estado = modelo.pegar(esCortado);
+          if (!estado) {
+            vista.mostrarMensajeError("No se puede pegar", "No es posible pegar en la ruta especificada.");
+          }
           esCortado = false;
           archivoCopiado = null;
           vista.setBotonPegar(false);

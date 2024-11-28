@@ -142,10 +142,14 @@ public class Elemento {
     } else {
       int indiceExt = nombre.lastIndexOf(".");
       if (indiceExt >= 0) {
-        return nombre.substring(indiceExt + 1).toUpperCase();
+        return "Archivo " + nombre.substring(indiceExt + 1).toUpperCase();
       }
     }
     return "";
+  }
+  
+  public String getTipoSimple() {
+    return getTipo();
   }
 
   public boolean getEsArchivoOculto() {

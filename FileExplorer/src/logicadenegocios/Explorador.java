@@ -60,6 +60,9 @@ public class Explorador {
       case "Tamaño":
         criterioOrden = Directorio.ORDENAR_POR.TAMANO;
         break;
+      case "Tipo":
+        criterioOrden = Directorio.ORDENAR_POR.TIPO;
+        break;
     }
   }
   
@@ -204,42 +207,41 @@ public class Explorador {
     * Pega el elemento previamente copiado (archivo o directorio) en la ubicación actual.
     * Si ya existe un elemento con el mismo nombre, genera un nombre alternativo.
     *
-    * @param esCortado true si se debe eliminar el original después de pegar, false para mantenerlo
+    * @param esCortado true si se debe eliminar el original después de pegar, false para mantenerlo.
+    * @return true si se pegó correctamente.
     */
-  public void pegar(boolean esCortado) {
+  public boolean pegar(boolean esCortado) {
     if (archivoCopiado != null && directorioCopiado == null) {
       Archivo archivoPegado = new Archivo(ruta + archivoCopiado.getNombre());
 
       // Si ya existe un archivo con el mismo nombre en el directorio actual
       if (archivoPegado.existe()) {
         // Aquí puedes manejar el conflicto de nombres de otra forma, por ejemplo, solo renombrando
-        System.out.println("Ya existe un archivo con el mismo nombre. Se propondrá un nuevo nombre.");
         archivoPegado = new Archivo(ruta + obtenerNombreDisponible(archivoPegado));
       }
 
       try {
-        System.out.println("ARCHIVO CORTADO " + archivoCopiado.getFile().getCanonicalPath());
         Files.copy(archivoCopiado.getFile().toPath(), archivoPegado.getFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
         if (esCortado) {
           eliminarElemento(archivoCopiado.getFile().getCanonicalPath());
         }
-        System.out.println("Archivo pegado correctamente.");
       } catch (IOException e) {
-        System.err.println("Error al pegar el archivo.");
         e.printStackTrace();
       }
     } else if (archivoCopiado == null && directorioCopiado != null) {
       try {
-        directorioActual.pegar(directorioCopiado);
-        if (esCortado) {
+        boolean estado = directorioActual.pegar(directorioCopiado);
+        if (esCortado && estado) {
           directorioCopiado.eliminar();
         }
+        return estado;
       } catch(Exception exc) {
         exc.printStackTrace();
       }
     } else {
       //no hay nada copiado
     }
+    return true;
   }
 
    /**
